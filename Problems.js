@@ -47,7 +47,7 @@ var maxArea = function (height) {
         maxVolume = volOfCon; // 7 , 42
       }
     }
-    right--; //8 - 1 = 7
+    right--; //8 - 1 = 7,
   }
   return maxVolume;
 };
