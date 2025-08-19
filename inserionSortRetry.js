@@ -1,13 +1,25 @@
-function InsertionSort(array) {
-  for (let i = 1; i < array.length; i++) {
-    let key = array[i]; //5
-    let j = i - 1; //10>5 ,,[10,5]->[10,10]
-    for (; array[j] > key && j >= 0; j--) {
-      array[j + 1] = array[j];
+// function InsertionSort(array) {
+//   for (let i = 0; i < array.length; i++) {
+//     let key = array[i],
+//       j = i - 1;
+//     for (; array[j] > key && j >= 0; j--) {
+//       array[j + 1] = array[j];
+//     }
+//     array[j + 1] = key;
+//   }
+//   return array;
+// }
+
+function BubbleSort(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - i; j++) {
+      let temp = array[j]; //7
+      if (array[j] > array[j + 1]) {
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+      }
     }
-    array[j + 1] = key; ///[5,10]
   }
   return array;
 }
-
-console.log(InsertionSort([1, 5, 6, 7, 8, 1, 2, 4]));
+console.log(BubbleSort([7, 6, 5, 4, 3, 2, 1]));
