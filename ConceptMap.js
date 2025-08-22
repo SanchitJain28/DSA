@@ -5,15 +5,17 @@
 // It keeps the order of insertion — so when you iterate, it respects the order you added stuff.
 
 // Has built-in handy methods like .set(), .get(), .has(), .delete(), .clear().
-// | Feature | **Map** | **Object** |
-// |---------|---------|------------|
-// | **Key Types** | Can be **any type** (string, number, object, function) | Only strings & symbols |
-// | **Order** | Preserves insertion order when iterating | Keys order not always guaranteed (numeric keys behave differently) |
-// | **Size** | `.size` property gives count instantly | Need `Object.keys(obj).length` |
-// | **Performance** | Better for frequent additions/removals | Not optimized for heavy dynamic changes |
-// | **Iteration** | Directly iterable with `for..of` or `.forEach()` | Needs `Object.keys/values/entries()` first |
-// | **No Prototype Pollution** | Keys don’t conflict with Object prototype methods | Risk of name clashes (`toString`, `constructor`, etc.) |
-// | **Key Uniqueness** | Allows unique object/function keys | Not possible in plain objects without converting to strings |
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------
+// |          Feature           |                       **Map**                          |                            **Object**                              |
+// |----------------------------|--------------------------------------------------------|--------------------------------------------------------------------|
+// | **Key Types**              | Can be **any type** (string, number, object, function) | Only strings & symbols                                             |
+// | **Order**                  | Preserves insertion order when iterating               | Keys order not always guaranteed (numeric keys behave differently) |
+// | **Size**                   | `.size` property gives count instantly                 | Need `Object.keys(obj).length`                                     |
+// | **Performance**            | Better for frequent additions/removals                 | Not optimized for heavy dynamic changes                            |
+// | **Iteration**              | Directly iterable with `for..of` or `.forEach()`       | Needs `Object.keys/values/entries()` first                         |
+// | **No Prototype Pollution** | Keys don’t conflict with Object prototype methods      | Risk of name clashes (`toString`, `constructor`, etc.)             |
+// | **Key Uniqueness**         | Allows unique object/function keys                     | Not possible in plain objects without converting to strings        |
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 const myMap = new Map([

@@ -20,7 +20,7 @@ function RecursiveFactorialTheOriginal(number) {
 }
 
 function RecursiveFactorialTheChatGpt(number) {
-  if (number === 1) return 1; 
+  if (number === 1) return 1;
   return number * RecursiveFactorialTheChatGpt(number - 1);
 }
 
@@ -32,7 +32,26 @@ function NonRecursiveFactorial(number) {
   return result;
 }
 
+function normalFibonnaciSequence(limit) {
+  let array = [0, 1];
+  for (let i = 0; i < limit; i++) {
+    let sum = array[i] + array[i + 1];
+    array.push(sum);
+  }
+  return array;
+}
+
+function RecursiveFibonacciSequence(number) {
+  if (number === 0) return 0;
+  if (number === 1) return 1;
+  return (
+    RecursiveFibonacciSequence(number - 1) +
+    RecursiveFibonacciSequence(number - 2)
+  );
+}
 
 console.log(RecursiveFactorialTheOriginal(10));
 console.log(RecursiveFactorialTheChatGpt(10));
 console.log(NonRecursiveFactorial(10));
+console.log(RecursiveFibonacciSequence(10));
+console.log(normalFibonnaciSequence(10));

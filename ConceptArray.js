@@ -48,7 +48,6 @@ Array.of(1, 2, 3, 4); // Takes variables and convert them in an array
 // ❌ Nope, gotta throw exceptions instead
 // ❌ NOPE, doesn’t wait
 // ❌ Painful af
-
 // ❌ Slightly slower (callback overhead)
 
 for (let element of iterable) {

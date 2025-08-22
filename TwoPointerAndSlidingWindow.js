@@ -77,3 +77,16 @@ function maxSubarraySum(nums, k) {
 }
 
 console.log(maxSubarraySum([1, 4, 2, 10, 23, 3, 1, 0, 20], 4)); // 39
+
+function hasPairWithSum(array, target) {
+  let left = 0;
+  let right = array.length - 1;
+  while (left < right) {
+    let sum = array[left] + array[right];
+    if (sum === target) return true;
+
+    if (sum < target) left++;
+    else right--;
+  }
+  return false;
+}
