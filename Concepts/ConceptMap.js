@@ -17,7 +17,6 @@
 // | **Key Uniqueness**         | Allows unique object/function keys                     | Not possible in plain objects without converting to strings        |
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 const myMap = new Map([
   [1, "one"],
   [2, "two"],
@@ -59,3 +58,11 @@ console.log(myMap);
 console.log(iterator);
 console.log(iterator.next().value);
 console.log(iterator.next().value);
+
+const myMap2 = new Map([
+  [1, "one"],
+  [2, "two"],
+  [3, "three"],
+]);
+
+console.log(myMap2)

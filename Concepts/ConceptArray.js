@@ -3,6 +3,7 @@ Array.from({ length: 1000 }, () => "");
 // GENERATES NEW ARRAY WITH THE DESIRED LENGTH
 
 //HERE IS A SYNTAX
+const items = [1,2,3,4,5]
 
 Array.from(items);
 Array.from(items, mapFn);

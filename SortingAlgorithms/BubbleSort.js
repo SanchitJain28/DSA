@@ -10,7 +10,7 @@ function BubbleSort(arrayParam) {
       if (element > adjacentElement) {
         let temp = array[j];
         array[j] = array[j + 1];//[3,3,4,1]
-        array[j+1] = temp;[3,5,4,1]
+        array[j+1] = temp;//[3,5,4,1]
       }
     }
   }

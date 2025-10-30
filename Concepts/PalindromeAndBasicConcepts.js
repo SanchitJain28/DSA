@@ -13,3 +13,14 @@
 // It’s like the string is flexing in the mirror saying, “Yeah, I look the same both ways.”
 
 // Want me to show you how to check if a string is a palindrome in JavaScript?
+
+// function palindromeString(string) {
+//   let pdstring = [];
+//   for (let i = 0; i < string.length; i++) {
+//     let strLength = string.length;
+//     pdstring.push(string[strLength - 1 - i]);
+//   }
+//   return pdstring.join("");
+// }
+
+// console.log(palindromeString("TERI MAA KI CHUT"))
