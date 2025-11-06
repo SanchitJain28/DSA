@@ -119,4 +119,19 @@ const threeSumCopyBMe = (nums) => {
   return results;
 };
 
+const threeSumClosest = (nums, target) => {
+  nums.sort((a, b) => a - b);
+  let n = nums.length;
+  let result = nums[0] + nums[1] + nums[2];
+
+  for (let i = 0; i < n - 2; i++) {
+
+    let j = i +1 
+    let k = n -1 
+    while(j < k){
+      let sum = nums[i] + nums[j] + nums[k]
+    }
+  }
+};
+
 console.log(threeSumCopyBMe([-1, 0, 1, 2, -1, -4]));

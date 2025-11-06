@@ -1,8 +1,7 @@
 let array = [5, 3, 4, 1];
 
 //FOR ASCENDING ORDER
-function BubbleSort(arrayParam) {
-  let array = arrayParam;
+function BubbleSort(array) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length -i; j++) {
       const element = array[j];
