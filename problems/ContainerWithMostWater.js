@@ -10,6 +10,12 @@ function containerWithMostWater(height) {
         maxArea = area
     }
 
-    if(area )
+    if(height[left] > height[right]){
+      right--
+    }else {
+      left++ 
+    }
   }
+
+  return maxArea
 }

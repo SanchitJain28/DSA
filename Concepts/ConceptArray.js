@@ -36,23 +36,23 @@ Array.isArray(new Uint8Array(32));
 //Array of
 Array.of(1, 2, 3, 4); // Takes variables and convert them in an array
 
-//To conduct a lopo through an array or iterate through an array use for of loop instead of the normal for loop
-//difference between for-of and forEach loop is
+// ? To conduct a lopo through an array or iterate through an array use for of loop instead of the normal for loop
+//?difference between for-of and forEach loop is
 
-// for-of = Arrays, strings, Sets, Maps, etc.// This is fuckin netter BRUH !!!
-// Can use break, continue
-// Supports await (with async)
-// Slightly better performance
-// Cleaner with async functions
+//? for-of = Arrays, strings, Sets, Maps, etc.// This is fuckin netter BRUH !!!
+// *  Can use break, continue
+// *  Supports await (with async)
+// *  Slightly better performance
+// *  Cleaner with async functions
 
-// forEach = Arrays only (technically, array-like)
-// ❌ Nope, gotta throw exceptions instead
-// ❌ NOPE, doesn’t wait
-// ❌ Painful af
-// ❌ Slightly slower (callback overhead)
+// ?forEach = Arrays only (technically, array-like)
+// ! Nope, gotta throw exceptions instead
+// ! NOPE, doesn’t wait
+// ! Painful af
+// ! Slightly slower (callback overhead)
 
 for (let element of iterable) {
-  //DO WHATEVER THE SHIT YOU WANT
+  //?DO WHATEVER THE SHIT YOU WANT
 }
 
 let array = Array.from({ length: 10 }, (e, index) => index);
@@ -77,9 +77,9 @@ for (const key in person) {
 // name Sanchez
 // age 20
 
-//two - pointer method
+//?two - pointer method
 
-// Two pointers = using two variables (usually indexes) to iterate through a data structure, usually a sorted array or string, from start & end, or side-by-side.
+//? Two pointers = using two variables (usually indexes) to iterate through a data structure, usually a sorted array or string, from start & end, or side-by-side.
 
 //EXAMPLE
 function twoSum(arr, target) {
