@@ -23,4 +23,4 @@
 //   return pdstring.join("");
 // }
 
-// console.log(palindromeString("TERI MAA KI CHUT"))
+// console.log(palindromeString("RACECAR"))
