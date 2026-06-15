@@ -1,5 +1,4 @@
 // Longest Repeating Character Replacement
-// Statement : 
 
 // You are given a string s and an integer k.
 // You can replace at most k characters in the string so that the
@@ -7,6 +6,7 @@
 
 // Return the length of the longest substring you can obtain after
 // performing at most k replacements.
+
 // Example 1
 // Input: s = "ABAB", k = 2
 // Output: 4
@@ -16,34 +16,17 @@
 // Input: s = "AABABBA", k = 1
 // Output: 4
 // Explanation: Replace one character → "AABA" or "ABBA"
- 
-// Constraints : 
 
+// Constraints
 // 1 ≤ s.length ≤ 10⁵
 // s consists of uppercase English letters
 // 0 ≤ k ≤ s.length
+function characterReplacementRetry(s: string, k: number): number {
+    let left = 0 
+    let right = 0
+    let longestSubstring = 0 
+    let maxFreq = 0 
+    while(right < s.length){
 
-// Function Signature
-function characterReplacement(s: string, k: number): number {
-  let left = 0;
-  let right = 0;
-  let freq = new Map<string, number>();
-  let longestSubLen = 0;
-  let maxFreq = 0;
-  while (right < s.length) {
-    const ch = s[right];
-    freq.set(ch, (freq.get(ch) || 0) + 1);
-
-    maxFreq = Math.max(maxFreq, freq.get(ch)!);
-
-    while (right - left + 1 - maxFreq > k) {
-      const leftCh = s[left];
-      freq.set(leftCh, freq.get(leftCh)! - 1);
-      left++;
     }
-
-    longestSubLen = Math.max(longestSubLen, right - left + 1);
-    right++;
-  }
-  return longestSubLen;
 }
