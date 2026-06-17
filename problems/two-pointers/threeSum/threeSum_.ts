@@ -1,6 +1,6 @@
 //[-1,0,1,2,-1,-4]
 //[-4, -1, -1, 0, 1, 2];
-const threeSumRetry = function (nums: number[]) {
+const threeSum_ = function (nums: number[]) {
   let triplets: number[][] = [];
 
   if (nums.length < 3) return triplets;

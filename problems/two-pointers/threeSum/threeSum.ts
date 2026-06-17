@@ -23,7 +23,7 @@
 // console.log(nestedArray);
 
 //[-1,0,1,2,-1,-4]
-function threeSum(nums : number[]) {
+function threeSum__(nums : number[]) {
   let triplets: number[][] = [];
   nums.sort((a, b) => a - b);
   let n = nums.length;
@@ -45,7 +45,7 @@ function threeSum(nums : number[]) {
 
   return triplets;
 }
-console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+console.log(threeSum__([-1, 0, 1, 2, -1, -4]));
 
 const threeSumCopy = function (nums : number[]) {
   const results: number[][] = [];

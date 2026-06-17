@@ -1,4 +1,4 @@
-function binarySearch(array: number[], target: number) {
+function binarySearch_(array: number[], target: number) {
   array.sort((a, b) => a - b);
   let left = 0;
   let right = array.length - 1;

@@ -1,7 +1,7 @@
 // [1,8,6,2,5,4,8,3,7]
 // → 49
 
-function containerWithMostWaterRetry2(array: number[]): number {
+function maxArea___(array: number[]): number {
   let i = 0;
   let j = array.length - 1;
   let maxArea = 0;
