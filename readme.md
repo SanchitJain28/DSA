@@ -12,8 +12,8 @@ My solutions to DSA problems while preparing for placements.
 | Topic | Problems | Status | Deadline |
 |---|---|---|---|
 | Arrays & Hashing | 0 / 9 | 🔴 | Jun 15 – Jun 19 |
-| Two Pointers | 0 / 5 | 🔴 | Jun 20 – Jun 22 |
-| Sliding Window | 0 / 6 | 🔴 | Jun 23 – Jun 25 |
+| Two Pointers | 0 / 5 | 🔴 | Jun 25 – Jun 27 | 5 Days delay 
+| Sliding Window | 0 / 6 | 🔴 | Jun 28 – Jun 30 | 
 | Stack | 0 / 6 | 🔴 | Jun 26 – Jun 28 |
 | Binary Search | 0 / 7 | 🔴 | Jun 29 – Jul 2 |
 | Linked List | 0 / 11 | 🔴 | Jul 3 – Jul 8 |
