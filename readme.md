@@ -9,26 +9,26 @@ My solutions to DSA problems while preparing for placements.
 
 ## Checklist
 
-| Topic | Problems | Status | Deadline |
-|---|---|---|---|
-| Arrays & Hashing | 0 / 9 | 🔴 | Jun 15 – Jun 19 |
-| Two Pointers | 0 / 5 | 🔴 | Jun 25 – Jun 27 | 5 Days delay 
-| Sliding Window | 0 / 6 | 🔴 | Jun 28 – Jun 30 | 
-| Stack | 0 / 6 | 🔴 | Jun 26 – Jun 28 |
-| Binary Search | 0 / 7 | 🔴 | Jun 29 – Jul 2 |
-| Linked List | 0 / 11 | 🔴 | Jul 3 – Jul 8 |
-| Trees | 0 / 15 | 🔴 | Jul 9 – Jul 16 |
-| Heap / Priority Queue | 0 / 7 | 🔴 | Jul 17 – Jul 20 |
-| Backtracking | 0 / 10 | 🔴 | Jul 21 – Jul 25 |
-| Tries | 0 / 3 | 🔴 | Jul 26 – Jul 27 |
-| Graphs | 0 / 13 | 🔴 | Jul 28 – Aug 3 |
-| Advanced Graphs | 0 / 6 | 🔴 | Aug 4 – Aug 6 |
-| 1-D Dynamic Programming | 0 / 12 | 🔴 | Aug 7 – Aug 12 |
-| 2-D Dynamic Programming | 0 / 11 | 🔴 | Aug 13 – Aug 18 |
-| Greedy | 0 / 8 | 🔴 | Aug 19 – Aug 22 |
-| Intervals | 0 / 6 | 🔴 | Aug 23 – Aug 25 |
-| Math & Geometry | 0 / 8 | 🔴 | Aug 26 – Aug 28 |
-| Bit Manipulation | 0 / 7 | 🔴 | Aug 29 – Sep 1 |
+| Topic | Problems | Status | Deadline | Delay | Solved
+|---|---|---|---|---|---|
+| Arrays & Hashing | 0 / 9 | 🔴 | Jun 15 – Jun 19 | 0 Days Delay | 7/9
+| Two Pointers | 0 / 5 | 🔴 | Jun 25 – Jun 27 | 5 Days delay | 0/9
+| Sliding Window | 0 / 6 | 🔴 | Jun 28 – Jun 30 | 0 Days delay | 0/6
+| Stack | 0 / 6 | 🔴 | Jun 26 – Jun 28 | 0 Days delay | 0/6
+| Binary Search | 0 / 7 | 🔴 | Jun 29 – Jul 2 | 0 Days delay | 0/7
+| Linked List | 0 / 11 | 🔴 | Jul 3 – Jul 8 | 0 Days delay | 0/11
+| Trees | 0 / 15 | 🔴 | Jul 9 – Jul 16 | 0 Days delay | 0/15
+| Heap / Priority Queue | 0 / 7 | 🔴 | Jul 17 – Jul 20 | 0 Days delay | 0/7
+| Backtracking | 0 / 10 | 🔴 | Jul 21 – Jul 25 | 0 Days delay | 0/10
+| Tries | 0 / 3 | 🔴 | Jul 26 – Jul 27 | 0 Days delay | 0/3
+| Graphs | 0 / 13 | 🔴 | Jul 28 – Aug 3 | 0 Days delay | 0/13
+| Advanced Graphs | 0 / 6 | 🔴 | Aug 4 – Aug 6 | 0 Days delay | 0/6
+| 1-D Dynamic Programming | 0 / 12 | 🔴 | Aug 7 – Aug 12 | 0 Days delay | 0/12
+| 2-D Dynamic Programming | 0 / 11 | 🔴 | Aug 13 – Aug 18 | 0 Days delay | 0/11
+| Greedy | 0 / 8 | 🔴 | Aug 19 – Aug 22 | 0 Days delay | 0/8
+| Intervals | 0 / 6 | 🔴 | Aug 23 – Aug 25 | 0 Days delay | 0/6
+| Math & Geometry | 0 / 8 | 🔴 | Aug 26 – Aug 28 | 0 Days delay | 0/8
+| Bit Manipulation | 0 / 7 | 🔴 | Aug 29 – Sep 1 | 0 Days delay | 0/7
 | **Total** | **0 / 150** | | **Jun 15 – Sep 1** |
 
 > Revision + Mocks: Sep 1 – Sep 15

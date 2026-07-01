@@ -45,7 +45,7 @@ function lengthOfLongestSubstringDuplicate(s : string) {
 
 
 
-function lengthOfLongestSubstring(s: string): number {
+function lengthOfLongestSubstring_(s: string): number {
   let i = 0;
   let j = 0;
   let longestSubLen = 0;
