@@ -35,7 +35,7 @@
 
 // Function Signature
 // Input: nums = [10, 5, 2, 6],
-function numSubarrayProductLessThanK(nums: number[], k: number): number {
+function numSubarrayProductLessThanK_(nums: number[], k: number): number {
   if (k <= 1) return 0;
   let left = 0;
   let right = 0;

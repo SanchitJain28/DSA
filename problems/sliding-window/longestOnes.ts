@@ -28,7 +28,7 @@
 // 0 ≤ k ≤ nums.length
 
 // 🧠 Function Signature
-function longestOnes(nums: number[], k: number): number {
+function longestOnes_(nums: number[], k: number): number {
   let left = 0;
   let right = 0;
   let maxLen = 0;
