@@ -19,14 +19,26 @@ function dailyTemperatures(temperatures: number[]): number[] {
   return result;
 }
 
-class Solution_______ {
-  /**
-   * @param {number[]} temperatures
-   * @return {number[]}
-   */
-  dailyTemperatures(temperatures: number[]): number[] {}
+function dailyTemperatures_(temperatures: number[]): number[] {
+  const result = new Array(temperatures.length).fill(0);
+  const stack: number[] = []; // Stores indices
+
+  for (let i = 0; i < temperatures.length; i++) {
+    while (
+      stack.length > 0 &&
+      temperatures[i] > temperatures[stack[stack.length - 1]]
+    ) {
+      
+      const prevIndex = stack.pop()!;
+      result[prevIndex] = i - prevIndex;
+    }
+    stack.push(i);
+  }
+
+  return result;
 }
 
+console.log(dailyTemperatures_([30, 38, 30, 36, 35, 40, 28]));
 // Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
 
 // Example 1:
