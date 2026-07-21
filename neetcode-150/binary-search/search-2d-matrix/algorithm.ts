@@ -1,3 +1,24 @@
+function searchMatrix_(matrix: number[][], target: number): boolean {
+  let m = matrix.length;
+  let n = matrix[0].length;
+  let left = 0;
+  let right = m * n - 1;
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    //! Doubt : I was stuck at row and column , so extra focus on that
+    let row = Math.floor(mid / n);
+    let column = mid % n;
+    if (matrix[row][column] < target) {
+      left = mid + 1;
+    } else if (matrix[row][column] > target) {
+      right = mid - 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}
+
 // You are given an m x n 2-D integer array matrix and an integer target.
 
 // Each row in matrix is sorted in non-decreasing order.

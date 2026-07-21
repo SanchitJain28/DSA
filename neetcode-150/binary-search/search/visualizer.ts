@@ -183,6 +183,6 @@ function startVisualizer(nums: number[], target: number) {
 }
 
 // Example Run
-const nums = [3, 7, 12, 18, 25, 31, 39, 44, 52, 61, 73, 84, 91, 105, 120];
-const target = 140;
+const nums = [1, 2, 4, 8, 10, 11, 12, 13, 14, 20, 30, 40];
+const target = 10;
 startVisualizer(nums, target);
