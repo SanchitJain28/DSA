@@ -40,7 +40,7 @@ function mergeTwoListsOptimized(
   let t1 = list1;
   let t2 = list2;
 
-  while (t1 !== null && t2 !== null) {
+  while (t1 && t2) {
     if (t1.val <= t2.val) {
       tail.next = t1;
       t1 = t1.next;

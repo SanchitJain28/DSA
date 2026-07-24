@@ -20,8 +20,10 @@ function dailyTemperatures(temperatures: number[]): number[] {
 }
 
 function dailyTemperatures_(temperatures: number[]): number[] {
+  // ? Initialize the result array and fill all the values with zero 
   const result = new Array(temperatures.length).fill(0);
-  const stack: number[] = []; // Stores indices
+  //? Initialize the stack
+  const stack: number[] = []; 
 
   for (let i = 0; i < temperatures.length; i++) {
     while (

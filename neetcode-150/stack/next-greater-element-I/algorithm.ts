@@ -1,27 +1,15 @@
 function nextGreaterElement(nums1: number[], nums2: number[]): number[] {
+  //? Take a map 
   const nextGreater = new Map<number, number>();
+  //? Take a stack
   const stack: number[] = [];
-
-  console.log("Initializing", { nextGreater, stack });
-
+  //? For each nums of nums2
   for (const num of nums2) {
-    console.log("Number : ", num);
-    console.log("Stack Length : ", stack.length);
-    console.log(
-      `stack[${stack.length - 1}] i.e ${stack[stack.length - 1]} < ${num} : `,
-      stack[stack.length - 1] < num,
-    );
-    //? if stack is not empty , means checking for the next element , and the last element of the stack
     while (stack.length && stack[stack.length - 1] < num) {
       const poppedValue = stack.pop()!;
-      console.log("Popped Value : " , poppedValue)
       nextGreater.set(poppedValue, num);
-      console.log("Updated Map" , nextGreater)
-      console.log("*****\n")
     }
     stack.push(num);
-    console.log("Stack after push : ", stack);
-    console.log("------\n\n")
   }
 
   return nums1.map((num) => nextGreater.get(num) ?? -1);
