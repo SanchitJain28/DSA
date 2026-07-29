@@ -3,10 +3,8 @@ function groupAnagrams_(strs: string[]): string[][] {
   let result: string[][] = [];
   for (let str of strs) {
     let sortedString = str.split("").sort().join("");
-    console.log(sortedString);
-    if (map.has(sortedString)) {
-      result[map.get(sortedString)!].push(str);
-    } else {
+    if (map.has(sortedString)) result[map.get(sortedString)!].push(str);
+    else {
       map.set(sortedString, map.size);
       result.push([str]);
     }

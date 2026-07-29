@@ -1,5 +1,4 @@
-import { createLogger } from "../../../utils/logger";
-import { ListNode } from "../intro/algorithm";
+import { ListNode, sampleLinkedList } from "../intro/algorithm";
 
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
   const nodes: ListNode[] = [];
@@ -9,19 +8,16 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
     current = current.next;
   }
   const removedIndex = nodes.length - n;
-  if(removedIndex===0) return head!.next
-  const prev = nodes[removedIndex - 1]
-  prev.next = nodes[removedIndex].next
-  return head
+
+  if (removedIndex === 0) return head!.next;
+
+  const prev = nodes[removedIndex - 1];
+  prev.next = nodes[removedIndex].next;
+
+  return head;
 }
 
-const head = new ListNode(1);
-head.next = new ListNode(2);
-head.next.next = new ListNode(3);
-head.next.next.next = new ListNode(4);
-head.next.next.next.next = new ListNode(5);
-
-console.log(removeNthFromEnd(head, 1));
+console.log(removeNthFromEnd(sampleLinkedList(1, 2, 3, 4, 5), 1));
 
 // Given the head of a linked list, remove the nth node from the end of the list and return its head.
 

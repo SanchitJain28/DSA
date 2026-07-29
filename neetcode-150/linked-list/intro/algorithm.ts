@@ -39,3 +39,16 @@ export function arrayToLinkedList(arr: number[]): ListNode | null {
   }
   return head;
 }
+export function sampleLinkedList(...nodes: number[]): ListNode | null {
+  if (nodes.length === 0) return null;
+
+  const head = new ListNode(nodes[0]);
+  let current = head;
+
+  for (let i = 1; i < nodes.length; i++) {
+    current.next = new ListNode(nodes[i]);
+    current = current.next;
+  }
+
+  return head;
+}

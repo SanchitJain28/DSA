@@ -1,16 +1,10 @@
 function isValid(s: string): boolean {
-  //? Define the Pairs Object
   let pairs: Record<string, string> = { ")": "(", "]": "[", "}": "{" };
-  //? Initialize the Stack 
   let stack: string[] = [];
-  //? For each element in string
-  for (let ch of s) { //(){}
-    //? Find for opening bracket to push
+  for (let ch of s) {
     if (!pairs[ch]) stack.push(ch);
-    //? if not found , check the popped value
     else {
-      let poppedValue = stack.pop();
-      if (poppedValue !== pairs[ch]) return false;
+      if (stack.pop() !== pairs[ch]) return false;
     }
   }
   return stack.length === 0;

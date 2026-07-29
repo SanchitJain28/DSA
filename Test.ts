@@ -72,13 +72,32 @@
 
 // const items = { name: "ARRAY" };
 // console.log(Array.from(items, (e) => e.name));
-const values = new Map([
-      ["I",1],
-      ["V",5],
-      ["X",10],
-      ["L",50],
-      ["C",100],
-      ["D",500],
-      ["M",1000]
-    ])
-    console.log(values)
+// const values = new Map([
+//       ["I",1],
+//       ["V",5],
+//       ["X",10],
+//       ["L",50],
+//       ["C",100],
+//       ["D",500],
+//       ["M",1000]
+//     ])
+//     console.log(values)
+
+// let originalArray = [1, 2, 3, 4, 5];
+// let anotherArray = originalArray;
+// anotherArray[anotherArray.length - 1] = 10;
+// console.log("Original Array : ", originalArray);
+// console.log("Another Array : ", anotherArray);
+
+let obj1 = { name: "NAME" };
+let obj2 = obj1;
+obj2.name = "OTHER"; 
+console.log("Object 1 : " , obj1)
+console.log("Object 2 : " , obj2)
+// obj1.name is also "OTHER" — same object in memory
+
+obj1 === obj2 // true, same reference
+
+let obj3 = { name: "NAME" };
+console.log("Object 3 " , obj3)
+obj1 === obj3 // false — different object, even though content is identical

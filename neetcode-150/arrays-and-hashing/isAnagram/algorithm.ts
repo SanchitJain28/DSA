@@ -1,18 +1,15 @@
-function isAnagram(s: string, t: string): boolean {
-  if(s.length !== t.length) return false
+function isAnagram_(s: string, t: string): boolean {
+  if (s.length !== t.length) return false;
   const map = new Map();
-  for (let i = 0; i < s.length; i++) {
-    map.set(s[i], map.get(s[i]) + 1 || 1);
-  }
+  for (let ch of s) map.set(ch, (map.get(ch) || 0) + 1);
+  for (let ch of t) {
+    if (!map.has(ch)) return false;
 
-  for (let j = 0; j < t.length; j++) {
-    if (map.has(t[j])) {
-      let value = map.get(t[j]);
-      if (value > 1) map.set(t[j], value - 1);
-      else map.delete(t[j]);
-    }
-  }
+    const count = map.get(ch)!;
 
+    if (count === 1) map.delete(ch);
+    else map.set(ch, count - 1);
+  }
   return map.size === 0 ? true : false;
 }
 
