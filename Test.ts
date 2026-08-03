@@ -2,6 +2,9 @@
 //   //TEST HERE
 //   let testVariable = Array.from({ length: 10 }, (e, index) => index);
 
+import { addTwoNumbers } from "./neetcode-150/linked-list/add-two-numbers/algorithm";
+import { sampleLinkedList } from "./neetcode-150/linked-list/intro/algorithm";
+
 //   testVariable.forEach((e) => {
 //     console.log(e);
 //   });
@@ -89,15 +92,30 @@
 // console.log("Original Array : ", originalArray);
 // console.log("Another Array : ", anotherArray);
 
-let obj1 = { name: "NAME" };
-let obj2 = obj1;
-obj2.name = "OTHER"; 
-console.log("Object 1 : " , obj1)
-console.log("Object 2 : " , obj2)
-// obj1.name is also "OTHER" — same object in memory
+// let obj1 = { name: "NAME" };
+// let obj2 = obj1;
+// obj2.name = "OTHER";
+// console.log("Object 1 : ", obj1);
+// console.log("Object 2 : ", obj2);
+// // obj1.name is also "OTHER" — same object in memory
 
-obj1 === obj2 // true, same reference
+// obj1 === obj2; // true, same reference
 
-let obj3 = { name: "NAME" };
-console.log("Object 3 " , obj3)
-obj1 === obj3 // false — different object, even though content is identical
+// let obj3 = { name: "NAME" };
+// console.log("Object 3 ", obj3);
+// obj1 === obj3; // false — different object, even though content is identical
+
+function topKFrequent(nums: number[], k: number): number[] {
+  const freq = new Map<number, number>();
+  let final: number[] = [];
+  for (let num of nums) freq.set(num, (freq.get(num)! ?? 0) + 1);
+  let result: number[][] = [];
+  for (let [num, f] of freq) result.push([num, f]);
+  console.log("Resultant : ", result);
+  result.sort((a, b) => b[1] - a[1]);
+  console.log("Sorted Result : ", result);
+  for (let i = 0; i < k; i++) final.push(result[i][0]);
+  return final;
+}
+
+console.log(topKFrequent([1, 1, 1, 2, 2, 1, 2, 3], 2));

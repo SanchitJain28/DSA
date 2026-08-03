@@ -1,10 +1,14 @@
 function groupAnagrams_(strs: string[]): string[][] {
+  //? Initialize the map 
   const map = new Map<string, number>();
+  //? Also intialize the result subarray
   let result: string[][] = [];
   for (let str of strs) {
+    //? Sort each string
     let sortedString = str.split("").sort().join("");
     if (map.has(sortedString)) result[map.get(sortedString)!].push(str);
     else {
+      //? if no , push it to the next index
       map.set(sortedString, map.size);
       result.push([str]);
     }

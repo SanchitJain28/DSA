@@ -75,7 +75,7 @@ function mergeSortAlgorithm(array: number[]) {
     sortedArray = nextRound;
   }
 
-  //MERGING
+  //? MERGING
   function merge(arr1: number[], arr2: number[]) {
     console.log(arr1, arr2);
     let results = [];

@@ -4,7 +4,6 @@ function carFleet(target: number, position: number[], speed: number[]): number {
     .map((pos, i) => [pos, speed[i]])
     .sort((a, b) => b[0] - a[0]);
 
-  
   const stack: number[] = [];
 
   for (const [pos, spd] of cars) {

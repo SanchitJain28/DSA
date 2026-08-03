@@ -1,0 +1,26 @@
+{
+  "val": 8,
+  "next": {
+    "val": 9,
+    "next": {
+      "val": 9,
+      "next": {
+        "val": 9,
+        "next": {
+          "val": 0,
+          "next": {
+            "val": 0,
+            "next": {
+              "val": 0,
+              "next": {
+                "val": 1,
+                "next": null
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

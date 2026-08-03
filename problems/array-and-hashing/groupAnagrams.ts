@@ -18,7 +18,7 @@ console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
 
 function groupAnagramsRetry(strs: string[]) {
   let map = new Map();
-  let solution: [string][] = [];
+  let solution: string[][] = [];
   for (const str of strs) {
     const sortedString = str.split("").sort().join("");
     if (map.has(sortedString)) {

@@ -10,7 +10,7 @@ function isValid(s: string): boolean {
   return stack.length === 0;
 }
 
-console.log(isValid("((((({{{{{[[[[[]]]]]}}}}})))))"));
+console.log(isValid("((((({{{{{[[[[[]]]]]}}}}})))))()()()()[][][][]{{}}"));
 
 // Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 

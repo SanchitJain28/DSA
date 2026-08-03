@@ -14,12 +14,10 @@ class Solution________ {
     return left;
   }
 
-  private getTotalHours(arr: number[], mid: number) {
-    let totalHours = 0;
-    for (let i = 0; i < arr.length; i++) {
-      totalHours += Math.ceil(arr[i] / mid);
-    }
-    return totalHours;
+  private getTotalHours(a: number[], m: number) {
+    let H = 0;
+    for (let h of a) H += Math.ceil(h / m);
+    return H;
   }
 }
 
