@@ -1,0 +1,15 @@
+export const pathSumCode = [
+  { line: 1, text: "function hasPathSum(" },
+  { line: 2, text: "  root: TreeNode | null," },
+  { line: 3, text: "  targetSum: number," },
+  { line: 4, text: "  sum: number = 0" },
+  { line: 5, text: "): boolean {" },
+  { line: 6, text: "  if (!root) return false;" },
+  { line: 7, text: "  sum += root.val;" },
+  { line: 8, text: "  if (!root.left && !root.right) return sum === targetSum;" },
+  { line: 9, text: "  return (" },
+  { line: 10, text: "    hasPathSum(root.left, targetSum, sum) ||" },
+  { line: 11, text: "    hasPathSum(root.right, targetSum, sum)" },
+  { line: 12, text: "  );" },
+  { line: 13, text: "}" },
+];

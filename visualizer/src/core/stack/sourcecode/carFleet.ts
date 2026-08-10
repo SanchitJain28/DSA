@@ -1,0 +1,15 @@
+export const carFleetCode = [
+  { line: 1, text: "function carFleet(target: number, position: number[], speed: number[]): number {" },
+  { line: 2, text: "  const cars = position" },
+  { line: 3, text: "    .map((pos, i) => [pos, speed[i]])" },
+  { line: 4, text: "    .sort((a, b) => b[0] - a[0]);" },
+  { line: 5, text: "" },
+  { line: 6, text: "  const stack: number[] = [];" },
+  { line: 7, text: "" },
+  { line: 8, text: "  for (const [pos, spd] of cars) {" },
+  { line: 9, text: "    const time = (target - pos) / spd;" },
+  { line: 10, text: "    if (!stack.length || time > stack[stack.length - 1]) stack.push(time);" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "  return stack.length;" },
+  { line: 13, text: "}" },
+];

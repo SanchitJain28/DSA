@@ -1,20 +1,18 @@
 function asteroidCollision(asteroids: number[]): number[] {
-  let stack: number[] = [];
-  for (const asteroid of asteroids) {
-    let destroyed = false;
+  const stack: number[] = [];
+  for (let asteroid of asteroids) {
+    let destroyed: boolean = false;
     while (stack.length && asteroid < 0 && stack[stack.length - 1] > 0) {
       let top = stack[stack.length - 1];
       let abs = Math.abs(asteroid);
-      if (top < abs) {
-        stack.pop();
+      if (top > abs) {
+        destroyed = true;
+        break;
       } else if (top === abs) {
+        destroyed = true;
         stack.pop();
-        destroyed = true;
         break;
-      } else {
-        destroyed = true;
-        break;
-      }
+      } else stack.pop();
     }
     if (!destroyed) stack.push(asteroid);
   }

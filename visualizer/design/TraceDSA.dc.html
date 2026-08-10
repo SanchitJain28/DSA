@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f1f1f2; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent, #11766E); text-decoration: none; }
+  a:hover { color: #2f3cc0; }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(24,24,27,0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(24,24,27,0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+</style>
+</helmet>
+<div class="root" style="--accent:{{ accent }}; font-family:'Geist',system-ui,sans-serif; color:#18181b; background:#f1f1f2; padding:56px 48px 80px; display:flex; flex-direction:column; gap:64px; align-items:center;">
+
+  <!-- ============ HEADER ============ -->
+  <div style="width:100%; max-width:1160px; display:flex; flex-direction:column; gap:8px;">
+    <div style="font:600 12px/1 'Geist Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:#a1a1aa;">TraceDSA — Design System &amp; Screens</div>
+    <div style="font:600 15px/1.5 'Geist',sans-serif; color:#71717a; max-width:640px;">A sharp, technical identity for an interactive DSA visualizer. Neutral zinc surfaces, one teal signal color, 1px borders, crisp shadows.</div>
+  </div>
+
+  <!-- ============ ARTBOARD 1: TOKENS ============ -->
+  <div style="width:100%; max-width:1160px; display:flex; flex-direction:column; gap:14px;">
+    <div style="font:500 12px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#71717a;">01 · Foundations</div>
+    <div style="background:#fff; border:1px solid #e4e4e7; border-radius:0; box-shadow:0 1px 2px rgba(24,24,27,.05); padding:36px; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+
+      <!-- Colors -->
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="font:500 11px/1 'Geist Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#a1a1aa;">Palette</div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:10px;">
+          <div style="display:flex; flex-direction:column; gap:8px;"><div style="height:56px; border-radius:0; background:var(--accent,#11766E); border:1px solid rgba(0,0,0,.06);"></div><div style="font:500 11px/1.4 'Geist Mono',monospace; color:#52525b;">accent<br><span style="color:#a1a1aa;">#11766E</span></div></div>
+          <div style="display:flex; flex-direction:column; gap:8px;"><div style="height:56px; border-radius:0; background:#18181b; border:1px solid rgba(0,0,0,.06);"></div><div style="font:500 11px/1.4 'Geist Mono',monospace; color:#52525b;">ink<br><span style="color:#a1a1aa;">#18181b</span></div></div>
+          <div style="display:flex; flex-direction:column; gap:8px;"><div style="height:56px; border-radius:0; background:#71717a; border:1px solid rgba(0,0,0,.06);"></div><div style="font:500 11px/1.4 'Geist Mono',monospace; color:#52525b;">muted<br><span style="color:#a1a1aa;">#71717a</span></div></div>
+          <div style="display:flex; flex-direction:column; gap:8px;"><div style="height:56px; border-radius:0; background:#f4f4f5; border:1px solid #e4e4e7;"></div><div style="font:500 11px/1.4 'Geist Mono',monospace; color:#52525b;">panel<br><span style="color:#a1a1aa;">#f4f4f5</span></div></div>
+          <div style="display:flex; flex-direction:column; gap:8px;"><div style="height:56px; border-radius:0; background:#fff; border:1px solid #e4e4e7;"></div><div style="font:500 11px/1.4 'Geist Mono',monospace; color:#52525b;">surface<br><span style="color:#a1a1aa;">#ffffff</span></div></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid #a7f3d0; background:#ecfdf5; border-radius:0;"><span style="width:8px; height:8px; border-radius:0; background:#0f766e;"></span><span style="font:600 12px/1 'Geist Mono',monospace; color:#0f766e;">EASY</span></div>
+          <div style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid #fde68a; background:#fffbeb; border-radius:0;"><span style="width:8px; height:8px; border-radius:0; background:#b45309;"></span><span style="font:600 12px/1 'Geist Mono',monospace; color:#b45309;">MEDIUM</span></div>
+          <div style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid #fecaca; background:#fef2f2; border-radius:0;"><span style="width:8px; height:8px; border-radius:0; background:#b91c1c;"></span><span style="font:600 12px/1 'Geist Mono',monospace; color:#b91c1c;">HARD</span></div>
+        </div>
+      </div>
+
+      <!-- Type + tokens -->
+      <div style="display:flex; flex-direction:column; gap:20px; border-left:1px solid #e4e4e7; padding-left:40px;">
+        <div style="font:500 11px/1 'Geist Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#a1a1aa;">Type — Geist / Geist Mono</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:baseline; gap:16px;"><span style="font:600 40px/1 'Geist',sans-serif; letter-spacing:-.02em;">Aa</span><span style="font:500 11px/1.4 'Geist Mono',monospace; color:#a1a1aa;">Display / 48 · 600 · -0.02em</span></div>
+          <div style="display:flex; align-items:baseline; gap:16px;"><span style="font:600 24px/1 'Geist',sans-serif; letter-spacing:-.015em;">Heading</span><span style="font:500 11px/1.4 'Geist Mono',monospace; color:#a1a1aa;">H2 / 24 · 600</span></div>
+          <div style="display:flex; align-items:baseline; gap:16px;"><span style="font:400 16px/1 'Geist',sans-serif;">Body copy sits at 17px, 1.75 leading.</span></div>
+          <div style="display:flex; align-items:baseline; gap:16px;"><span style="font:500 13px/1 'Geist Mono',monospace; color:#52525b;">mono.label — 13 · uppercase · 0.08em</span></div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; padding-top:4px;">
+          <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:6px 8px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">radius 0 · square</span>
+          <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:6px 8px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">border 1px #e4e4e7</span>
+          <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:6px 8px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">shadow 0 1px 2px /.05</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ARTBOARD 2: MAIN UI ============ -->
+  <div style="width:100%; max-width:1160px; display:flex; flex-direction:column; gap:14px;">
+    <div style="font:500 12px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#71717a;">02 · Main UI — Marketing / App shell</div>
+    <div style="width:100%; background:#fff; border:1px solid #e4e4e7; border-radius:0; box-shadow:0 1px 3px rgba(24,24,27,.06); overflow:hidden;">
+
+      <!-- NAV (core layout component) -->
+      <header style="display:flex; align-items:center; justify-content:space-between; height:64px; padding:0 28px; border-bottom:1px solid #e4e4e7; background:#fff;">
+        <div style="display:flex; align-items:center; gap:36px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="width:22px; height:22px; border-radius:0; background:#18181b; display:inline-flex; align-items:center; justify-content:center;"><span style="width:8px; height:8px; background:var(--accent,#11766E); border-radius:0;"></span></span>
+            <span style="font:600 16px/1 'Geist',sans-serif; letter-spacing:-.02em;">TraceDSA</span>
+          </div>
+          <nav style="display:flex; gap:26px;">
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#18181b;">Algorithms</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Guides</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Complexity</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Docs</span>
+          </nav>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="display:inline-flex; align-items:center; gap:8px; padding:0 12px; height:36px; border:1px solid #e4e4e7; border-radius:0; font:500 13px/1 'Geist Mono',monospace; color:#52525b;">★ 12.4k</span>
+          <span style="display:inline-flex; align-items:center; height:36px; padding:0 16px; background:var(--accent,#11766E); color:#fff; border:1px solid var(--accent,#11766E); border-radius:0; font:600 13px/1 'Geist',sans-serif; box-shadow:0 1px 2px rgba(24,24,27,.14);">Launch App</span>
+        </div>
+      </header>
+
+      <!-- HERO -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid #e4e4e7;">
+        <div style="padding:64px 48px; display:flex; flex-direction:column; gap:24px; border-right:1px solid #e4e4e7;">
+          <span style="font:600 12px/1 'Geist Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent,#11766E);">Interactive DSA Visualizer</span>
+          <h1 style="margin:0; font:600 48px/1.05 'Geist',sans-serif; letter-spacing:-.03em; color:#18181b;">See how algorithms actually run.</h1>
+          <p style="margin:0; font:400 17px/1.6 'Geist',sans-serif; color:#52525b; max-width:440px;">Step through sorting, graph traversal, and dynamic programming one frame at a time. Watch the data structures mutate, read the complexity, own the intuition.</p>
+          <div style="display:flex; gap:12px; padding-top:4px;">
+            <span style="display:inline-flex; align-items:center; gap:8px; height:46px; padding:0 22px; background:var(--accent,#11766E); color:#fff; border:1px solid var(--accent,#11766E); border-radius:0; font:600 15px/1 'Geist',sans-serif; box-shadow:0 1px 2px rgba(24,24,27,.16);">Launch Visualizer →</span>
+            <span style="display:inline-flex; align-items:center; height:46px; padding:0 22px; background:#fff; color:#18181b; border:1px solid #d4d4d8; border-radius:0; font:600 15px/1 'Geist',sans-serif; box-shadow:0 1px 2px rgba(24,24,27,.05);">Browse 84 algorithms</span>
+          </div>
+          <div style="display:flex; gap:24px; padding-top:8px; font:500 12px/1 'Geist Mono',monospace; color:#a1a1aa;"><span>84 ALGORITHMS</span><span>12 CATEGORIES</span><span>NO SIGNUP</span></div>
+        </div>
+        <!-- visual: array-bars visualizer preview -->
+        <div class="grid-bg" style="position:relative; background:#fafafa; padding:40px; display:flex; flex-direction:column; justify-content:flex-end;">
+          <div style="position:absolute; top:20px; left:20px; display:flex; gap:6px; align-items:center;"><span style="width:9px; height:9px; border-radius:50%; background:#e4e4e7;"></span><span style="width:9px; height:9px; border-radius:50%; background:#e4e4e7;"></span><span style="font:500 11px/1 'Geist Mono',monospace; color:#a1a1aa; margin-left:6px;">quick_sort.trace</span></div>
+          <div style="display:flex; align-items:flex-end; gap:10px; height:220px;">
+            <div style="flex:1; height:38%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:62%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:24%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:88%; background:var(--accent,#11766E); border-radius:0;"></div>
+            <div style="flex:1; height:52%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:74%; background:var(--accent,#11766E); border-radius:0;"></div>
+            <div style="flex:1; height:30%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:46%; background:#d4d4d8; border-radius:0;"></div>
+            <div style="flex:1; height:66%; background:#18181b; border-radius:0;"></div>
+            <div style="flex:1; height:18%; background:#d4d4d8; border-radius:0;"></div>
+          </div>
+          <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #e4e4e7;">
+            <span style="font:500 12px/1 'Geist Mono',monospace; color:#52525b;">step 24 / 61 · pivot=88</span>
+            <span style="font:500 12px/1 'Geist Mono',monospace; color:#a1a1aa;">O(n log n)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATALOG -->
+      <div style="padding:40px 48px; display:flex; flex-direction:column; gap:24px;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span style="font:500 12px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#71717a;">Popular algorithms</span>
+          <span style="font:500 13px/1 'Geist',sans-serif; color:var(--accent,#11766E);">View all →</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+          <!-- card -->
+          <div style="border:1px solid #e4e4e7; border-radius:0; padding:20px; display:flex; flex-direction:column; gap:12px; background:#fff; box-shadow:0 1px 2px rgba(24,24,27,.04);">
+            <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:600 16px/1 'Geist',sans-serif; letter-spacing:-.01em;">Dijkstra</span><span style="font:600 11px/1 'Geist Mono',monospace; color:#b45309; padding:4px 7px; background:#fffbeb; border:1px solid #fde68a; border-radius:0;">MEDIUM</span></div>
+            <p style="margin:0; font:400 14px/1.55 'Geist',sans-serif; color:#71717a;">Shortest path on weighted graphs with a priority queue.</p>
+            <div style="display:flex; gap:6px; margin-top:auto; padding-top:8px;"><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">graphs</span><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">greedy</span></div>
+          </div>
+          <div style="border:1px solid #e4e4e7; border-radius:0; padding:20px; display:flex; flex-direction:column; gap:12px; background:#fff; box-shadow:0 1px 2px rgba(24,24,27,.04);">
+            <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:600 16px/1 'Geist',sans-serif; letter-spacing:-.01em;">Binary Search</span><span style="font:600 11px/1 'Geist Mono',monospace; color:#0f766e; padding:4px 7px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:0;">EASY</span></div>
+            <p style="margin:0; font:400 14px/1.55 'Geist',sans-serif; color:#71717a;">Halve the search space each step over sorted input.</p>
+            <div style="display:flex; gap:6px; margin-top:auto; padding-top:8px;"><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">arrays</span><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">divide</span></div>
+          </div>
+          <div style="border:1px solid #e4e4e7; border-radius:0; padding:20px; display:flex; flex-direction:column; gap:12px; background:#fff; box-shadow:0 1px 2px rgba(24,24,27,.04);">
+            <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:600 16px/1 'Geist',sans-serif; letter-spacing:-.01em;">Edit Distance</span><span style="font:600 11px/1 'Geist Mono',monospace; color:#b91c1c; padding:4px 7px; background:#fef2f2; border:1px solid #fecaca; border-radius:0;">HARD</span></div>
+            <p style="margin:0; font:400 14px/1.55 'Geist',sans-serif; color:#71717a;">Levenshtein DP table filled cell by cell.</p>
+            <div style="display:flex; gap:6px; margin-top:auto; padding-top:8px;"><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">dp</span><span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:4px 7px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">strings</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ARTBOARD 3: SEO ARTICLE ============ -->
+  <div style="width:100%; max-width:1160px; display:flex; flex-direction:column; gap:14px;">
+    <div style="font:500 12px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#71717a;">03 · Dynamic SEO article — /algorithms/[slug]</div>
+    <div style="width:100%; background:#fff; border:1px solid #e4e4e7; border-radius:0; box-shadow:0 1px 3px rgba(24,24,27,.06); overflow:hidden;">
+
+      <!-- reused nav -->
+      <header style="display:flex; align-items:center; justify-content:space-between; height:64px; padding:0 28px; border-bottom:1px solid #e4e4e7; background:#fff;">
+        <div style="display:flex; align-items:center; gap:36px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="width:22px; height:22px; border-radius:0; background:#18181b; display:inline-flex; align-items:center; justify-content:center;"><span style="width:8px; height:8px; background:var(--accent,#11766E); border-radius:0;"></span></span>
+            <span style="font:600 16px/1 'Geist',sans-serif; letter-spacing:-.02em;">TraceDSA</span>
+          </div>
+          <nav style="display:flex; gap:26px;">
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#18181b;">Algorithms</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Guides</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Complexity</span>
+            <span style="font:500 14px/1 'Geist',sans-serif; color:#71717a;">Docs</span>
+          </nav>
+        </div>
+        <span style="display:inline-flex; align-items:center; height:36px; padding:0 16px; background:var(--accent,#11766E); color:#fff; border:1px solid var(--accent,#11766E); border-radius:0; font:600 13px/1 'Geist',sans-serif; box-shadow:0 1px 2px rgba(24,24,27,.14);">Launch App</span>
+      </header>
+
+      <!-- article grid: content + rail -->
+      <div style="display:grid; grid-template-columns:1fr 280px; gap:0;">
+        <!-- content -->
+        <article style="padding:48px 56px; border-right:1px solid #e4e4e7; min-width:0;">
+          <!-- breadcrumb -->
+          <div style="font:500 12px/1 'Geist Mono',monospace; color:#a1a1aa; margin-bottom:24px;">Algorithms <span style="color:#d4d4d8;">/</span> Graphs <span style="color:#d4d4d8;">/</span> <span style="color:#52525b;">Dijkstra</span></div>
+
+          <!-- difficulty + meta tags -->
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
+            <span style="font:600 11px/1 'Geist Mono',monospace; color:#b45309; padding:5px 9px; background:#fffbeb; border:1px solid #fde68a; border-radius:0;">MEDIUM</span>
+            <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:5px 9px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">graphs</span>
+            <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:5px 9px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">greedy</span>
+            <span style="font:500 11px/1 'Geist Mono',monospace; color:#52525b; padding:5px 9px; background:#f4f4f5; border:1px solid #e4e4e7; border-radius:0;">priority-queue</span>
+          </div>
+
+          <!-- H1 -->
+          <h1 style="margin:0 0 16px; font:600 44px/1.08 'Geist',sans-serif; letter-spacing:-.03em; color:#18181b;">Dijkstra's Shortest Path Algorithm</h1>
+          <p style="margin:0 0 24px; font:400 19px/1.6 'Geist',sans-serif; color:#52525b;">Find the minimum-cost path from a source vertex to every other vertex in a weighted graph with non-negative edges.</p>
+
+          <!-- meta row + PROMINENT CTA -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0 24px; margin-bottom:32px; border-bottom:1px solid #e4e4e7; flex-wrap:wrap;">
+            <div style="display:flex; gap:20px; font:500 12px/1 'Geist Mono',monospace; color:#a1a1aa;"><span>8 MIN READ</span><span>UPDATED AUG 2026</span><span>O((V+E) log V)</span></div>
+            <span style="display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 20px; background:var(--accent,#11766E); color:#fff; border:1px solid var(--accent,#11766E); border-radius:0; font:600 14px/1 'Geist',sans-serif; box-shadow:0 1px 2px rgba(24,24,27,.16);">▶ Launch Visualizer</span>
+          </div>
+
+          <!-- body -->
+          <h2 style="margin:0 0 12px; font:600 24px/1.2 'Geist',sans-serif; letter-spacing:-.015em; color:#18181b;">How it works</h2>
+          <p style="margin:0 0 20px; font:400 17px/1.75 'Geist',sans-serif; color:#27272a; max-width:64ch;">Dijkstra's algorithm maintains a set of vertices whose shortest distance from the source is already known. At each step it greedily selects the unvisited vertex with the smallest tentative distance, then relaxes every outgoing edge — updating a neighbour's distance whenever a shorter route through the current vertex is found.</p>
+          <p style="margin:0 0 28px; font:400 17px/1.75 'Geist',sans-serif; color:#27272a; max-width:64ch;">Because edge weights are non-negative, once a vertex is finalized its distance can never improve, which is exactly what makes the greedy choice correct.</p>
+
+          <!-- graph diagram -->
+          <div class="grid-bg" style="border:1px solid #e4e4e7; border-radius:0; background:#fafafa; padding:24px; margin:0 0 28px; display:flex; justify-content:center;">
+            <svg viewBox="0 0 420 200" width="100%" style="max-width:420px; font-family:'Geist Mono',monospace;">
+              <line x1="60" y1="100" x2="180" y2="45" stroke="#11766E" stroke-width="2"/>
+              <line x1="60" y1="100" x2="180" y2="155" stroke="#d4d4d8" stroke-width="2"/>
+              <line x1="180" y1="45" x2="300" y2="100" stroke="#11766E" stroke-width="2"/>
+              <line x1="180" y1="155" x2="300" y2="100" stroke="#d4d4d8" stroke-width="2"/>
+              <line x1="180" y1="45" x2="180" y2="155" stroke="#d4d4d8" stroke-width="2"/>
+              <line x1="300" y1="100" x2="380" y2="100" stroke="#d4d4d8" stroke-width="2"/>
+              <text x="112" y="64" fill="#52525b" font-size="12">4</text>
+              <text x="110" y="140" fill="#a1a1aa" font-size="12">7</text>
+              <text x="242" y="64" fill="#52525b" font-size="12">3</text>
+              <text x="242" y="140" fill="#a1a1aa" font-size="12">2</text>
+              <g>
+                <circle cx="60" cy="100" r="18" fill="#18181b"/><text x="60" y="105" fill="#fff" font-size="13" text-anchor="middle">A</text>
+                <circle cx="180" cy="45" r="18" fill="#11766E"/><text x="180" y="50" fill="#fff" font-size="13" text-anchor="middle">B</text>
+                <circle cx="180" cy="155" r="18" fill="#fff" stroke="#d4d4d8" stroke-width="1.5"/><text x="180" y="160" fill="#52525b" font-size="13" text-anchor="middle">C</text>
+                <circle cx="300" cy="100" r="18" fill="#11766E"/><text x="300" y="105" fill="#fff" font-size="13" text-anchor="middle">D</text>
+                <circle cx="380" cy="100" r="18" fill="#fff" stroke="#d4d4d8" stroke-width="1.5"/><text x="380" y="105" fill="#52525b" font-size="13" text-anchor="middle">E</text>
+              </g>
+            </svg>
+          </div>
+
+          <h2 style="margin:0 0 12px; font:600 24px/1.2 'Geist',sans-serif; letter-spacing:-.015em; color:#18181b;">Pseudocode</h2>
+          <pre style="margin:0 0 28px; background:#fafafa; border:1px solid #e4e4e7; border-radius:0; padding:20px 22px; overflow:auto; font:400 13.5px/1.7 'Geist Mono',monospace; color:#27272a;"><span style="color:#71717a;">dist</span>[source] = 0
+<span style="color:#11766E;">while</span> pq <span style="color:#11766E;">not</span> empty:
+  u = pq.<span style="color:#0f766e;">extract_min</span>()
+  <span style="color:#11766E;">for</span> (v, w) <span style="color:#11766E;">in</span> adj[u]:
+    <span style="color:#11766E;">if</span> dist[u] + w &lt; dist[v]:
+      dist[v] = dist[u] + w
+      pq.<span style="color:#0f766e;">decrease_key</span>(v, dist[v])</pre>
+
+          <!-- complexity table -->
+          <h2 style="margin:0 0 12px; font:600 24px/1.2 'Geist',sans-serif; letter-spacing:-.015em; color:#18181b;">Complexity</h2>
+          <div style="border:1px solid #e4e4e7; border-radius:0; overflow:hidden; margin:0 0 28px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; background:#f4f4f5; border-bottom:1px solid #e4e4e7;">
+              <div style="padding:10px 16px; font:600 11px/1 'Geist Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:#71717a;">Implementation</div>
+              <div style="padding:10px 16px; font:600 11px/1 'Geist Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:#71717a; border-left:1px solid #e4e4e7;">Time</div>
+              <div style="padding:10px 16px; font:600 11px/1 'Geist Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:#71717a; border-left:1px solid #e4e4e7;">Space</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #e4e4e7;">
+              <div style="padding:12px 16px; font:400 14px/1 'Geist',sans-serif; color:#27272a;">Binary heap</div>
+              <div style="padding:12px 16px; font:500 13px/1 'Geist Mono',monospace; color:#27272a; border-left:1px solid #e4e4e7;">O((V+E) log V)</div>
+              <div style="padding:12px 16px; font:500 13px/1 'Geist Mono',monospace; color:#27272a; border-left:1px solid #e4e4e7;">O(V)</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+              <div style="padding:12px 16px; font:400 14px/1 'Geist',sans-serif; color:#27272a;">Fibonacci heap</div>
+              <div style="padding:12px 16px; font:500 13px/1 'Geist Mono',monospace; color:#27272a; border-left:1px solid #e4e4e7;">O(E + V log V)</div>
+              <div style="padding:12px 16px; font:500 13px/1 'Geist Mono',monospace; color:#27272a; border-left:1px solid #e4e4e7;">O(V)</div>
+            </div>
+          </div>
+
+          <!-- key idea (no left-accent-stripe trope) -->
+          <div style="border:1px solid #d4d4d8; border-radius:0; padding:20px 22px; background:#fafafa; margin:0 0 28px;">
+            <div style="font:600 11px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent,#11766E); margin-bottom:8px;">Key idea</div>
+            <p style="margin:0; font:400 16px/1.65 'Geist',sans-serif; color:#27272a;">Greedy works only because weights are non-negative. Introduce a single negative edge and you need Bellman-Ford instead.</p>
+          </div>
+
+          <!-- bottom CTA -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:24px; border:1px solid #e4e4e7; border-radius:0; background:#18181b; flex-wrap:wrap;">
+            <div style="display:flex; flex-direction:column; gap:4px;"><span style="font:600 17px/1.2 'Geist',sans-serif; color:#fff;">Trace it yourself.</span><span style="font:400 14px/1.4 'Geist',sans-serif; color:#a1a1aa;">Build a graph, pick a source, step through every relaxation.</span></div>
+            <span style="display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 20px; background:var(--accent,#11766E); color:#fff; border:1px solid var(--accent,#11766E); border-radius:0; font:600 14px/1 'Geist',sans-serif;">▶ Launch Visualizer</span>
+          </div>
+        </article>
+
+        <!-- rail: TOC + related -->
+        <aside style="padding:48px 24px; background:#fafafa;">
+          <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:28px;">
+            <div>
+              <div style="font:600 11px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#a1a1aa; margin-bottom:14px;">On this page</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <span style="font:500 13px/1.3 'Geist',sans-serif; color:var(--accent,#11766E); border-left:2px solid var(--accent,#11766E); padding-left:10px;">How it works</span>
+                <span style="font:400 13px/1.3 'Geist',sans-serif; color:#71717a; border-left:2px solid transparent; padding-left:10px;">Pseudocode</span>
+                <span style="font:400 13px/1.3 'Geist',sans-serif; color:#71717a; border-left:2px solid transparent; padding-left:10px;">Complexity</span>
+                <span style="font:400 13px/1.3 'Geist',sans-serif; color:#71717a; border-left:2px solid transparent; padding-left:10px;">Key idea</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #e4e4e7; padding-top:24px;">
+              <div style="font:600 11px/1 'Geist Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:#a1a1aa; margin-bottom:14px;">Related</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <span style="font:500 13px/1.3 'Geist',sans-serif; color:#18181b;">A* Search</span>
+                <span style="font:500 13px/1.3 'Geist',sans-serif; color:#18181b;">Bellman-Ford</span>
+                <span style="font:500 13px/1.3 'Geist',sans-serif; color:#18181b;">Breadth-First Search</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1256, &quot;height&quot;: 900 },
+  &quot;accent&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#11766E&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;#11766E&quot;] }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#11766E',
+    };
+  }
+}
+</script>
+</body>
+</html>

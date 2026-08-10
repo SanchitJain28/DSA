@@ -1,0 +1,16 @@
+export const diameterCode = [
+  { line: 2, text: "function diameterOfBinaryTree(root) {" },
+  { line: 3, text: "  let maxDiameter = 0;" },
+  { line: 4, text: "" },
+  { line: 5, text: "  function dfs(node) {" },
+  { line: 6, text: "    if (!node) return 0;" },
+  { line: 7, text: "    let left = dfs(node.left);" },
+  { line: 8, text: "    let right = dfs(node.right);" },
+  { line: 9, text: "    maxDiameter = Math.max(maxDiameter, left + right);" },
+  { line: 10, text: "    return 1 + Math.max(left, right);" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "" },
+  { line: 13, text: "  dfs(root);" },
+  { line: 14, text: "  return maxDiameter;" },
+  { line: 15, text: "}" },
+];

@@ -3,12 +3,8 @@ function maxProfit(prices: number[]): number {
   let maxProfit = 0;
 
   for (let price of prices) {
-    console.log("Price" ,price)
     minPrice = Math.min(minPrice, price);
-    console.log("Min Price",minPrice)
     maxProfit = Math.max(maxProfit, price - minPrice);
-    console.log("Max Profit" , maxProfit)
-    console.log("----")
   }
   return maxProfit;
 }
