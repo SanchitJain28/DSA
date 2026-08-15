@@ -2,7 +2,8 @@ import { ListNode } from "./ListNode";
 import type { LayoutNode, LayoutEdge } from "./types";
 
 export function computeLayout(
-  lists: { head: ListNode | null; label?: string }[]
+  lists: { head: ListNode | null; label?: string }[],
+  explicitNodes: ListNode[] = []
 ): { nodes: LayoutNode[]; edges: LayoutEdge[] } {
   const nodes: LayoutNode[] = [];
   const edges: LayoutEdge[] = [];
@@ -14,9 +15,21 @@ export function computeLayout(
   const inDegree = new Map<string, number>();
   const allNodes = new Map<string, ListNode>();
   
+  // Add explicitly provided nodes first
+  for (const node of explicitNodes) {
+    if (!allNodes.has(node.id)) {
+      allNodes.set(node.id, node);
+      inDegree.set(node.id, 0);
+    }
+  }
+  
   for (const list of lists) {
     let curr = list.head;
+    const seenInPhase1 = new Set<string>();
     while (curr) {
+      if (seenInPhase1.has(curr.id)) break;
+      seenInPhase1.add(curr.id);
+
       if (!allNodes.has(curr.id)) {
         allNodes.set(curr.id, curr);
         inDegree.set(curr.id, 0); // initialize
@@ -59,6 +72,7 @@ export function computeLayout(
     let curr: ListNode | null = startNode;
     let currentX = 100;
     let startedRow = false;
+    let lastVisitedId: string | null = null;
 
     while (curr) {
       if (!visited.has(curr.id)) {
@@ -72,9 +86,26 @@ export function computeLayout(
         });
         visited.add(curr.id);
         startedRow = true;
+        lastVisitedId = curr.id;
         currentX += nodeSpacingX;
+      } else {
+        // Re-encountered a visited node (cycle or join), stop this traversal path
+        break;
       }
       curr = curr.next;
+    }
+    
+    // Append null node at the true end of a list segment
+    if (!curr && startedRow && lastVisitedId) {
+      const nullId = `${lastVisitedId}-null`;
+      nodePositions.set(nullId, { x: currentX, y: currentY });
+      nodes.push({
+        id: nullId,
+        val: "null",
+        x: currentX,
+        y: currentY,
+        isNull: true,
+      });
     }
     
     if (startedRow) {
@@ -118,6 +149,31 @@ export function computeLayout(
             y1: sourcePos.y + (dy / dist) * radius,
             x2: targetPos.x - (dx / dist) * targetOffset,
             y2: targetPos.y - (dy / dist) * targetOffset,
+          });
+        }
+      }
+    } else {
+      // It has no next! Let's draw an edge to its null node
+      const sourcePos = nodePositions.get(node.id);
+      const targetPos = nodePositions.get(`${node.id}-null`);
+      if (sourcePos && targetPos) {
+        const edgeId = `${node.id}-null`;
+        const dx = targetPos.x - sourcePos.x;
+        const dy = targetPos.y - sourcePos.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist > 0) {
+          const radius = 24;
+          // Null node is smaller (w-8 h-8 = radius 16)
+          const targetOffset = 16 + 4;
+          
+          edges.push({
+            id: edgeId,
+            x1: sourcePos.x + (dx / dist) * radius,
+            y1: sourcePos.y + (dy / dist) * radius,
+            x2: targetPos.x - (dx / dist) * targetOffset,
+            y2: targetPos.y - (dy / dist) * targetOffset,
+            isNull: true,
           });
         }
       }

@@ -1,0 +1,16 @@
+export const nextGreaterElementCode = [
+  { line: 1, text: "function nextGreaterElement(nums1: number[], nums2: number[]): number[] {" },
+  { line: 2, text: "  const nextGreater = new Map<number, number>();" },
+  { line: 3, text: "  const stack: number[] = [];" },
+  { line: 4, text: "" },
+  { line: 5, text: "  for (const num of nums2) {" },
+  { line: 6, text: "    while (stack.length && stack[stack.length - 1] < num) {" },
+  { line: 7, text: "      const poppedValue = stack.pop()!;" },
+  { line: 8, text: "      nextGreater.set(poppedValue, num);" },
+  { line: 9, text: "    }" },
+  { line: 10, text: "    stack.push(num);" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "" },
+  { line: 13, text: "  return nums1.map((num) => nextGreater.get(num) ?? -1);" },
+  { line: 14, text: "}" },
+];

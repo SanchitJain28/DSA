@@ -1,5 +1,5 @@
 //? brute force solution
-function dailyTemperatures(temperatures: number[]): number[] {
+function dailyTemperatures_(temperatures: number[]): number[] {
   let result: number[] = [];
   let left: number = 0;
   while (left < temperatures.length) {
@@ -19,27 +19,21 @@ function dailyTemperatures(temperatures: number[]): number[] {
   return result;
 }
 
-function dailyTemperatures_(temperatures: number[]): number[] {
-  // ? Initialize the result array and fill all the values with zero 
-  const result = new Array(temperatures.length).fill(0);
-  //? Initialize the stack
-  const stack: number[] = []; 
-
+function dailyTemperatures(temperatures: number[]): number[] {
+  const stack: number[] = [];
+  const result: number[] = new Array(temperatures.length).fill(0);
   for (let i = 0; i < temperatures.length; i++) {
     while (
-      stack.length > 0 &&
-      temperatures[i] > temperatures[stack[stack.length - 1]]
+      stack.length &&
+      temperatures[stack[stack.length - 1]] < temperatures[i]
     ) {
-      
-      const prevIndex = stack.pop()!;
-      result[prevIndex] = i - prevIndex;
+      const poppedIndex = stack.pop()!;
+      result[poppedIndex] = i - poppedIndex;
     }
     stack.push(i);
   }
-
   return result;
 }
-
 console.log(dailyTemperatures_([30, 38, 30, 36, 35, 40, 28]));
 // Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
 

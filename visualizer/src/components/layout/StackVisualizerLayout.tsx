@@ -18,6 +18,7 @@ interface StackVisualizerLayoutProps {
   theme: ThemeName;
   frames: StackFrame[];
   code: { line: number; text: string }[];
+  headerChildren?: React.ReactNode;
 }
 
 export default function StackVisualizerLayout({
@@ -25,6 +26,7 @@ export default function StackVisualizerLayout({
   theme,
   frames,
   code,
+  headerChildren,
 }: StackVisualizerLayoutProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -52,7 +54,7 @@ export default function StackVisualizerLayout({
   const colors = themeColors[theme];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-gray-100 font-sans p-4">
+    <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
       <Header
         title={title}
         titleColorClass={colors.titleClass}
@@ -62,20 +64,22 @@ export default function StackVisualizerLayout({
         onNext={handleNext}
         onPrev={handlePrev}
         onReset={handleReset}
-      />
+      >
+        {headerChildren}
+      </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
           <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-inner flex flex-row items-center justify-center p-8 gap-32">
+            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex flex-row items-center justify-center p-8 gap-32">
               
               <AnimatePresence mode="popLayout">
                 <div className="flex gap-24">
                   {frame.stacks.map((stack) => (
                     <div key={stack.id} className="flex flex-col items-center w-fit">
-                      <div className="text-gray-400 font-bold text-lg mb-6">{stack.name || stack.id}</div>
+                      <div className="text-muted-foreground font-bold text-lg mb-6">{stack.name || stack.id}</div>
                       
-                      <div className="relative flex flex-col-reverse items-center gap-2 p-4 rounded-xl bg-gray-950/50 border border-gray-800 shadow-inner min-w-[120px] min-h-[280px]">
+                      <div className="relative flex flex-col-reverse items-center gap-2 p-4 rounded-xl bg-background/50 border border-border shadow-inner min-w-[120px] min-h-[280px]">
                         {stack.values.map((val, idx) => {
                           const nodeId = `${stack.id}-${idx}`;
                           const isActive = frame.activeNodeId === nodeId || frame.activeNodeIds?.includes(nodeId);
@@ -103,7 +107,7 @@ export default function StackVisualizerLayout({
                                 <motion.div
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
-                                  className="absolute left-full ml-4 flex items-center gap-1 text-sm font-bold text-gray-400 whitespace-nowrap"
+                                  className="absolute left-full ml-4 flex items-center gap-1 text-sm font-bold text-muted-foreground whitespace-nowrap"
                                 >
                                   <ArrowLeft size={16} className={colors.variablesText} />
                                   <span className={`px-3 py-1 rounded shadow ${colors.callStackBg} ${colors.callStackText}`}>TOP</span>
@@ -125,7 +129,7 @@ export default function StackVisualizerLayout({
                 <div className="flex flex-col gap-12">
                   {frame.arrays && frame.arrays.map((arr) => (
                     <div key={arr.id} className="flex flex-col items-start w-fit">
-                      <div className="text-gray-400 font-bold mb-4 ml-2">{arr.name || arr.id}</div>
+                      <div className="text-muted-foreground font-bold mb-4 ml-2">{arr.name || arr.id}</div>
                       
                       <div className="relative flex items-center gap-2">
                         {arr.values.map((val, idx) => {
@@ -161,7 +165,7 @@ export default function StackVisualizerLayout({
                               >
                                 {val !== null ? val : ""}
                               </motion.div>
-                              <div className="text-[10px] text-gray-500 mt-2">{idx}</div>
+                              <div className="text-[10px] text-muted-foreground mt-2">{idx}</div>
                             </div>
                           );
                         })}
@@ -171,7 +175,7 @@ export default function StackVisualizerLayout({
                 </div>
               </AnimatePresence>
 
-              <div className="absolute bottom-4 left-4 text-sm text-gray-500 font-medium">
+              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
             </div>

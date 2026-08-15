@@ -5,7 +5,7 @@ export interface StackData {
   id: string;
   name?: string;
   values: (number | string)[];
-  topPointer?: boolean; // If true, explicitly render a "TOP" arrow
+  topPointer?: boolean;
 }
 
 export interface StackFrame extends BaseFrame {

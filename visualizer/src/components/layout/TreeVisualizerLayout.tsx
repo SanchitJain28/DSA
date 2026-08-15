@@ -21,6 +21,9 @@ interface TreeVisualizerLayoutProps {
   };
   frames: Frame[];
   code: { line: number; text: string }[];
+  headerChildren?: React.ReactNode;
+  sidebarTitle?: string;
+  sidebarMode?: "stack" | "queue";
 }
 
 export default function TreeVisualizerLayout({
@@ -29,6 +32,9 @@ export default function TreeVisualizerLayout({
   layout,
   frames,
   code,
+  headerChildren,
+  sidebarTitle,
+  sidebarMode,
 }: TreeVisualizerLayoutProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -57,7 +63,7 @@ export default function TreeVisualizerLayout({
   const colors = themeColors[theme];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-gray-100 font-sans p-4">
+    <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
       <Header
         title={title}
         titleColorClass={colors.titleClass}
@@ -67,7 +73,9 @@ export default function TreeVisualizerLayout({
         onNext={handleNext}
         onPrev={handlePrev}
         onReset={handleReset}
-      />
+      >
+        {headerChildren}
+      </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
@@ -84,6 +92,8 @@ export default function TreeVisualizerLayout({
                 activeBgClass={colors.callStackBg}
                 activeTextClass={colors.callStackText}
                 activeBorderClass={colors.callStackBorder}
+                title={sidebarTitle}
+                mode={sidebarMode}
               />
             </div>
           </Panel>
@@ -91,7 +101,7 @@ export default function TreeVisualizerLayout({
           <ResizeHandle />
 
           <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-inner flex items-center justify-center">
+            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex items-center justify-center">
               <div className="relative" style={{ width: 600, height: 400 }}>
                 <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
                   {activeLayout.edges.map((edge) => (
@@ -117,7 +127,8 @@ export default function TreeVisualizerLayout({
                       const isActive =
                         node.id === frame.activeNodeId ||
                         (frame.activeNodeIds &&
-                          frame.activeNodeIds.includes(node.id));
+                          frame.activeNodeIds.includes(node.id)) ||
+                        node.status === "active";
 
                       if (node.isNull) {
                         return (
@@ -153,20 +164,42 @@ export default function TreeVisualizerLayout({
                         );
                       }
 
+                      const isTarget = node.status === "target";
+                      const isSecondary = node.status === "secondary";
+                      const isSuccess = node.status === "success";
+
+                      let bg = "#1f2937";
+                      let border = "#374151";
+                      let scale = 1;
+
+                      if (isActive) {
+                        bg = colors.nodeActiveBg;
+                        border = colors.nodeActiveBorder;
+                        scale = 1.15;
+                      } else if (isTarget) {
+                        bg = "#9a3412"; // orange-800
+                        border = "#f97316"; // orange-500
+                        scale = 1.15;
+                      } else if (isSecondary) {
+                        bg = "#4c1d95"; // violet-900
+                        border = "#8b5cf6"; // violet-500
+                        scale = 1.15;
+                      } else if (isSuccess) {
+                        bg = "#14532d"; // green-900
+                        border = "#22c55e"; // green-500
+                        scale = 1.15;
+                      }
+
                       return (
                         <motion.div
                           key={node.id}
                           layout
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{
-                            scale: isActive ? 1.15 : 1,
+                            scale,
                             opacity: 1,
-                            backgroundColor: isActive
-                              ? colors.nodeActiveBg
-                              : "#1f2937",
-                            borderColor: isActive
-                              ? colors.nodeActiveBorder
-                              : "#374151",
+                            backgroundColor: bg,
+                            borderColor: border,
                           }}
                           exit={{ scale: 0, opacity: 0 }}
                           transition={{
@@ -185,7 +218,7 @@ export default function TreeVisualizerLayout({
                 </div>
               </div>
 
-              <div className="absolute bottom-4 left-4 text-sm text-gray-500 font-medium">
+              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
             </div>

@@ -1,27 +1,14 @@
-function twoSumUnoptimized(nums: number[], target: number): number[] {
-  let i = 0;
-  let j = 0;
-  for (let i = 0; i < nums.length; i++) {
-    for (let j = i + 1; j < nums.length; j++) {
-      let sum = nums[i] + nums[j];
-      if (sum === target) {
-        return [i, j];
-      }
-    }
-  }
-  return [];
-}
-
 function twoSum(nums: number[], target: number): number[] {
   const map = new Map<number, number>();
   for (let i = 0; i < nums.length; i++) {
     let needed = target - nums[i];
     if (map.has(needed)) {
-      return [map.get(needed)!, i]
+      return [map.get(needed)!, i];
+    } else {
+      map.set(nums[i], i);
     }
-    map.set(nums[i], i);
   }
-  return [];
+  return [-1, -1];
 }
 
 // Given an array of integers nums and an integer target, return the indices i and j such that nums[i] + nums[j] == target and i != j.

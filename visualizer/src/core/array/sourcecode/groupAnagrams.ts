@@ -1,0 +1,15 @@
+export const groupAnagramsCode = [
+  { line: 1, text: "function groupAnagrams(strs: string[]): string[][] {" },
+  { line: 2, text: "  const map = new Map<string, number>();" },
+  { line: 3, text: "  let result: string[][] = [];" },
+  { line: 4, text: "  for (let str of strs) {" },
+  { line: 5, text: "    let sortedString = str.split('').sort().join('');" },
+  { line: 6, text: "    if (map.has(sortedString)) result[map.get(sortedString)!].push(str);" },
+  { line: 7, text: "    else {" },
+  { line: 8, text: "      map.set(sortedString, result.length);" },
+  { line: 9, text: "      result.push([str]);" },
+  { line: 10, text: "    }" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "  return result;" },
+  { line: 13, text: "}" },
+];

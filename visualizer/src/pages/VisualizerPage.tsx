@@ -5,241 +5,132 @@ import PostorderTraversal from "@/visualizers/tree/PostorderTraversal";
 import InvertTree from "@/visualizers/tree/InvertTree";
 import MaxDepth from "@/visualizers/tree/MaxDepth";
 import Diameter from "@/visualizers/tree/Diameter";
+import DailyTemperatures from "@/visualizers/stack/DailyTemperatures";
 import BalancedBinaryTree from "@/visualizers/tree/BalancedBinaryTree";
 import SameTree from "@/visualizers/tree/SameTree";
 import Subtree from "@/visualizers/tree/Subtree";
+import ClimbStairs from "@/visualizers/recursion/ClimbStairs";
+import ReverseString from "@/visualizers/recursion/ReverseString";
 import SymmetricTree from "@/visualizers/tree/SymmetricTree";
 import PathSum from "@/visualizers/tree/PathSum";
 import CountNodes from "@/visualizers/tree/CountNodes";
+import GoodNodes from "@/visualizers/tree/GoodNodes";
+import LowestCommonAncestor from "@/visualizers/tree/LowestCommonAncestor";
+import IsValidBST from "@/visualizers/tree/IsValidBST";
+import KthSmallest from "@/visualizers/tree/KthSmallest";
+import LevelOrder from "@/visualizers/tree/LevelOrder";
+import RightSideView from "@/visualizers/tree/RightSideView";
 import SortList from "@/visualizers/linked-list/SortList";
+import MiddleNode from "@/visualizers/linked-list/MiddleNode";
+import RemoveNthFromEnd from "@/visualizers/linked-list/RemoveNthFromEnd";
+import SwapPairs from "@/visualizers/linked-list/SwapPairs";
+import HasCycle from "@/visualizers/linked-list/HasCycle";
+import ReorderList from "@/visualizers/linked-list/ReorderList";
 import SortedSquares from "@/visualizers/array/SortedSquares";
+import ContainsDuplicate from "@/visualizers/array/ContainsDuplicate";
+import GroupAnagrams from "@/visualizers/array/GroupAnagrams";
+import IsAnagram from "@/visualizers/array/IsAnagram";
+import TwoSum from "@/visualizers/array/TwoSum";
+import ThreeSum from "@/visualizers/array/ThreeSum";
+import ValidSudoku from "@/visualizers/array/ValidSudoku";
 import AsteroidCollision from "@/visualizers/stack/AsteroidCollision";
 import CarFleet from "@/visualizers/stack/CarFleet";
+import NextGreaterElement from "@/visualizers/stack/NextGreaterElement";
 import LongestRepeatingCharReplacement from "@/visualizers/sliding-window/LongestRepeatingCharReplacement";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 
+export type VisualizerType =
+  | "preorder"
+  | "inorder"
+  | "postorder"
+  | "invert"
+  | "maxdepth"
+  | "diameter"
+  | "balanced"
+  | "sametree"
+  | "subtree"
+  | "climbstairs"
+  | "reversestring"
+  | "symmetric"
+  | "pathsum"
+  | "countnodes"
+  | "goodnodes"
+  | "lca"
+  | "isvalidbst"
+  | "kthsmallest"
+  | "levelorder"
+  | "rightsideview"
+  | "sortlist"
+  | "middlenode"
+  | "removenthfromend"
+  | "swappairs"
+  | "hascycle"
+  | "reorderlist"
+  | "sortedsquares"
+  | "containsduplicate"
+  | "groupanagrams"
+  | "isanagram"
+  | "twosum"
+  | "threesum"
+  | "validsudoku"
+  | "dailytemperatures"
+  | "asteroidcollision"
+  | "carfleet"
+  | "nextgreaterelement"
+  | "longestcharreplacement";
+
 function VisualizerPage() {
-  const [activeTab, setActiveTab] = useState<
-    | "preorder"
-    | "inorder"
-    | "postorder"
-    | "invert"
-    | "maxdepth"
-    | "diameter"
-    | "balanced"
-    | "sametree"
-    | "subtree"
-    | "symmetric"
-    | "pathsum"
-    | "countnodes"
-    | "sortlist"
-    | "sortedsquares"
-    | "asteroidcollision"
-    | "carfleet"
-    | "longestcharreplacement"
-  >("preorder");
+  const [activeTab, setActiveTab] = useState<VisualizerType>("preorder");
 
   return (
     <SettingsProvider>
       <SidebarProvider defaultOpen={false}>
-        <div className="flex min-h-screen w-full bg-gray-950">
+        <div className="dark flex min-h-screen w-full bg-background text-foreground">
           <AppSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
           <div className="flex flex-col flex-1 min-w-0">
-            {/* Navigation */}
-            <nav className="bg-gray-900 border-b border-gray-800 p-4 flex flex-wrap justify-center gap-4">
-              <button
-                onClick={() => setActiveTab("preorder")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "preorder"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Preorder Traversal
-              </button>
-              <button
-                onClick={() => setActiveTab("inorder")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "inorder"
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Inorder Traversal
-              </button>
-              <button
-                onClick={() => setActiveTab("postorder")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "postorder"
-                    ? "bg-purple-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Postorder Traversal
-              </button>
-              <button
-                onClick={() => setActiveTab("invert")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "invert"
-                    ? "bg-orange-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Invert Binary Tree
-              </button>
-              <button
-                onClick={() => setActiveTab("maxdepth")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "maxdepth"
-                    ? "bg-cyan-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Max Depth
-              </button>
-              <button
-                onClick={() => setActiveTab("diameter")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "diameter"
-                    ? "bg-fuchsia-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Diameter
-              </button>
-              <button
-                onClick={() => setActiveTab("balanced")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "balanced"
-                    ? "bg-rose-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Balanced Binary Tree
-              </button>
-              <button
-                onClick={() => setActiveTab("sametree")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "sametree"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-200"
-                }`}
-              >
-                Same Tree
-              </button>
-              <button
-                onClick={() => setActiveTab("subtree")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "subtree"
-                    ? "bg-orange-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Subtree of Another Tree
-              </button>
-              <button
-                onClick={() => setActiveTab("symmetric")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "symmetric"
-                    ? "bg-teal-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Symmetric Tree
-              </button>
-              <button
-                onClick={() => setActiveTab("pathsum")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "pathsum"
-                    ? "bg-fuchsia-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Path Sum
-              </button>
-              <button
-                onClick={() => setActiveTab("countnodes")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "countnodes"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Count Complete Nodes
-              </button>
-              <button
-                onClick={() => setActiveTab("sortlist")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "sortlist"
-                    ? "bg-purple-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Sort List
-              </button>
-              <button
-                onClick={() => setActiveTab("sortedsquares")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "sortedsquares"
-                    ? "bg-sky-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Squares of Sorted Array
-              </button>
-              <button
-                onClick={() => setActiveTab("asteroidcollision")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "asteroidcollision"
-                    ? "bg-orange-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Asteroid Collision
-              </button>
-              <button
-                onClick={() => setActiveTab("carfleet")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "carfleet"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Car Fleet
-              </button>
-              <button
-                onClick={() => setActiveTab("longestcharreplacement")}
-                className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-                  activeTab === "longestcharreplacement"
-                    ? "bg-rose-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
-              >
-                Longest Character Replacement
-              </button>
-            </nav>
-
-            {/* Main Content Area */}
-            <div className="flex-1 relative min-h-0 bg-gray-950">
+            <div className="flex-1 relative min-h-0 bg-background">
               {activeTab === "preorder" && <PreorderTraversal />}
               {activeTab === "inorder" && <InorderTraversal />}
               {activeTab === "postorder" && <PostorderTraversal />}
+              {activeTab === "dailytemperatures" && <DailyTemperatures />}
               {activeTab === "invert" && <InvertTree />}
               {activeTab === "maxdepth" && <MaxDepth />}
               {activeTab === "diameter" && <Diameter />}
               {activeTab === "balanced" && <BalancedBinaryTree />}
               {activeTab === "sametree" && <SameTree />}
               {activeTab === "subtree" && <Subtree />}
+              {activeTab === "climbstairs" && <ClimbStairs />}
+              {activeTab === "reversestring" && <ReverseString />}
               {activeTab === "symmetric" && <SymmetricTree />}
               {activeTab === "pathsum" && <PathSum />}
               {activeTab === "countnodes" && <CountNodes />}
+              {activeTab === "goodnodes" && <GoodNodes />}
+              {activeTab === "lca" && <LowestCommonAncestor />}
+              {activeTab === "isvalidbst" && <IsValidBST />}
+              {activeTab === "kthsmallest" && <KthSmallest />}
+              {activeTab === "levelorder" && <LevelOrder />}
+              {activeTab === "rightsideview" && <RightSideView />}
               {activeTab === "sortlist" && <SortList />}
+              {activeTab === "middlenode" && <MiddleNode />}
+              {activeTab === "removenthfromend" && <RemoveNthFromEnd />}
+              {activeTab === "swappairs" && <SwapPairs />}
+              {activeTab === "hascycle" && <HasCycle />}
+              {activeTab === "reorderlist" && <ReorderList />}
               {activeTab === "sortedsquares" && <SortedSquares />}
+              {activeTab === "containsduplicate" && <ContainsDuplicate />}
+              {activeTab === "groupanagrams" && <GroupAnagrams />}
+              {activeTab === "isanagram" && <IsAnagram />}
+              {activeTab === "twosum" && <TwoSum />}
+              {activeTab === "threesum" && <ThreeSum />}
+              {activeTab === "validsudoku" && <ValidSudoku />}
               {activeTab === "asteroidcollision" && <AsteroidCollision />}
               {activeTab === "carfleet" && <CarFleet />}
-              {activeTab === "longestcharreplacement" && <LongestRepeatingCharReplacement />}
+              {activeTab === "nextgreaterelement" && <NextGreaterElement />}
+              {activeTab === "longestcharreplacement" && (
+                <LongestRepeatingCharReplacement />
+              )}
             </div>
           </div>
         </div>

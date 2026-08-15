@@ -48,10 +48,10 @@ export default function SourceCode({ code, activeLine, theme = "cyan" }: SourceC
 
   return (
     <div className="h-full flex flex-col">
-      <h3 className="text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">
+      <h3 className="text-muted-foreground text-sm font-bold mb-2 uppercase tracking-wider">
         Source Code
       </h3>
-      <div className="flex-1 overflow-hidden rounded-xl border border-gray-800 shadow-inner">
+      <div className="flex-1 overflow-hidden rounded-xl border border-border shadow-inner">
         <Editor
           height="100%"
           defaultLanguage="typescript"

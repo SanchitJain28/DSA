@@ -17,6 +17,22 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
   return head;
 }
 
+function removeNthFromEndOptimal(
+  head: ListNode | null,
+  n: number,
+): ListNode | null {
+  const dummy = new ListNode(0, head);
+  let slow = dummy;
+  let fast = dummy;
+  for (let i = 0; i <= n; i++) fast = fast.next!;
+  while (fast) {
+    slow = slow.next!;
+    fast = fast.next!;
+  }
+  slow.next = slow.next!.next;
+  return dummy.next;
+}
+
 console.log(removeNthFromEnd(sampleLinkedList(1, 2, 3, 4, 5), 1));
 
 // Given the head of a linked list, remove the nth node from the end of the list and return its head.

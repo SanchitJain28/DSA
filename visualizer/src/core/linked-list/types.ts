@@ -6,6 +6,7 @@ export interface LayoutNode {
   x: number;
   y: number;
   isDummy?: boolean;
+  isNull?: boolean;
 }
 
 export interface LayoutEdge {
@@ -14,6 +15,7 @@ export interface LayoutEdge {
   y1: number;
   x2: number;
   y2: number;
+  isNull?: boolean;
 }
 
 export interface Frame extends BaseFrame {

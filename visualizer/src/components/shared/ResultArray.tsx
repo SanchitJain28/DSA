@@ -14,8 +14,8 @@ export default function ResultArray({
   itemTextClass = "text-white",
 }: ResultArrayProps) {
   return (
-    <div className="h-32 bg-gray-900 rounded-xl border border-gray-800 p-4 flex flex-col justify-center">
-      <h3 className="text-gray-400 text-sm font-bold mb-3 uppercase tracking-wider">
+    <div className="h-32 bg-card rounded-xl border border-border p-4 flex flex-col justify-center">
+      <h3 className="text-muted-foreground text-sm font-bold mb-3 uppercase tracking-wider">
         Result Array
       </h3>
       <div className="flex space-x-2 overflow-x-auto pb-2">

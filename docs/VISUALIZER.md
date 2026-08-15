@@ -1,61 +1,51 @@
-# DSA Visualizer Standard Operating Procedure (SOP)
+# DSA Web Visualizer Standard Operating Procedure (SOP)
 
-This document outlines the strict guidelines and architecture for building terminal-based Data Structures and Algorithms visualizers in this project. **You MUST read and follow these rules before building any new visualizers.**
+This document outlines the strict guidelines and architecture for building React-based Data Structures and Algorithms visualizers in this project. **You MUST read and follow these rules before building any new visualizers.**
 
 ## 1. Tech Stack & Framework
-- **Framework:** `ink` (React for the CLI).
-- **Execution:** `tsx` (Native ESM support). Do NOT use `ts-node` or `blessed`.
-- **File Naming:** The visualizer MUST be named `visualizer.tsx` and placed in the same folder as the algorithm it visualizes (e.g., `neetcode-150/binary-search/find-minimum.../visualizer.tsx`).
+- **Framework:** React + Vite.
+- **Styling:** TailwindCSS + Shadcn UI / Radix primitives.
+- **Location:** All visualizers are built inside `visualizer/src/visualizers/` and core logic belongs in `visualizer/src/core/`.
 
-## 2. Shared Utilities
+## 2. Architecture & State Management
 
-Always import and utilize these shared utilities to ensure consistency across all visualizers.
+1. **Pre-computing Frames (`FrameBuilder`)**
+   - We do not run the algorithm interactively in real-time. Instead, we simulate the algorithm fully inside a `generateFrames()` function and capture the state at each step using `FrameBuilder`.
+   - Each frame captures:
+     - `phase`: The logical step (e.g., "Initialization", "Call", "Swap").
+     - `codeLine`: The currently executing line of the source code.
+     - `message`: A human-readable explanation of what is happening.
+     - `variables`: A dictionary of current primitive variable states.
+     - Data structures (`arrays`, `layout`, `hashMap`, `callStack`) depending on the visualizer layout.
 
-### Test Cases (`utils/cli.ts`)
-Visualizers MUST support running different test cases via the `--test=N` flag.
-```tsx
-import { getTestCaseNumber } from '../../../utils/cli';
+2. **Source Code Mapping**
+   - The visualizer displays the executing source code on the right panel.
+   - You must create a `sourcecode.ts` file that exports the raw code as an array of objects `{ line: number, text: string }`.
 
-const testCase = getTestCaseNumber();
-switch (testCase) {
-  case 1: // define nums/target
-  case 2: // define nums/target
-  default: // fallback to 1
-}
-```
+3. **Layout Wrappers**
+   - Never build a visualizer UI from scratch. Use one of the pre-built layout wrappers from `visualizer/src/components/layout/`:
+     - `ArrayVisualizerLayout`: For 1D/2D Array, Stack, and Hashing problems.
+     - `TreeVisualizerLayout`: For Binary Tree and Graph problems.
 
-### AI Assistant Sidebar (`utils/aiHelper.tsx`)
-Every visualizer MUST include the interactive DeepSeek AI Assistant sidebar.
-- Import `AIAssistant` from `../../../utils/aiHelper`.
-- Maintain a state `isAIVisible`.
-- When rendering, wrap your UI in a flex row and allocate 40% width to the AI sidebar if visible.
-- Pass a stringified JSON `context` to the AI containing the current frame state (arrays, pointers, variables, and explanations).
+## 3. Side Panel Guidelines (CRITICAL)
 
-## 3. Architecture & State Management
+The visualizer layout features a dedicated side panel (Column 2) specifically designed to show auxiliary data structures. **You MUST respect these categorizations when building visualizer frames:**
 
-1. **Pre-computing Frames:**
-   - Instead of trying to render the algorithm interactively in real-time, simulate the algorithm fully in a `generateFrames()` function and capture the state at each step into a `Frame[]` array.
-   - A `Frame` interface should contain all variables needed for the UI (e.g., `left`, `right`, `mid`, `message`, `rawMessageForAI`).
-2. **Component Structure:**
-   - Create a `VisualizerApp` React component.
-   - Use `useState` to track `currentFrameIdx`.
-   - Use `useInput` to handle keyboard navigation:
-     - `Right Arrow` or `Space`: Next Frame.
-     - `Left Arrow`: Previous Frame.
-     - `a` or `?`: Toggle AI Sidebar.
-     - `q` or `Escape`: Exit (if AI sidebar is closed).
-3. **Layout Guidelines (Ink):**
-   - Use `<Box flexDirection="row">` as the root.
-   - Left side: Main Visualizer (flexGrow=1, width=100% or 60% if AI is visible).
-     - Contains the graphical representation (e.g., Bar Charts, Pointers).
-     - Contains a Logs area showing the `frame.message`.
-   - Right side: `<AIAssistant />` (width=40%).
-4. **Drawing Graphics:**
-   - Map over arrays to build visual elements (like bar charts or matrices) using `<Box>` and `<Text>`.
-   - Use colors like `cyan`, `magenta`, `yellow`, `green`, `red` heavily to make pointers and differences obvious.
+### For Array and Hashing Problems:
+- You must display a **HashSet** or **HashMap** in the side panel if the problem utilizes one (e.g., Two Sum, Group Anagrams, Contains Duplicate).
+- Inject the map data into the frame using the `hashMap` property in `ArrayFrame`.
 
-## 4. Execution Command
-To run a visualizer, always use:
-```bash
-npx tsx visualizer.tsx --test=1
-```
+### For Recursive, Tree, and DP Problems:
+- You must display a **Call Stack** in the side panel to trace the recursive execution.
+- Utilize the `callStack` property in the frame data. (Note: `FrameBuilder` natively manages `pushCall` and `popCall` for the stack trace automatically!).
+- For DP problems (like 1D Memoization), you can combine the Call Stack with an Array or HashMap to show the DP table growing alongside the recursive stack.
+
+## 4. Building a New Visualizer
+
+To add a new visualizer, follow these exact steps:
+1. Identify the correct category (e.g., `array`, `tree`, `recursion`, `stack`).
+2. Add the `sourcecode.ts` file mapping the algorithm's lines.
+3. Add the `[problem]Frames.ts` file simulating the algorithm and generating frames.
+4. Create the `[Problem].tsx` component that consumes the frames and wraps them in `ArrayVisualizerLayout` or `TreeVisualizerLayout`.
+5. Register the component in `visualizer/src/pages/VisualizerPage.tsx`.
+6. Add the navigation link in `visualizer/src/components/layout/AppSidebar.tsx`.

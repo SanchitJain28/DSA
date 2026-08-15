@@ -8,9 +8,11 @@ function swapPairs(head: ListNode | null): ListNode | null {
   while (left && left.next) {
     const right = left.next;
     const nextPair = right.next;
+    
     right.next = left;
     left.next = nextPair;
     prev.next = right;
+
     prev = left;
     left = nextPair;
   }

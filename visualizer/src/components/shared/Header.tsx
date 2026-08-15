@@ -41,9 +41,9 @@ export default function Header({
 }: HeaderProps) {
   const activePlayClass = playButtonClasses[theme];
   return (
-    <header className="flex items-center justify-between pb-4 border-b border-gray-800">
+    <header className="flex items-center justify-between pb-4 border-b border-border">
       <div className="flex items-center">
-        <SidebarTrigger className="text-gray-400 hover:text-white mr-4" />
+        <SidebarTrigger className="text-muted-foreground hover:text-white mr-4" />
         <h1
           className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${titleColorClass}`}
         >

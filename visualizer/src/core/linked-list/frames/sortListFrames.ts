@@ -5,6 +5,13 @@ import { computeLayout } from "../layout";
 export function generateFrames(head: ListNode | null): Frame[] {
   const frames: Frame[] = [];
   const callStack: string[] = [];
+  
+  const allNodes: ListNode[] = [];
+  let curr = head;
+  while (curr) {
+    allNodes.push(curr);
+    curr = curr.next;
+  }
 
   function addFrame(
     phase: string,
@@ -36,7 +43,7 @@ export function generateFrames(head: ListNode | null): Frame[] {
       message,
       variables,
       pointers,
-      layout: computeLayout(lists),
+      layout: computeLayout(lists, allNodes),
     });
   }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Panel, Group as PanelGroup } from "react-resizable-panels";
 import ResizeHandle from "../shared/ResizeHandle";
 import { usePlaybackTimer } from "../../hooks/usePlaybackTimer";
@@ -8,7 +8,10 @@ import Header from "../shared/Header";
 import Variables from "../shared/Variables";
 import SourceCode from "../shared/SourceCode";
 import Explanation from "../shared/Explanation";
-import Pointer from "../shared/Pointer";
+import { ArrayRenderer } from "../shared/ArrayRenderer";
+import SudokuGridRenderer from "../shared/SudokuGridRenderer";
+import HashMap from "../shared/HashMap";
+import CallStack from "../shared/CallStack";
 import type { ArrayFrame } from "../../core/array/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
@@ -17,6 +20,7 @@ interface ArrayVisualizerLayoutProps {
   theme: ThemeName;
   frames: ArrayFrame[];
   code: { line: number; text: string }[];
+  headerChildren?: React.ReactNode;
 }
 
 export default function ArrayVisualizerLayout({
@@ -24,6 +28,7 @@ export default function ArrayVisualizerLayout({
   theme,
   frames,
   code,
+  headerChildren,
 }: ArrayVisualizerLayoutProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,7 +56,7 @@ export default function ArrayVisualizerLayout({
   const colors = themeColors[theme];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-gray-100 font-sans p-4">
+    <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
       <Header
         title={title}
         titleColorClass={colors.titleClass}
@@ -61,85 +66,74 @@ export default function ArrayVisualizerLayout({
         onNext={handleNext}
         onPrev={handlePrev}
         onReset={handleReset}
-      />
+      >
+        {headerChildren}
+      </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
+          {frame.hashMap && (
+            <>
+              <Panel
+                collapsible={true}
+                defaultSize="20"
+                minSize="15"
+                maxSize="40"
+                className="relative flex flex-col min-w-0"
+              >
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <HashMap
+                    map={frame.hashMap}
+                    activeBgClass={colors.callStackBg}
+                    activeTextClass={colors.callStackText}
+                    activeBorderClass={colors.callStackBorder}
+                  />
+                </div>
+              </Panel>
+              <ResizeHandle />
+            </>
+          )}
+
+          {frame.callStack && frame.callStack.length > 1 && (
+            <>
+              <Panel
+                collapsible={true}
+                defaultSize="20"
+                minSize="15"
+                maxSize="40"
+                className="relative flex flex-col min-w-0"
+              >
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <CallStack
+                    stack={frame.callStack}
+                    activeBgClass={colors.callStackBg}
+                    activeTextClass={colors.callStackText}
+                    activeBorderClass={colors.callStackBorder}
+                  />
+                </div>
+              </Panel>
+              <ResizeHandle />
+            </>
+          )}
+
           <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-inner flex flex-col items-center justify-center p-8 gap-12">
-              <AnimatePresence mode="popLayout">
-                {frame.arrays.map((arr) => (
-                  <div
-                    key={arr.id}
-                    className="flex flex-col items-start w-fit"
-                  >
-                    <div className="text-gray-400 font-bold mb-4 ml-2">
-                      {arr.name || arr.id}
-                    </div>
+            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex flex-col items-center justify-center p-8 gap-12">
+              {frame.grid ? (
+                <SudokuGridRenderer grid={frame.grid} colors={colors} />
+              ) : (
+                <AnimatePresence mode="popLayout">
+                  {frame.arrays?.map((arr) => (
+                    <ArrayRenderer
+                      key={arr.id}
+                      arr={arr}
+                      frame={frame}
+                      colors={colors}
+                    />
+                  ))}
+                </AnimatePresence>
+              )}
 
-                    <div className="relative flex items-center gap-2">
-                      {arr.values.map((val, idx) => {
-                        const nodeId = `${arr.id}-${idx}`;
-                        const isActive =
-                          frame.activeNodeId === nodeId ||
-                          frame.activeNodeIds?.includes(nodeId);
-
-                        // Find pointers for this index
-                        const activePointers = arr.pointers
-                          ? Object.entries(arr.pointers).filter(
-                              ([_, pIdx]) => pIdx === idx,
-                            )
-                          : [];
-
-                        return (
-                          <div
-                            key={idx}
-                            className="relative flex flex-col items-center"
-                          >
-                            {/* Bottom Pointers using the shared component */}
-                            {activePointers.length > 0 && (
-                              <Pointer
-                                labels={activePointers.map(([label]) => label)}
-                                x={28} // Center of the 56px (w-14) box
-                                y={34} // Bottom of the box
-                                themeClass={colors.callStackBorder}
-                              />
-                            )}
-
-                            <motion.div
-                              layout
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{
-                                scale: isActive ? 1.1 : 1,
-                                opacity: 1,
-                                backgroundColor: isActive
-                                  ? colors.nodeActiveBg
-                                  : "#1f2937",
-                                borderColor: isActive
-                                  ? colors.nodeActiveBorder
-                                  : "#374151",
-                              }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 20,
-                              }}
-                              className={`w-14 h-14 rounded-lg border-2 flex items-center justify-center font-bold text-lg shadow-lg z-10 ${isActive ? "z-20" : ""}`}
-                            >
-                              {val !== null ? val : ""}
-                            </motion.div>
-                            <div className="text-[10px] text-gray-500 mt-2">
-                              {idx}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </AnimatePresence>
-
-              <div className="absolute bottom-4 left-4 text-sm text-gray-500 font-medium">
+              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
             </div>

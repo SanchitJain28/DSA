@@ -1,0 +1,16 @@
+export const goodNodesCode = [
+  { line: 1, text: "function goodNodes(root: TreeNode | null): number {" },
+  { line: 2, text: "  if (!root) return 0;" },
+  { line: 3, text: "  let goodNodes = 0;" },
+  { line: 4, text: "  function dfs(node: TreeNode | null, maxSofar: number = -Infinity) {" },
+  { line: 5, text: "    if (!node) return;" },
+  { line: 6, text: "    const isGood = node.val >= maxSofar;" },
+  { line: 7, text: "    maxSofar = Math.max(maxSofar, node.val);" },
+  { line: 8, text: "    if (isGood) goodNodes++;" },
+  { line: 9, text: "    dfs(node.left, maxSofar);" },
+  { line: 10, text: "    dfs(node.right, maxSofar);" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "  dfs(root);" },
+  { line: 13, text: "  return goodNodes;" },
+  { line: 14, text: "}" },
+];

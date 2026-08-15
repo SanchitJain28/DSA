@@ -1,33 +1,28 @@
-class Solution___ {
-  threeSum(nums: number[]): number[][] {
-    //we will sort the array first
-    nums.sort((a, b) => a - b);
-    let n = nums.length;
-    //initiate the result variable
-    let result: number[][] = [];
-    let target = 0;
-    //we are fixing one number
-    for (let i = 0; i < n - 1; i++) {
-      //we have to avoid duplicates here
-      if (i > 0 && nums[i] === nums[i - 1]) continue;
-      let j = i + 1;
-      let k = n - 1;
-      while (j < k) {
-        let sum = nums[i] + nums[j] + nums[k];
-        if (sum < target) j++;
-        else if (sum > target) k--;
-        else {
-          result.push([nums[i], nums[j], nums[k]]);
-          j++;
-          k--;
-          //we have to avoid duplocates here
-          while (j < k && nums[j] === nums[j - 1]) j++;
-          while (j < k && nums[k] === nums[k + 1]) k--;
-        }
+function threeSum___(nums: number[]): number[][] {
+  if (!nums.length) return [];
+  nums.sort((a, b) => a - b);
+  const result: number[][] = [];
+  const n = nums.length;
+  for (let i = 0; i < n - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let j = i + 1;
+    let k = n - 1;
+    while (j < k) {
+      const sum = nums[i] + nums[j] + nums[k];
+      if (sum === 0) {
+        result.push([nums[i], nums[j], nums[k]]);
+        j++;
+        k--;
+        while (j < k && nums[j] === nums[j - 1]) j++;
+        while (j < k && nums[k] === nums[k + 1]) k--;
+      } else if (sum < 0) {
+        j++;
+      } else {
+        k--;
       }
     }
-    return result;
   }
+  return result;
 }
 // Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] where nums[i] + nums[j] + nums[k] == 0, and the indices i, j and k are all distinct.
 

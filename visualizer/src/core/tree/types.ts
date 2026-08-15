@@ -6,6 +6,7 @@ export interface LayoutNode {
   x: number;
   y: number;
   isNull?: boolean;
+  status?: "active" | "target" | "secondary" | "success";
 }
 
 export interface LayoutEdge {

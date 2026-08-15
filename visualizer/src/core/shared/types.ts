@@ -8,4 +8,5 @@ export interface BaseFrame {
   variables?: Record<string, string | number>;
   activeNodeId?: string | null; // For backward compatibility with older frames
   activeNodeIds?: string[]; // For multi-node tracking
+  hashMap?: Record<string, string | number | boolean>; // For hash map visualization
 }

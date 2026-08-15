@@ -1,10 +1,10 @@
 function containsDuplicate(nums: number[]): boolean {
   const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    if (map.has(nums[i])) return true;
-    else map.set(nums[i], true);
+  for (const num of nums) {
+    if (map.has(num)) return true;
+    map.set(num, true);
   }
-  return false
+  return false;
 }
 
 // Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.

@@ -19,10 +19,10 @@ export class FrameBuilder<T extends BaseFrame> {
     this.callStack.pop();
   }
   
-  public pushFrame(frameData: Omit<T, "callStack">) {
+  public pushFrame(frameData: Omit<T, "callStack"> & { callStack?: string[] }) {
     this.frames.push({
       ...frameData,
-      callStack: [...this.callStack],
+      callStack: frameData.callStack || [...this.callStack],
     } as unknown as T);
   }
 

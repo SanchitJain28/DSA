@@ -51,7 +51,7 @@ export default function SlidingWindowVisualizerLayout({
   const colors = themeColors[theme];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-gray-100 font-sans p-4">
+    <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
       <Header
         title={title}
         titleColorClass={colors.titleClass}
@@ -66,14 +66,14 @@ export default function SlidingWindowVisualizerLayout({
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
           <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-inner flex flex-col items-center justify-center p-8 gap-12">
+            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex flex-col items-center justify-center p-8 gap-12">
               <AnimatePresence mode="popLayout">
                 {frame.arrays.map((arr) => (
                   <div
                     key={arr.id}
                     className="flex flex-col items-start w-fit"
                   >
-                    <div className="text-gray-400 font-bold mb-4 ml-2">
+                    <div className="text-muted-foreground font-bold mb-4 ml-2">
                       {arr.name || arr.id}
                     </div>
 
@@ -93,8 +93,8 @@ export default function SlidingWindowVisualizerLayout({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, x: startOffset, width }}
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            // -top-3 moves it up 12px, h-20 is 80px (56px box + 24px extra height for 12px top and bottom)
-                            className={`absolute -top-3 h-20 rounded-lg z-20 pointer-events-none border-[3px] ${window.colorClass || `border-white`}`}
+                            // -top-4 moves it up 16px, h-[88px] is (56px box + 32px extra height for 16px top and bottom)
+                            className={`absolute -top-4 h-[88px] rounded-lg z-20 pointer-events-none border-[3px] ${window.colorClass || `border-white`}`}
                             style={{ originX: 0 }}
                           />
                         );
@@ -150,7 +150,7 @@ export default function SlidingWindowVisualizerLayout({
                             >
                               {val !== null ? val : ""}
                             </motion.div>
-                            <div className="text-[10px] text-gray-500 mt-2">
+                            <div className="text-[10px] text-muted-foreground mt-2">
                               {idx}
                             </div>
                           </div>
@@ -161,7 +161,7 @@ export default function SlidingWindowVisualizerLayout({
                 ))}
               </AnimatePresence>
 
-              <div className="absolute bottom-4 left-4 text-sm text-gray-500 font-medium">
+              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
             </div>

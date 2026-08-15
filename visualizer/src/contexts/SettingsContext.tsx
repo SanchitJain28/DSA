@@ -3,6 +3,8 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 interface SettingsContextType {
   showPointers: boolean;
   setShowPointers: (show: boolean) => void;
+  randomizePointerColors: boolean;
+  setRandomizePointerColors: (randomize: boolean) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(
@@ -11,9 +13,10 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [showPointers, setShowPointers] = useState(true);
+  const [randomizePointerColors, setRandomizePointerColors] = useState(false);
 
   return (
-    <SettingsContext.Provider value={{ showPointers, setShowPointers }}>
+    <SettingsContext.Provider value={{ showPointers, setShowPointers, randomizePointerColors, setRandomizePointerColors }}>
       {children}
     </SettingsContext.Provider>
   );
