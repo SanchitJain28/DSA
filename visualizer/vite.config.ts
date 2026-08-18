@@ -5,35 +5,37 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import path from "path";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const csvApiPlugin = () => {
   return {
-    name: 'csv-api',
+    name: "csv-api",
     configureServer(server: any) {
-      server.middlewares.use('/api/csv', (req: any, res: any, next: any) => {
-        const csvPath = path.resolve(__dirname, '../dsa-revision.csv');
-        if (req.method === 'GET') {
+      server.middlewares.use("/api/csv", (req: any, res: any, next: any) => {
+        const csvPath = path.resolve(__dirname, "../dsa-revision.csv");
+        if (req.method === "GET") {
           if (fs.existsSync(csvPath)) {
-            res.setHeader('Content-Type', 'text/csv');
-            res.end(fs.readFileSync(csvPath, 'utf-8'));
+            res.setHeader("Content-Type", "text/csv");
+            res.end(fs.readFileSync(csvPath, "utf-8"));
           } else {
             res.statusCode = 404;
-            res.end('File not found');
+            res.end("File not found");
           }
-        } else if (req.method === 'POST') {
-          let body = '';
-          req.on('data', (chunk: any) => {
+        } else if (req.method === "POST") {
+          let body = "";
+          req.on("data", (chunk: any) => {
             body += chunk.toString();
           });
-          req.on('end', () => {
-            fs.writeFileSync(csvPath, body, 'utf-8');
+          req.on("end", () => {
+            fs.writeFileSync(csvPath, body, "utf-8");
             res.statusCode = 200;
-            res.end('Saved');
+            res.end("Saved");
           });
         } else {
           next();
         }
       });
-    }
+    },
   };
 };
 
