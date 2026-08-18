@@ -41,39 +41,35 @@ export default function Header({
 }: HeaderProps) {
   const activePlayClass = playButtonClasses[theme];
   return (
-    <header className="flex items-center justify-between pb-4 border-b border-border">
-      <div className="flex items-center">
-        <SidebarTrigger className="text-muted-foreground hover:text-white mr-4" />
-        <h1
-          className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${titleColorClass}`}
-        >
-          {title}
-        </h1>
-        {children}
+    <header className="flex items-center justify-between pb-2">
+      <div className="flex items-center gap-3.5">
+        <SidebarTrigger className="text-muted-foreground hover:text-white" />
+        <h1 className={`text-2xl font-bold ${titleColorClass}`}>{title}</h1>
+        {children && <div className="ml-1">{children}</div>}
       </div>
       <div className="flex items-center gap-2">
         <button
           onClick={onPrev}
-          className="p-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors"
+          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors"
         >
           <SkipBack size={18} />
         </button>
         <button
           onClick={onPlayPause}
-          className={`flex items-center gap-2 px-4 py-2 text-white font-bold rounded-lg transition-colors ${activePlayClass}`}
+          className={`flex items-center gap-2 px-4 py-2 text-white font-bold rounded-md transition-colors ${activePlayClass}`}
         >
           {isPlaying ? <Pause size={18} /> : <Play size={18} />}
           {isPlaying ? "Pause" : "Play"}
         </button>
         <button
           onClick={onNext}
-          className="p-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors"
+          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors"
         >
           <SkipForward size={18} />
         </button>
         <button
           onClick={onReset}
-          className="p-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors ml-2"
+          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors ml-2"
           title="Reset"
         >
           <RotateCcw size={18} />

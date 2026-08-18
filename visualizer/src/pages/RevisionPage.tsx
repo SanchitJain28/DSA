@@ -237,13 +237,11 @@ export default function RevisionPage() {
                     Schedule Next
                   </span>
                   <Popover>
-                    <PopoverTrigger asChild>
-                      <button
-                        className="border border-line bg-panel p-1.5 text-ink hover:bg-line-strong cursor-pointer rounded-none flex items-center justify-center"
-                        aria-label="Pick a date"
-                      >
-                        <CalendarIcon className="h-4 w-4" />
-                      </button>
+                    <PopoverTrigger
+                      className="border border-line bg-panel p-1.5 text-ink hover:bg-line-strong cursor-pointer rounded-none flex items-center justify-center"
+                      aria-label="Pick a date"
+                    >
+                      <CalendarIcon className="h-4 w-4" />
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="end">
                       <Calendar
@@ -260,7 +258,6 @@ export default function RevisionPage() {
                         onSelect={(date) =>
                           date && setNextReviewDateExact(index, date)
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -445,13 +442,11 @@ export default function RevisionPage() {
                       Schedule Next
                     </span>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <button
-                          className="border border-line bg-panel p-1.5 text-ink hover:bg-line-strong cursor-pointer rounded-none flex items-center justify-center"
-                          aria-label="Pick a date"
-                        >
-                          <CalendarIcon className="h-4 w-4" />
-                        </button>
+                      <PopoverTrigger
+                        className="border border-line bg-panel p-1.5 text-ink hover:bg-line-strong cursor-pointer rounded-none flex items-center justify-center"
+                        aria-label="Pick a date"
+                      >
+                        <CalendarIcon className="h-4 w-4" />
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="end">
                         {/* @ts-ignore */}

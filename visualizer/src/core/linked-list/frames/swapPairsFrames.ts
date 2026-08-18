@@ -95,11 +95,10 @@ export function generateFrames(values: number[]): Frame[] {
     }
 
     if (left) {
-        buildFrame("Loop Condition", 7, `left.next is null. No more pairs to swap. Loop ends.`, left.id);
+      buildFrame("Loop Condition", 7, `left.next is null. No more pairs to swap. Loop ends.`, left.id);
     } else {
-        buildFrame("Loop Condition", 7, `left is null. No more nodes to process. Loop ends.`, null);
+      buildFrame("Loop Condition", 7, `left is null. No more nodes to process. Loop ends.`, null);
     }
-
   });
 
   builder.pushFrame({
@@ -107,10 +106,10 @@ export function generateFrames(values: number[]): Frame[] {
     codeLine: 19,
     message: `Return dummy.next as the new head of the list.`,
     variables: {
-        prev: prev ? ((prev as ListNode).id === "dummy" ? "Dummy" : `Node(${(prev as ListNode).val})`) : "null",
-        left: left ? `Node(${(left as ListNode).val})` : "null",
-        right: right ? `Node(${(right as ListNode).val})` : "null",
-        nextPair: nextPair ? `Node(${(nextPair as ListNode).val})` : "null",
+      prev: prev ? ((prev as ListNode).id === "dummy" ? "Dummy" : `Node(${(prev as ListNode).val})`) : "null",
+      left: left ? `Node(${(left as ListNode).val})` : "null",
+      right: right ? `Node(${(right as ListNode).val})` : "null",
+      nextPair: nextPair ? `Node(${(nextPair as ListNode).val})` : "null",
     },
     pointers: {},
     activeNodeId: dummy.next?.id || null,

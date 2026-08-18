@@ -2,15 +2,30 @@ import { ListNode } from "../ListNode";
 import type { Frame } from "../types";
 import { computeLayout } from "../layout";
 
-export function generateFrames(head: ListNode | null): Frame[] {
+export function generateFrames(input: number[] | ListNode | null): Frame[] {
   const frames: Frame[] = [];
   const callStack: string[] = [];
-  
+
+  let head: ListNode | null = null;
   const allNodes: ListNode[] = [];
-  let curr = head;
-  while (curr) {
-    allNodes.push(curr);
-    curr = curr.next;
+
+  if (Array.isArray(input)) {
+    if (input.length === 0) return [];
+    let prevNode: ListNode | null = null;
+    for (let i = 0; i < input.length; i++) {
+      const node = new ListNode(input[i], `node_${i}`);
+      allNodes.push(node);
+      if (!head) head = node;
+      if (prevNode) prevNode.next = node;
+      prevNode = node;
+    }
+  } else {
+    head = input;
+    let curr = head;
+    while (curr) {
+      allNodes.push(curr);
+      curr = curr.next;
+    }
   }
 
   function addFrame(

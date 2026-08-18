@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface BaseFrame {
-  callStack: string[];
+  callStack?: string[];
   phase: string;
   codeLine: number;
   message: React.ReactNode;

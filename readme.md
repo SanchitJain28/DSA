@@ -1,60 +1,186 @@
-# DSA Practice
+# Bitflip's LeetCode Pattern Recognition Cheat Sheet
 
-My solutions to DSA problems while preparing for placements.
+_(Version 1)_
 
-## Progress
+> Print this out, keep it by you, but not during your interview 😉
 
-![NeetCode 150](https://img.shields.io/badge/NeetCode_150-0%2F150-red)
-![LeetCode](https://img.shields.io/badge/LeetCode-30%2B-orange)
+## Step 1: Check The Constraints
 
-## Checklist
+**Small n (≤ 20):**
 
-| Topic | Problems | Status | Deadline | Delay | Solved
-|---|---|---|---|---|---|
-| Arrays & Hashing | 0 / 9 | 🔴 | Jun 15 – Jun 19 | 0 Days Delay | 7/9
-| Two Pointers | 0 / 5 | 🔴 | Jun 25 – Jun 27 | 5 Days delay | 0/9
-| Sliding Window | 0 / 6 | 🔴 | Jun 28 – Jun 30 | 0 Days delay | 0/6
-| Stack | 0 / 6 | 🔴 | Jun 26 – Jun 28 | 0 Days delay | 0/6
-| Binary Search | 0 / 7 | 🔴 | Jun 29 – Jul 2 | 0 Days delay | 0/7
-| Linked List | 0 / 11 | 🔴 | Jul 3 – Jul 8 | 0 Days delay | 0/11
-| Trees | 0 / 15 | 🔴 | Jul 9 – Jul 16 | 0 Days delay | 0/15
-| Heap / Priority Queue | 0 / 7 | 🔴 | Jul 17 – Jul 20 | 0 Days delay | 0/7
-| Backtracking | 0 / 10 | 🔴 | Jul 21 – Jul 25 | 0 Days delay | 0/10
-| Tries | 0 / 3 | 🔴 | Jul 26 – Jul 27 | 0 Days delay | 0/3
-| Graphs | 0 / 13 | 🔴 | Jul 28 – Aug 3 | 0 Days delay | 0/13
-| Advanced Graphs | 0 / 6 | 🔴 | Aug 4 – Aug 6 | 0 Days delay | 0/6
-| 1-D Dynamic Programming | 0 / 12 | 🔴 | Aug 7 – Aug 12 | 0 Days delay | 0/12
-| 2-D Dynamic Programming | 0 / 11 | 🔴 | Aug 13 – Aug 18 | 0 Days delay | 0/11
-| Greedy | 0 / 8 | 🔴 | Aug 19 – Aug 22 | 0 Days delay | 0/8
-| Intervals | 0 / 6 | 🔴 | Aug 23 – Aug 25 | 0 Days delay | 0/6
-| Math & Geometry | 0 / 8 | 🔴 | Aug 26 – Aug 28 | 0 Days delay | 0/8
-| Bit Manipulation | 0 / 7 | 🔴 | Aug 29 – Sep 1 | 0 Days delay | 0/7
-| **Total** | **0 / 150** | | **Jun 15 – Sep 1** |
+- Brute force approaches are viable
+- Backtracking and recursion
+- Exponential time complexity (2^n, n!) is acceptable
+- Try all possible combinations/permutations
 
-> Revision + Mocks: Sep 1 – Sep 15
+**Medium n (10^3 to 10^6):**
 
-## Structure
+- ❌ No brute force solutions
+- Linear time O(n) or O(n log n) solutions
+- Greedy algorithms
+- Two pointers technique
+- Heap-based solutions
+- Dynamic programming
 
-```
-.
-├── arrays-hashing/
-├── two-pointers/
-├── sliding-window/
-├── stack/
-├── binary-search/
-├── linked-list/
-├── trees/
-├── heap-priority-queue/
-├── backtracking/
-├── tries/
-├── graphs/
-├── dynamic-programming/
-├── greedy/
-├── intervals/
-└── math-bit-manipulation/
-```
+**Large n (≥ 10^7):**
 
-## Resources
+- ❌ No linear time solutions
+- O(log n) solutions only
+- Binary search
+- Mathematical formulas
+- O(1) constant time approaches
 
-- [NeetCode 150](https://neetcode.io/practice)
-- [Striver's A2Z DSA Sheet](https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/)
+## Step 2: Analyze Input Format
+
+**Tree/Binary Tree/BST:**
+
+- Tree traversal (DFS/BFS)
+- DFS for: all paths, recursive exploration, preorder/inorder/postorder
+- BFS for: level-by-level, shortest path in unweighted tree
+- Consider: tree properties, parent-child relationships
+
+**Graph (nodes + edges):**
+
+- BFS for shortest path
+- DFS for connected components
+- Union Find for "connected components" or "number of groups"
+- Topological sort for dependencies
+
+**2D Grid/Matrix:**
+
+- DFS/BFS for "islands" problems
+- Union Find for connected regions
+- Dynamic programming for path problems
+- Consider: 4-directional or 8-directional movement
+
+**Sorted Array:**
+
+- Two pointers technique
+- Binary search
+- Greedy approach
+
+**String:**
+
+- Two pointers for palindromes
+- Sliding window for substrings
+- Trie for word problems
+- Stack for parentheses/brackets
+
+**Linked List:**
+
+- Two pointers (fast/slow)
+- Dummy node techniques
+- Cycle detection
+
+## Step 3: Analyze Output Format
+
+**List of Lists (combinations, subsets, paths):**
+
+- Backtracking is almost always the answer
+- Generate all possibilities
+- Use recursion with choice/no-choice pattern
+
+**Single Number (max/min profit, cost, ways, jumps):**
+
+- Dynamic Programming for optimization
+- Greedy for local optimal choices
+- Mathematical approach for counting
+
+**Modified Array/String (in-place operations):**
+
+- Two Pointers for in-place modifications
+
+**Ordered List (sorted sequence, valid task order):**
+
+- Sorting with custom comparators
+- Topological Sort for dependencies
+- Heap for maintaining order
+
+## Step 4: Keyword Pattern Recognition
+
+**Dynamic Programming Keywords:**
+
+- "Number of ways"
+- "Maximum/minimum" + "sum/profit/cost"
+- "Can you reach"
+- "Longest/shortest subsequence"
+- "Optimal" or "best"
+
+**Two Pointers Keywords:**
+
+- "Palindrome"
+- "Sorted array"
+- "Target sum"
+- "Remove duplicates"
+
+**Heap Keywords:**
+
+- "K largest" or "K smallest"
+- "Top K elements"
+- "Median"
+- "Priority"
+
+**Stack Keywords:**
+
+- "Parentheses" or "brackets"
+- "Valid expression"
+- "Nested structure"
+- "Undo operations"
+
+**Monotonic Stack Keywords:**
+
+- "Next greater element"
+- "Next smaller element"
+
+**HashMap Keywords:**
+
+- "Count frequency"
+- "Find duplicates"
+- "Anagram"
+
+**Trie Keywords:**
+
+- "Word search"
+- "Word prefixes"
+
+**Greedy Keywords:**
+
+- "Minimum operations"
+
+**Union Find Keywords:**
+
+- "Connected components"
+- "Number of groups"
+
+**Binary Search Keywords:**
+
+- "Kth element"
+- "Search in sorted"
+- "Minimize maximum"
+- "First/last occurrence"
+
+**Bit Manipulation:**
+
+- "XOR" operations
+- "Single number" problems
+- "Power of 2"
+
+**Math/Geometry:**
+
+- "Greatest/Least Common Denominator"
+- "Prime numbers"
+- "Angle calculations"
+- "Coordinate"
+
+**Game Theory:**
+
+- "Optimal strategy"
+- "Win/lose scenarios"
+- "Minimax"
+
+**Sliding Window:**
+
+- "Substring" with conditions
+- "Subarray" with fixed/variable size
+- "Maximum/minimum window"
+- "Contains all"

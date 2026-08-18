@@ -1,7 +1,6 @@
 import { ListNode } from "../intro/algorithm";
 function swapPairs(head: ListNode | null): ListNode | null {
   const dummy = new ListNode(0);
-  dummy.next = head;
   let prev = dummy;
   let left = head;
 

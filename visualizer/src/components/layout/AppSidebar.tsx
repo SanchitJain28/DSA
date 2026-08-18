@@ -17,6 +17,8 @@ import {
   Link as LinkIcon,
   Network,
   ListOrdered,
+  Search,
+  ArrowLeft,
 } from "lucide-react";
 
 export function AppSidebar({
@@ -35,8 +37,24 @@ export function AppSidebar({
 
   return (
     <Sidebar side="left" variant="sidebar">
-      <SidebarHeader className="border-b border-sidebar-border h-[60px] flex items-center justify-center">
-        <h2 className="text-lg font-bold">Settings</h2>
+      <SidebarHeader className="border-b border-sidebar-border h-[60px] px-3 flex flex-row items-center justify-between">
+        <Link
+          to="/"
+          className="flex items-center gap-1.5 text-xs font-semibold text-neutral-300 hover:text-white px-2 py-1 rounded bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Home</span>
+        </Link>
+        <div className="flex items-center gap-1.5">
+          <img
+            src="/tracedsa.png"
+            alt="Trace DSA Logo"
+            className="w-5 h-5 rounded object-contain"
+          />
+          <span className="font-['JetBrains_Mono',monospace] text-xs font-bold text-neutral-200">
+            Trace<span className="text-indigo-400">DSA</span>
+          </span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -181,6 +199,24 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  isActive={activeTab === "pathsum2"}
+                  onClick={() => setActiveTab("pathsum2")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Path Sum II</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "sumnumbers"}
+                  onClick={() => setActiveTab("sumnumbers")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Sum Root to Leaf</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
                   isActive={activeTab === "countnodes"}
                   onClick={() => setActiveTab("countnodes")}
                 >
@@ -226,6 +262,15 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  isActive={activeTab === "zigzaglevelorder"}
+                  onClick={() => setActiveTab("zigzaglevelorder")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Zigzag Level Order</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
                   isActive={activeTab === "kthsmallest"}
                   onClick={() => setActiveTab("kthsmallest")}
                 >
@@ -242,6 +287,15 @@ export function AppSidebar({
                   <span>Right Side View</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "treevisualizer"}
+                  onClick={() => setActiveTab("treevisualizer")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Tree Visualizer (Builder)</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -250,6 +304,15 @@ export function AppSidebar({
           <SidebarGroupLabel>Stacks</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "validparentheses"}
+                  onClick={() => setActiveTab("validparentheses")}
+                >
+                  <SquareTerminal className="w-4 h-4 mr-2" />
+                  <span>Valid Parentheses</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   isActive={activeTab === "asteroidcollision"}
@@ -301,6 +364,32 @@ export function AppSidebar({
                 >
                   <BetweenHorizontalEnd className="w-4 h-4 mr-2" />
                   <span>Longest Char Replacement</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Binary Search</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "searchinsert"}
+                  onClick={() => setActiveTab("searchinsert")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Search Insert Position</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "shipwithindays"}
+                  onClick={() => setActiveTab("shipwithindays")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Capacity To Ship Packages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -363,6 +452,15 @@ export function AppSidebar({
                 >
                   <LinkIcon className="w-4 h-4 mr-2" />
                   <span>Reorder List</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "rotatelist"}
+                  onClick={() => setActiveTab("rotatelist")}
+                >
+                  <LinkIcon className="w-4 h-4 mr-2" />
+                  <span>Rotate List</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -434,6 +532,15 @@ export function AppSidebar({
                 >
                   <ListOrdered className="w-4 h-4 mr-2" />
                   <span>Valid Sudoku</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "longestconsecutive"}
+                  onClick={() => setActiveTab("longestconsecutive")}
+                >
+                  <ListOrdered className="w-4 h-4 mr-2" />
+                  <span>Longest Consecutive</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

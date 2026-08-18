@@ -1,43 +1,68 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { themeColors, type ThemeName } from "../../utils/theme";
 
-interface VariablesProps {
-  variables: Record<string, string | number>;
+export interface VariablesProps {
+  variables?: Record<string, string | number | boolean | null | undefined>;
+  theme?: ThemeName;
   highlightColorClass?: string;
+  className?: string;
 }
 
 export default function Variables({
-  variables,
-  highlightColorClass = "text-white",
+  variables = {},
+  theme,
+  highlightColorClass,
+  className = "",
 }: VariablesProps) {
-  const entries = Object.entries(variables);
+  const entries = Object.entries(variables || {}).filter(
+    ([_, val]) => val !== undefined
+  );
+
+  if (entries.length === 0) return null;
+
+  const colorClass =
+    highlightColorClass ||
+    (theme && themeColors[theme]
+      ? themeColors[theme].variablesText
+      : "text-white");
 
   return (
-    <div className="h-32 bg-card rounded-xl border border-border p-4 flex flex-col justify-center items-center shadow-inner relative">
-      <h3 className="absolute top-4 left-4 text-muted-foreground text-sm font-bold uppercase tracking-wider">
-        Variables {entries.length === 0 && "(None)"}
-      </h3>
-      <div className="flex gap-8 items-center h-full pt-4">
-        {entries.map(([key, val]) => (
+    <div
+      className={`flex flex-wrap items-center justify-center gap-6 ${className}`}
+    >
+      {entries.map(([key, val]) => {
+        const valStr = String(val);
+        const isDimmed =
+          val === null ||
+          valStr === "null" ||
+          valStr === "[]" ||
+          valStr === "N/A" ||
+          valStr === "—" ||
+          valStr === "None";
+
+        return (
           <div key={key} className="flex flex-col items-center">
-            <span className="text-muted-foreground text-xs font-medium mb-1 uppercase tracking-wider">
+            <span className="text-neutral-400 text-xs font-mono font-semibold mb-1.5 uppercase tracking-wider">
               {key}
             </span>
-            <div className="bg-background px-4 py-2 rounded-lg border border-border flex items-center justify-center min-w-[80px]">
+            <div className="bg-neutral-900/90 border border-neutral-800 px-4 py-2 rounded-md flex items-center justify-center min-w-[96px] shadow-sm">
               <AnimatePresence mode="popLayout">
                 <motion.span
-                  key={val}
-                  initial={{ opacity: 0, y: -10, scale: 0.8 }}
+                  key={valStr}
+                  initial={{ opacity: 0, y: -8, scale: 0.85 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.8 }}
-                  className={`font-mono text-2xl font-bold ${highlightColorClass}`}
+                  exit={{ opacity: 0, y: 8, scale: 0.85 }}
+                  className={`font-mono text-base font-bold ${
+                    isDimmed ? "text-neutral-500 font-normal" : colorClass
+                  }`}
                 >
-                  {val}
+                  {valStr}
                 </motion.span>
               </AnimatePresence>
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }

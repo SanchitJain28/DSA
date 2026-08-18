@@ -7,7 +7,7 @@ interface ExplanationProps {
 
 export default function Explanation({
   message,
-  className = "h-32 bg-card rounded-xl border border-border p-4 shadow-inner",
+  className = "h-32 bg-card rounded-md border border-border p-4 shadow-inner",
 }: ExplanationProps) {
   return (
     <div className={className}>

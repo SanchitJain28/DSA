@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { Panel, Group as PanelGroup } from "react-resizable-panels";
 import ResizeHandle from "../shared/ResizeHandle";
 import { usePlaybackTimer } from "../../hooks/usePlaybackTimer";
@@ -8,40 +8,77 @@ import Header from "../shared/Header";
 import Variables from "../shared/Variables";
 import SourceCode from "../shared/SourceCode";
 import Explanation from "../shared/Explanation";
-import Pointer from "../shared/Pointer";
+import { ArrayRenderer } from "../shared/ArrayRenderer";
+import DataStack from "../shared/DataStack";
+import CanvasViewport from "../shared/CanvasViewport";
 import type { StackFrame } from "../../core/stack/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
-import { ArrowLeft } from "lucide-react";
 
-interface StackVisualizerLayoutProps {
+export interface StackVisualizerLayoutProps {
   title: string;
-  theme: ThemeName;
+  theme?: ThemeName;
   frames: StackFrame[];
   code: { line: number; text: string }[];
-  headerChildren?: React.ReactNode;
+  children?: React.ReactNode;
+  headerChildren?: React.ReactNode; // Backward compatibility
+  currentIdx?: number;
+  setCurrentIdx?: React.Dispatch<React.SetStateAction<number>>;
+  isPlaying?: boolean;
+  setIsPlaying?: React.Dispatch<React.SetStateAction<boolean>>;
+  onReset?: () => void;
+  renderExtraCanvasContent?: (frame: StackFrame) => React.ReactNode;
 }
 
 export default function StackVisualizerLayout({
   title,
-  theme,
+  theme = "indigo",
   frames,
   code,
+  children,
   headerChildren,
+  currentIdx: controlledIdx,
+  setCurrentIdx: setControlledIdx,
+  isPlaying: controlledIsPlaying,
+  setIsPlaying: setControlledIsPlaying,
+  onReset: customReset,
+  renderExtraCanvasContent,
 }: StackVisualizerLayoutProps) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [internalIdx, setInternalIdx] = useState(0);
+  const [internalIsPlaying, setInternalIsPlaying] = useState(false);
+
+  const isControlled =
+    controlledIdx !== undefined && setControlledIdx !== undefined;
+  const currentIdx = isControlled ? controlledIdx : internalIdx;
+  const setCurrentIdx = isControlled ? setControlledIdx : setInternalIdx;
+
+  const isPlayingControlled =
+    controlledIsPlaying !== undefined && setControlledIsPlaying !== undefined;
+  const isPlaying = isPlayingControlled
+    ? controlledIsPlaying
+    : internalIsPlaying;
+  const setIsPlaying = isPlayingControlled
+    ? setControlledIsPlaying
+    : setInternalIsPlaying;
 
   usePlaybackTimer(
     isPlaying,
     setIsPlaying,
     currentIdx,
     setCurrentIdx,
-    frames.length,
+    frames.length
   );
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx];
+  const frame = frames[currentIdx] ||
+    frames[0] || {
+      phase: "Ready",
+      codeLine: 1,
+      message: "",
+      variables: {},
+      stacks: [],
+      arrays: [],
+    };
 
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
@@ -49,9 +86,11 @@ export default function StackVisualizerLayout({
   const handleReset = () => {
     setCurrentIdx(0);
     setIsPlaying(false);
+    if (customReset) customReset();
   };
 
-  const colors = themeColors[theme];
+  const colors = themeColors[theme] || themeColors.indigo;
+  const modalSlot = children || headerChildren;
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
@@ -65,126 +104,61 @@ export default function StackVisualizerLayout({
         onPrev={handlePrev}
         onReset={handleReset}
       >
-        {headerChildren}
+        {modalSlot}
       </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
-          <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex flex-row items-center justify-center p-8 gap-32">
-              
-              <AnimatePresence mode="popLayout">
-                <div className="flex gap-24">
-                  {frame.stacks.map((stack) => (
-                    <div key={stack.id} className="flex flex-col items-center w-fit">
-                      <div className="text-muted-foreground font-bold text-lg mb-6">{stack.name || stack.id}</div>
-                      
-                      <div className="relative flex flex-col-reverse items-center gap-2 p-4 rounded-xl bg-background/50 border border-border shadow-inner min-w-[120px] min-h-[280px]">
-                        {stack.values.map((val, idx) => {
-                          const nodeId = `${stack.id}-${idx}`;
-                          const isActive = frame.activeNodeId === nodeId || frame.activeNodeIds?.includes(nodeId);
-                          const isTop = idx === stack.values.length - 1;
+          <Panel className="flex flex-col min-w-0 h-full">
+            {/* Main Interactive Canvas Area */}
+            <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
+              <CanvasViewport className="flex-1 w-full h-full">
+                <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full mx-auto">
+                  {/* 1. In-Canvas Variables Strip */}
+                  <Variables
+                    variables={frame.variables}
+                    highlightColorClass={colors.variablesText}
+                  />
 
-                          return (
-                            <div key={idx} className="relative flex items-center justify-center">
-                              <motion.div
-                                layout
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{
-                                  opacity: 1,
-                                  y: 0,
-                                  backgroundColor: isActive ? (nodeId.includes("explode") ? "#ef4444" : colors.nodeActiveBg) : "#1f2937",
-                                  borderColor: isActive ? (nodeId.includes("explode") ? "#b91c1c" : colors.nodeActiveBorder) : "#374151",
-                                }}
-                                exit={{ opacity: 0, y: -20, scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                                className={`w-24 h-16 rounded border-2 flex items-center justify-center font-bold text-xl shadow z-10 ${isActive ? 'z-20' : ''}`}
-                              >
-                                {val}
-                              </motion.div>
+                  {/* 2. Extra In-Canvas Monotonic Pole Sight Chart (if provided) */}
+                  {renderExtraCanvasContent && renderExtraCanvasContent(frame)}
 
-                              {stack.topPointer && isTop && (
-                                <motion.div
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  className="absolute left-full ml-4 flex items-center gap-1 text-sm font-bold text-muted-foreground whitespace-nowrap"
-                                >
-                                  <ArrowLeft size={16} className={colors.variablesText} />
-                                  <span className={`px-3 py-1 rounded shadow ${colors.callStackBg} ${colors.callStackText}`}>TOP</span>
-                                </motion.div>
-                              )}
-                            </div>
-                          );
-                        })}
-                        {stack.values.length === 0 && (
-                          <div className="flex items-center justify-center h-full w-full text-gray-600 text-base italic">
-                            Empty
-                          </div>
-                        )}
+                  {/* 3. Arrays and Physical Data Stacks In-Canvas Flow */}
+                  <div className="w-full flex flex-wrap items-start justify-center gap-12 py-2">
+                    {/* Data Stacks */}
+                    {frame.stacks?.map((st) => (
+                      <DataStack
+                        key={st.id}
+                        stack={st.values}
+                        title={st.name || "Stack (LIFO)"}
+                        theme={theme}
+                        showTopPointer={st.topPointer ?? true}
+                      />
+                    ))}
+
+                    {/* Arrays */}
+                    {frame.arrays && frame.arrays.length > 0 && (
+                      <div className="flex flex-col items-center justify-center gap-8 pt-2">
+                        <AnimatePresence mode="popLayout">
+                          {frame.arrays.map((arr) => (
+                            <ArrayRenderer
+                              key={arr.id}
+                              arr={arr as any}
+                              frame={frame as any}
+                              colors={colors}
+                            />
+                          ))}
+                        </AnimatePresence>
                       </div>
-                    </div>
-                  ))}
+                    )}
+                  </div>
                 </div>
+              </CanvasViewport>
 
-                <div className="flex flex-col gap-12">
-                  {frame.arrays && frame.arrays.map((arr) => (
-                    <div key={arr.id} className="flex flex-col items-start w-fit">
-                      <div className="text-muted-foreground font-bold mb-4 ml-2">{arr.name || arr.id}</div>
-                      
-                      <div className="relative flex items-center gap-2">
-                        {arr.values.map((val, idx) => {
-                          const nodeId = `${arr.id}-${idx}`;
-                          const isActive = frame.activeNodeId === nodeId || frame.activeNodeIds?.includes(nodeId);
-
-                          const activePointers = arr.pointers 
-                            ? Object.entries(arr.pointers).filter(([_, pIdx]) => pIdx === idx)
-                            : [];
-
-                          return (
-                            <div key={idx} className="relative flex flex-col items-center">
-                              {activePointers.length > 0 && (
-                                <Pointer
-                                  labels={activePointers.map(([label]) => label)}
-                                  x={28}
-                                  y={34}
-                                  themeClass={colors.callStackBorder}
-                                />
-                              )}
-
-                              <motion.div
-                                layout
-                                initial={{ scale: 0.8, opacity: 0 }}
-                                animate={{
-                                  scale: isActive ? 1.1 : 1,
-                                  opacity: 1,
-                                  backgroundColor: isActive ? (nodeId.includes("explode") ? "#ef4444" : colors.nodeActiveBg) : "#1f2937",
-                                  borderColor: isActive ? (nodeId.includes("explode") ? "#b91c1c" : colors.nodeActiveBorder) : "#374151",
-                                }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                className={`w-14 h-14 rounded-lg border-2 flex items-center justify-center font-bold text-lg shadow-lg z-10 ${isActive ? 'z-20' : ''}`}
-                              >
-                                {val !== null ? val : ""}
-                              </motion.div>
-                              <div className="text-[10px] text-muted-foreground mt-2">{idx}</div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </AnimatePresence>
-
-              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
+              {/* Phase Indicator */}
+              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
-            </div>
-
-            <div className="h-28 shrink-0">
-              <Variables
-                variables={frame.variables || {}}
-                highlightColorClass={colors.variablesText}
-              />
             </div>
           </Panel>
 
@@ -195,11 +169,11 @@ export default function StackVisualizerLayout({
             minSize="20"
             className="flex flex-col gap-4 min-w-0"
           >
-            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
             <Explanation
               message={frame.message}
-              className={`h-32 rounded-xl border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
+              className={`h-32 rounded-md border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
             />
+            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
           </Panel>
         </PanelGroup>
       </div>

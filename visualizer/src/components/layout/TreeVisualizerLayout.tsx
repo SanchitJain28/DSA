@@ -21,9 +21,14 @@ interface TreeVisualizerLayoutProps {
   };
   frames: Frame[];
   code: { line: number; text: string }[];
+  children?: React.ReactNode;
   headerChildren?: React.ReactNode;
   sidebarTitle?: string;
   sidebarMode?: "stack" | "queue";
+  currentIdx?: number;
+  setCurrentIdx?: React.Dispatch<React.SetStateAction<number>>;
+  isPlaying?: boolean;
+  setIsPlaying?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TreeVisualizerLayout({
@@ -32,12 +37,33 @@ export default function TreeVisualizerLayout({
   layout,
   frames,
   code,
+  children,
   headerChildren,
   sidebarTitle,
   sidebarMode,
+  currentIdx: controlledIdx,
+  setCurrentIdx: setControlledIdx,
+  isPlaying: controlledIsPlaying,
+  setIsPlaying: setControlledIsPlaying,
 }: TreeVisualizerLayoutProps) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [internalIdx, setInternalIdx] = useState(0);
+  const [internalIsPlaying, setInternalIsPlaying] = useState(false);
+
+  const isControlled =
+    controlledIdx !== undefined && setControlledIdx !== undefined;
+  const currentIdx = isControlled ? controlledIdx : internalIdx;
+  const setCurrentIdx = isControlled ? setControlledIdx : setInternalIdx;
+
+  const isPlayingControlled =
+    controlledIsPlaying !== undefined && setControlledIsPlaying !== undefined;
+  const isPlaying = isPlayingControlled
+    ? controlledIsPlaying
+    : internalIsPlaying;
+  const setIsPlaying = isPlayingControlled
+    ? setControlledIsPlaying
+    : setInternalIsPlaying;
+
+  const modalSlot = children || headerChildren;
 
   usePlaybackTimer(
     isPlaying,
@@ -74,7 +100,7 @@ export default function TreeVisualizerLayout({
         onPrev={handlePrev}
         onReset={handleReset}
       >
-        {headerChildren}
+        {modalSlot}
       </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
@@ -88,7 +114,7 @@ export default function TreeVisualizerLayout({
           >
             <div className="flex-1 flex flex-col overflow-hidden">
               <CallStack
-                stack={frame.callStack}
+                stack={frame.callStack || []}
                 activeBgClass={colors.callStackBg}
                 activeTextClass={colors.callStackText}
                 activeBorderClass={colors.callStackBorder}
@@ -112,11 +138,12 @@ export default function TreeVisualizerLayout({
                       x2={edge.x2}
                       y2={edge.y2}
                       stroke={edge.isNull ? colors.edgeNull : colors.edge}
-                      strokeWidth="3"
-                      strokeDasharray={edge.isNull ? "6 6" : "none"}
+                      strokeWidth={edge.isNull ? "2.5" : "3.5"}
+                      strokeDasharray={edge.isNull ? "4 4" : "none"}
+                      strokeLinecap="round"
                       initial={edge.isNull ? { opacity: 0 } : { pathLength: 0 }}
                       animate={edge.isNull ? { opacity: 1 } : { pathLength: 1 }}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.4 }}
                     />
                   ))}
                 </svg>
@@ -137,14 +164,14 @@ export default function TreeVisualizerLayout({
                             layout
                             initial={{ scale: 0, opacity: 0 }}
                             animate={{
-                              scale: isActive ? 1.2 : 1,
-                              opacity: isActive ? 1 : 0.3,
+                              scale: isActive ? 1.3 : 1,
+                              opacity: isActive ? 1 : 0.45,
                               backgroundColor: isActive
                                 ? colors.nodeNullBg
-                                : "#111827",
+                                : "#0f172a",
                               borderColor: isActive
                                 ? colors.nodeNullBorder
-                                : "#1f2937",
+                                : "#1e293b",
                             }}
                             exit={{ scale: 0, opacity: 0 }}
                             transition={{
@@ -152,7 +179,9 @@ export default function TreeVisualizerLayout({
                               stiffness: 300,
                               damping: 20,
                             }}
-                            className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full border-2 flex items-center justify-center shadow-lg ${isActive ? "z-10" : "z-0"}`}
+                            className={`absolute w-5 h-5 -ml-2.5 -mt-2.5 rounded-full border-2 flex items-center justify-center shadow-md ${
+                              isActive ? "z-20 ring-2 ring-rose-400/50" : "z-0"
+                            }`}
                             style={{ left: node.x, top: node.y }}
                           >
                             {isActive && (
@@ -168,25 +197,30 @@ export default function TreeVisualizerLayout({
                       const isSecondary = node.status === "secondary";
                       const isSuccess = node.status === "success";
 
-                      let bg = "#1f2937";
-                      let border = "#374151";
+                      let bg = "#1e293b";
+                      let border = "#334155";
+                      let ringClass = "shadow-lg shadow-black/40";
                       let scale = 1;
 
                       if (isActive) {
                         bg = colors.nodeActiveBg;
                         border = colors.nodeActiveBorder;
-                        scale = 1.15;
+                        ringClass = "ring-4 ring-teal-400/40 shadow-xl shadow-teal-500/30";
+                        scale = 1.18;
                       } else if (isTarget) {
                         bg = "#9a3412"; // orange-800
                         border = "#f97316"; // orange-500
+                        ringClass = "ring-2 ring-orange-400/50 shadow-lg shadow-orange-950/50";
                         scale = 1.15;
                       } else if (isSecondary) {
                         bg = "#4c1d95"; // violet-900
                         border = "#8b5cf6"; // violet-500
+                        ringClass = "ring-2 ring-violet-400/50 shadow-lg shadow-violet-950/50";
                         scale = 1.15;
                       } else if (isSuccess) {
                         bg = "#14532d"; // green-900
                         border = "#22c55e"; // green-500
+                        ringClass = "ring-2 ring-green-400/50 shadow-lg shadow-green-950/50";
                         scale = 1.15;
                       }
 
@@ -207,7 +241,7 @@ export default function TreeVisualizerLayout({
                             stiffness: 300,
                             damping: 20,
                           }}
-                          className="absolute w-12 h-12 -ml-6 -mt-6 rounded-full border-2 flex items-center justify-center font-bold shadow-lg z-10"
+                          className={`absolute w-12 h-12 -ml-6 -mt-6 rounded-full border-2 flex items-center justify-center font-mono font-bold text-lg text-white select-none transition-colors duration-200 z-10 ${ringClass}`}
                           style={{ left: node.x, top: node.y }}
                         >
                           {node.val}
@@ -243,11 +277,11 @@ export default function TreeVisualizerLayout({
             minSize="20"
             className="flex flex-col gap-4 min-w-0"
           >
-            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
             <Explanation
               message={frame.message}
-              className={`h-32 rounded-xl border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
+              className={`h-32 rounded-md border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
             />
+            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
           </Panel>
         </PanelGroup>
       </div>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0a0a0a; color: #e5e5e5; font-family: 'Space Grotesk', sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #6366f1; color: #fff; }
+  a { color: #a5b4fc; text-decoration: none; }
+  a:hover { color: #c7d2fe; }
+  input { font-family: inherit; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+</style>
+</helmet>
+<div style="min-height:100vh; position:relative; overflow-x:hidden;">
+  <div style="position:fixed; inset:0; pointer-events:none; background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px); background-size:56px 56px; z-index:0;"></div>
+
+  <header style="position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); background:rgba(10,10,10,0.72); border-bottom:1px solid #262626;">
+    <div style="max-width:1240px; margin:0 auto; padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:34px; height:34px; border:1px solid #6366f1; background:linear-gradient(150deg,#6366f126,#6366f10a); border-radius:6px; display:grid; place-items:center; font-family:'JetBrains Mono',monospace; font-weight:700; color:#a5b4fc; font-size:15px; box-shadow:0 0 16px -4px #6366f166;">&lt;/&gt;</div>
+        <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; letter-spacing:-0.02em;">DSA<span style="color:#6366f1;">.</span>viz</span>
+      </div>
+      <nav style="display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px;">
+        <a href="/visualizer" style="padding:9px 14px; border:1px solid #262626; border-radius:4px; color:#d4d4d4; text-transform:uppercase; letter-spacing:0.04em; transition:all .2s;" style-hover="border-color:#6366f1; color:#fff; background:#6366f114;">Visualizer Workbench</a>
+        <a href="/revision" style="padding:9px 14px; border:1px solid #262626; border-radius:4px; color:#d4d4d4; text-transform:uppercase; letter-spacing:0.04em; transition:all .2s;" style-hover="border-color:#8b5cf6; color:#fff; background:#8b5cf614;">Spaced Repetition</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="position:relative; z-index:1; max-width:1240px; margin:0 auto; padding:0 28px;">
+
+    <section style="padding:88px 0 56px; max-width:820px; position:relative;">
+      <div style="display:inline-flex; align-items:center; gap:8px; border:1px solid #262626; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#a3a3a3; margin-bottom:28px;">
+        <span style="width:7px; height:7px; background:#10b981; animation:blink 1.6s infinite;"></span>Interactive algorithm playground
+      </div>
+      <h1 style="font-size:clamp(40px,6vw,72px); line-height:1.02; font-weight:700; letter-spacing:-0.03em; margin:0 0 22px;">Master DSA Through <span style="color:#8b5cf6;">Visual Intuition</span></h1>
+      <p style="font-size:18px; line-height:1.6; color:#a3a3a3; max-width:600px; margin:0 0 36px;">Step through data structures and algorithms frame by frame. Watch pointers move, trees balance, and windows slide — no more memorizing, start seeing.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex; align-items:center; gap:10px; border:1px solid #262626; border-radius:4px; background:linear-gradient(180deg,rgba(30,30,33,0.7),rgba(18,18,20,0.7)); padding:12px 16px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);">
+            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:18px; color:#e5e5e5;">{{ s.value }}</span>
+            <span style="font-size:13px; color:#737373; text-transform:uppercase; letter-spacing:0.06em;">{{ s.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="position:sticky; top:67px; z-index:40; padding:16px 0; background:rgba(10,10,10,0.82); backdrop-filter:blur(14px); border-bottom:1px solid #1a1a1a;">
+      <div style="display:flex; align-items:center; border:1px solid #2a2a2e; border-radius:6px; background:#0f0f0f; padding:0 16px; height:52px; transition:border-color .2s, box-shadow .2s; box-shadow:inset 0 1px 2px rgba(0,0,0,0.5);" style-focus-within="border-color:#6366f1; box-shadow:inset 0 1px 2px rgba(0,0,0,0.5), 0 0 0 3px rgba(99,102,241,0.12);">
+        <span style="font-family:'JetBrains Mono',monospace; color:#525252; font-size:16px; margin-right:12px;">/</span>
+        <input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onSearch }}" placeholder="Search visualizers — problems, topics, tags…" style="flex:1; background:transparent; border:none; outline:none; color:#e5e5e5; font-size:15px;" />
+        <kbd style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#737373; border:1px solid #333; border-radius:4px; padding:4px 8px; letter-spacing:0.05em;">⌘K</kbd>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; align-items:center;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#525252; text-transform:uppercase; letter-spacing:0.1em; margin-right:4px;">Topic</span>
+        <sc-for list="{{ topicPills }}" as="p" hint-placeholder-count="7">
+          <button onClick="{{ p.onClick }}" style="{{ p.style }}" style-hover="border-color:#404040; color:#e5e5e5;">{{ p.name }}</button>
+        </sc-for>
+        <span style="width:1px; height:20px; background:#262626; margin:0 6px;"></span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#525252; text-transform:uppercase; letter-spacing:0.1em; margin-right:4px;">Level</span>
+        <sc-for list="{{ diffChips }}" as="d" hint-placeholder-count="3">
+          <button onClick="{{ d.onClick }}" style="{{ d.style }}">{{ d.name }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <section style="padding:28px 0 12px; display:flex; align-items:baseline; justify-content:space-between;">
+      <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#737373;"><span style="color:#e5e5e5;">{{ count }}</span> visualizer<span>{{ plural }}</span></span>
+      <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ reset }}" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#a3a3a3; background:transparent; border:1px solid #262626; padding:6px 12px; border-radius:4px; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; transition:all .2s;" style-hover="border-color:#f43f5e; color:#f43f5e; background:#f43f5e10;">Clear filters ✕</button>
+      </sc-if>
+    </section>
+
+    <section style="padding:8px 0 72px;">
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed #333; border-radius:8px; padding:72px 24px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px; background:radial-gradient(circle at 50% 0%, rgba(255,255,255,0.02), transparent 60%);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:40px; color:#404040;">[  ]</div>
+          <div>
+            <div style="font-size:20px; font-weight:600; margin-bottom:6px;">No visualizers found</div>
+            <div style="color:#737373; font-size:14px;">Nothing matches your current search and filters.</div>
+          </div>
+          <button onClick="{{ reset }}" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#0a0a0a; background:#e5e5e5; border:none; border-radius:4px; padding:11px 20px; cursor:pointer; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; transition:all .2s;" style-hover="background:#fff; box-shadow:0 4px 20px -6px rgba(255,255,255,0.4);">Reset filters</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+          <sc-for list="{{ view }}" as="c" hint-placeholder-count="9">
+            <div style="{{ c.cardStyle }}" style-hover="border-color:var(--glowSolid); box-shadow:0 10px 40px -10px var(--glow), inset 0 1px 0 rgba(255,255,255,0.07); transform:translateY(-3px);">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+                <div style="width:44px; height:44px; border:1px solid var(--glowSolid); border-radius:6px; color:var(--glowSolid); display:grid; place-items:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; background:linear-gradient(150deg,#ffffff10,#ffffff02); box-shadow:0 0 18px -6px var(--glowSolid);">{{ c.code }}</div>
+                <span style="{{ c.difStyle }}">{{ c.difficulty }}</span>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#525252; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">{{ c.topic }}</div>
+                <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em; line-height:1.25;">{{ c.title }}</div>
+              </div>
+              <p style="color:#8f8f8f; font-size:13.5px; line-height:1.55; margin:0; flex:1;">{{ c.summary }}</p>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <sc-for list="{{ c.tags }}" as="t" hint-placeholder-count="2">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#a3a3a3; border:1px solid #262626; border-radius:4px; padding:3px 8px; background:#ffffff05;">{{ t }}</span>
+                </sc-for>
+              </div>
+              <a href="/visualizer" style="display:flex; align-items:center; justify-content:space-between; margin-top:4px; padding-top:14px; border-top:1px solid #1f1f1f; font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:500; color:#e5e5e5; text-transform:uppercase; letter-spacing:0.04em;" style-hover="color:var(--glowSolid);">Launch Visualizer <span style="font-size:15px;">→</span></a>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </section>
+  </main>
+
+  <footer style="position:relative; z-index:1; border-top:1px solid #262626; margin-top:20px;">
+    <div style="max-width:1240px; margin:0 auto; padding:32px 28px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;">
+      <div style="display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#737373;">
+        <span style="color:#6366f1;">&lt;/&gt;</span> DSA.viz — built for people who learn by seeing.
+      </div>
+      <div style="display:flex; gap:20px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#737373; text-transform:uppercase; letter-spacing:0.05em;">
+        <a href="/visualizer">Workbench</a>
+        <a href="/revision">Revision</a>
+        <a href="#">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;}}">
+class Component extends DCLogic {
+  constructor(props){ super(props); this.searchRef = React.createRef(); }
+  state = { query:'', topic:null, diff:null };
+
+  componentDidMount(){
+    this._key = (e)=>{
+      const k = (e.key||'').toLowerCase();
+      if((e.metaKey||e.ctrlKey) && k==='k'){ e.preventDefault(); if(this.searchRef.current) this.searchRef.current.focus(); }
+      if(k==='escape' && document.activeElement===this.searchRef.current){ this.searchRef.current.blur(); }
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount(){ window.removeEventListener('keydown', this._key); }
+
+  renderVals(){
+    const accents = {
+      'Trees':'#10b981','Arrays':'#6366f1','Linked Lists':'#8b5cf6','Stack':'#f59e0b',
+      'Binary Search':'#06b6d4','Sliding Window':'#0ea5e9','Recursion':'#f43f5e'
+    };
+    const codes = {
+      'Trees':'TR','Arrays':'AR','Linked Lists':'LL','Stack':'ST',
+      'Binary Search':'BS','Sliding Window':'SW','Recursion':'RC'
+    };
+    const difColor = { 'Easy':'#10b981','Medium':'#f59e0b','Hard':'#f43f5e' };
+
+    const cards = [
+      { title:'Binary Tree Traversal', topic:'Trees', difficulty:'Easy', summary:'Step through pre-, in-, and post-order DFS and watch the call stack unwind node by node.', tags:['DFS','Recursion'] },
+      { title:'Lowest Common Ancestor', topic:'Trees', difficulty:'Medium', summary:'Trace two paths from the root and find where they converge inside a binary search tree.', tags:['BST','DFS'] },
+      { title:'Two Sum', topic:'Arrays', difficulty:'Easy', summary:'See a hash map fill in real time as complements are looked up in a single pass.', tags:['Hashing','Two Pass'] },
+      { title:'Trapping Rain Water', topic:'Arrays', difficulty:'Hard', summary:'Watch two converging pointers compute trapped water against the running max walls.', tags:['Two Pointers','DP'] },
+      { title:'Reverse Linked List', topic:'Linked Lists', difficulty:'Easy', summary:'Follow prev, curr, and next pointers as the list flips one edge at a time.', tags:['Pointers','Iterative'] },
+      { title:'Detect Cycle', topic:'Linked Lists', difficulty:'Medium', summary:"Race Floyd's slow and fast pointers until they collide inside the loop.", tags:['Two Pointers','Floyd'] },
+      { title:'Valid Parentheses', topic:'Stack', difficulty:'Easy', summary:'Push openers and pop matches while the stack grows and shrinks on screen.', tags:['Matching','LIFO'] },
+      { title:'Largest Rectangle in Histogram', topic:'Stack', difficulty:'Hard', summary:'Maintain a monotonic stack of bar indices to size the maximal rectangle.', tags:['Monotonic','Stack'] },
+      { title:'Classic Binary Search', topic:'Binary Search', difficulty:'Easy', summary:'Halve the search space each step as lo, mid, and hi close in on the target.', tags:['Divide','Iterative'] },
+      { title:'Search in Rotated Array', topic:'Binary Search', difficulty:'Medium', summary:'Decide which half is sorted at every mid to keep the log-n guarantee.', tags:['Divide','Rotation'] },
+      { title:'Longest Substring No Repeat', topic:'Sliding Window', difficulty:'Medium', summary:'Expand and contract a window over the string while tracking seen characters.', tags:['Window','Hashing'] },
+      { title:'Minimum Window Substring', topic:'Sliding Window', difficulty:'Hard', summary:'Grow to satisfy all counts, then shrink to the tightest valid window.', tags:['Window','Counts'] },
+      { title:'Permutations', topic:'Recursion', difficulty:'Medium', summary:'Unfold the decision tree of backtracking as choices are made and undone.', tags:['Backtracking','Tree'] },
+      { title:'N-Queens', topic:'Recursion', difficulty:'Hard', summary:'Place queens column by column, pruning attacked diagonals as you recurse.', tags:['Backtracking','Pruning'] }
+    ];
+
+    const topics = Object.keys(accents);
+    const diffs = ['Easy','Medium','Hard'];
+    const { query, topic, diff } = this.state;
+    const glowOn = this.props.glow ?? true;
+    const compact = this.props.compact ?? false;
+    const q = query.trim().toLowerCase();
+
+    const filtered = cards.filter(c => {
+      if(topic && c.topic!==topic) return false;
+      if(diff && c.difficulty!==diff) return false;
+      if(q){ const hay=(c.title+' '+c.topic+' '+c.summary+' '+c.tags.join(' ')).toLowerCase(); if(!hay.includes(q)) return false; }
+      return true;
+    });
+
+    const view = filtered.map(c => {
+      const a = accents[c.topic];
+      return {
+        ...c,
+        code: codes[c.topic],
+        cardStyle: {
+          background:'linear-gradient(180deg, rgba(30,30,33,0.85), rgba(17,17,19,0.9))', border:'1px solid #2a2a2e',
+          borderRadius:'6px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 2px rgba(0,0,0,0.4)',
+          padding: compact ? '16px' : '22px', display:'flex', flexDirection:'column',
+          gap: compact ? '11px' : '14px', transition:'border-color .25s, box-shadow .25s, transform .25s',
+          position:'relative', '--glowSolid': a, '--glow': glowOn ? a+'40' : 'transparent'
+        },
+        difStyle: {
+          fontFamily:"'JetBrains Mono',monospace", fontSize:'10.5px', fontWeight:700,
+          textTransform:'uppercase', letterSpacing:'0.06em', padding:'4px 9px', borderRadius:'4px',
+          color: difColor[c.difficulty], border:'1px solid '+difColor[c.difficulty]+'55', background: difColor[c.difficulty]+'12'
+        }
+      };
+    });
+
+    const pillBase = {
+      fontFamily:"'JetBrains Mono',monospace", fontSize:'12px', padding:'8px 13px', borderRadius:'4px',
+      background:'transparent', cursor:'pointer', letterSpacing:'0.02em', transition:'all .15s'
+    };
+    const topicPills = topics.map(name => {
+      const on = topic===name; const a = accents[name];
+      return { name, onClick: ()=> this.setState(s=>({topic: s.topic===name? null : name})),
+        style: { ...pillBase, color: on ? '#fff' : '#a3a3a3', border:'1px solid '+(on? a : '#262626'), background: on ? a+'1f' : 'transparent' } };
+    });
+    const diffChips = diffs.map(name => {
+      const on = diff===name; const c = difColor[name];
+      return { name, onClick: ()=> this.setState(s=>({diff: s.diff===name? null : name})),
+        style: { ...pillBase, textTransform:'uppercase', letterSpacing:'0.06em', color: on ? '#0a0a0a' : c, fontWeight:700,
+          border:'1px solid '+c+(on?'':'55'), background: on ? c : c+'12' } };
+    });
+
+    return {
+      stats: [ {value:'45+', label:'Visualizers'}, {value:'7', label:'Categories'}, {value:'Live', label:'Playback'} ],
+      topicPills, diffChips, view,
+      query, searchRef: this.searchRef,
+      onSearch: (e)=> this.setState({ query: e.target.value }),
+      reset: ()=> this.setState({ query:'', topic:null, diff:null }),
+      count: filtered.length,
+      plural: filtered.length===1 ? '' : 's',
+      empty: filtered.length===0,
+      hasResults: filtered.length>0,
+      hasFilters: !!(query || topic || diff)
+    };
+  }
+}
+</script>
+</body>
+</html>

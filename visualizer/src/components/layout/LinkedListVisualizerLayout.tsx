@@ -1,24 +1,30 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo } from "react";
 import { Panel, Group as PanelGroup } from "react-resizable-panels";
 import ResizeHandle from "../shared/ResizeHandle";
 import { usePlaybackTimer } from "../../hooks/usePlaybackTimer";
 import { useKeyboardControls } from "../../hooks/useKeyboardControls";
-import CallStack from "../shared/CallStack";
+import StackBucket from "../shared/StackBucket";
 import Variables from "../shared/Variables";
 import Explanation from "../shared/Explanation";
 import Header from "../shared/Header";
 import SourceCode from "../shared/SourceCode";
-import Pointer from "../shared/Pointer";
+import CanvasViewport from "../shared/CanvasViewport";
+import LinkedListEdges from "../linked-list/LinkedListEdges";
+import LinkedListNodes from "../linked-list/LinkedListNodes";
 import type { Frame } from "../../core/linked-list/types";
-import { useSettings } from "../../contexts/SettingsContext";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
-interface LinkedListVisualizerLayoutProps {
+export interface LinkedListVisualizerLayoutProps {
   title: string;
   theme: ThemeName;
   frames: Frame[];
   code: { line: number; text: string }[];
+  children?: React.ReactNode;
+  currentIdx?: number;
+  setCurrentIdx?: React.Dispatch<React.SetStateAction<number>>;
+  isPlaying?: boolean;
+  setIsPlaying?: React.Dispatch<React.SetStateAction<boolean>>;
+  onReset?: () => void;
 }
 
 export default function LinkedListVisualizerLayout({
@@ -26,10 +32,29 @@ export default function LinkedListVisualizerLayout({
   theme,
   frames,
   code,
+  children,
+  currentIdx: controlledIdx,
+  setCurrentIdx: setControlledIdx,
+  isPlaying: controlledIsPlaying,
+  setIsPlaying: setControlledIsPlaying,
+  onReset: customReset,
 }: LinkedListVisualizerLayoutProps) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const { showPointers, randomizePointerColors } = useSettings();
+  const [internalIdx, setInternalIdx] = useState(0);
+  const [internalIsPlaying, setInternalIsPlaying] = useState(false);
+
+  const isControlled =
+    controlledIdx !== undefined && setControlledIdx !== undefined;
+  const currentIdx = isControlled ? controlledIdx : internalIdx;
+  const setCurrentIdx = isControlled ? setControlledIdx : setInternalIdx;
+
+  const isPlayingControlled =
+    controlledIsPlaying !== undefined && setControlledIsPlaying !== undefined;
+  const isPlaying = isPlayingControlled
+    ? controlledIsPlaying
+    : internalIsPlaying;
+  const setIsPlaying = isPlayingControlled
+    ? setControlledIsPlaying
+    : setInternalIsPlaying;
 
   usePlaybackTimer(
     isPlaying,
@@ -41,36 +66,67 @@ export default function LinkedListVisualizerLayout({
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx];
+  const frame = frames[currentIdx] ||
+    frames[0] || {
+      phase: "Ready",
+      codeLine: 1,
+      message: "",
+      variables: {},
+      pointers: {},
+      layout: { nodes: [], edges: [] },
+    };
+
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
   const handlePrev = () => setCurrentIdx((p) => Math.max(p - 1, 0));
   const handleReset = () => {
     setCurrentIdx(0);
     setIsPlaying(false);
+    if (customReset) customReset();
   };
 
-  const colors = themeColors[theme];
-  const layout = frame.layout;
+  const colors = themeColors[theme] || themeColors.indigo;
+  const layout = frame.layout || { nodes: [], edges: [] };
 
-  let minX = 0,
-    maxX = 0,
-    minY = 0,
-    maxY = 0;
-  if (layout.nodes.length > 0) {
-    minX = Math.min(...layout.nodes.map((n) => n.x));
-    maxX = Math.max(...layout.nodes.map((n) => n.x));
-    minY = Math.min(...layout.nodes.map((n) => n.y));
-    maxY = Math.max(...layout.nodes.map((n) => n.y));
-  }
+  const { totalGraphWidth, totalGraphHeight, originX, originY } =
+    useMemo(() => {
+      let gMinX = Infinity,
+        gMaxX = -Infinity,
+        gMinY = Infinity,
+        gMaxY = -Infinity;
 
-  const paddingX = 80;
-  const paddingY = 100;
+      for (const f of frames) {
+        for (const n of f.layout?.nodes || []) {
+          if (n.x < gMinX) gMinX = n.x;
+          if (n.x > gMaxX) gMaxX = n.x;
+          if (n.y < gMinY) gMinY = n.y;
+          if (n.y > gMaxY) gMaxY = n.y;
+        }
+      }
 
-  const graphWidth = maxX - minX + paddingX * 2;
-  const graphHeight = maxY - minY + paddingY * 2;
-  const offsetX = paddingX - minX;
-  const offsetY = paddingY - minY;
+      if (gMinX === Infinity) {
+        gMinX = 0;
+        gMaxX = 600;
+        gMinY = 0;
+        gMaxY = 160;
+      }
+
+      const paddingX = 80;
+      const paddingY = 80;
+
+      return {
+        totalGraphWidth: Math.max(360, gMaxX - gMinX + paddingX * 2),
+        totalGraphHeight: Math.max(180, gMaxY - gMinY + paddingY * 2),
+        originX: paddingX - gMinX,
+        originY: paddingY - gMinY,
+      };
+    }, [frames]);
+
+  const hasCallStack = useMemo(() => {
+    return frames.some(
+      (f) => Array.isArray(f.callStack) && f.callStack.length > 1,
+    );
+  }, [frames]);
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
@@ -83,193 +139,65 @@ export default function LinkedListVisualizerLayout({
         onNext={handleNext}
         onPrev={handlePrev}
         onReset={handleReset}
-      />
+      >
+        {children}
+      </Header>
 
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
-          <Panel
-            collapsible={true}
-            defaultSize="20"
-            minSize="15"
-            maxSize="40"
-            className="relative flex flex-col min-w-0"
-          >
-            <div className="flex-1 flex flex-col overflow-hidden">
-              <CallStack
-                stack={frame.callStack}
-                activeBgClass={colors.callStackBg}
-                activeTextClass={colors.callStackText}
-                activeBorderClass={colors.callStackBorder}
-              />
-            </div>
-          </Panel>
+          <Panel className="flex flex-col min-w-0 h-full">
+            <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
+              <CanvasViewport className="flex-1 w-full h-full">
+                <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full">
+                  <Variables
+                    variables={frame.variables}
+                    highlightColorClass={colors.variablesText}
+                  />
 
-          <ResizeHandle />
+                  <div className="flex items-start justify-center gap-12 w-full pt-2">
+                    {hasCallStack && (
+                      <div className="shrink-0">
+                        <StackBucket
+                          stack={frame.callStack || []}
+                          title="Recursion Stack"
+                          themeColorClass={colors.variablesText}
+                          activeBgClass={colors.callStackBg}
+                          activeBorderClass={colors.callStackBorder}
+                        />
+                      </div>
+                    )}
 
-          <Panel className="flex flex-col gap-4 min-w-0">
-            <div className="flex-1 relative bg-card rounded-xl border border-border overflow-hidden shadow-inner flex items-center justify-center">
-              <div
-                className="relative"
-                style={{
-                  width: graphWidth,
-                  height: graphHeight,
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    transform: `translate(${offsetX}px, ${offsetY}px)`,
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
-                  }}
-                >
-                  <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
-                    <defs>
-                      <marker
-                        id={`arrowhead-${theme}`}
-                        markerWidth="10"
-                        markerHeight="7"
-                        refX="9"
-                        refY="3.5"
-                        orient="auto"
+                    <div
+                      className="relative bg-transparent flex items-center justify-center"
+                      style={{
+                        width: totalGraphWidth,
+                        height: totalGraphHeight,
+                      }}
+                    >
+                      <div
+                        style={{
+                          transform: `translate(${originX}px, ${originY}px)`,
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                        }}
                       >
-                        <polygon points="0 0, 10 3.5, 0 7" fill={colors.edge} />
-                      </marker>
-                    </defs>
-
-                    <AnimatePresence>
-                      {layout.edges.map((edge) => {
-                        const isBackward =
-                          edge.x1 > edge.x2 && Math.abs(edge.y1 - edge.y2) < 20;
-
-                        let pathD;
-                        if (isBackward) {
-                          // Infer node centers
-                          const cx1 = edge.x1 + 24;
-                          const cx2 = edge.x2 - 28;
-                          const y = edge.y1;
-
-                          // Path from top of source to top of target
-                          const startX = cx1;
-                          const startY = y - 24;
-                          const endX = cx2;
-                          const endY = y - 28;
-                          const midX = (cx1 + cx2) / 2;
-
-                          pathD = `M ${startX} ${startY} Q ${midX} ${y - 70} ${endX} ${endY}`;
-                        } else {
-                          pathD = `M ${edge.x1} ${edge.y1} L ${edge.x2} ${edge.y2}`;
-                        }
-
-                        return (
-                          <motion.path
-                            key={edge.id}
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              d: pathD,
-                              opacity: 1,
-                            }}
-                            exit={{ opacity: 0 }}
-                            stroke={edge.isNull ? colors.edgeNull : colors.edge}
-                            strokeDasharray={edge.isNull ? "6 6" : "none"}
-                            fill="transparent"
-                            strokeWidth="3"
-                            markerEnd={`url(#arrowhead-${theme})`}
-                            transition={{
-                              type: "spring",
-                              stiffness: 300,
-                              damping: 25,
-                            }}
-                          />
-                        );
-                      })}
-                    </AnimatePresence>
-                  </svg>
-
-                  <div className="absolute inset-0">
-                    <AnimatePresence mode="popLayout">
-                      {layout.nodes.map((node) => {
-                        const isActive = node.id === frame.activeNodeId;
-                        const pointerLabels = Object.entries(
-                          frame.pointers || {},
-                        )
-                          .filter(([_, targetId]) => targetId === node.id)
-                          .map(([label]) => label);
-
-                        if (node.isNull) {
-                          return (
-                            <motion.div
-                              key={node.id}
-                              className={`absolute flex items-center justify-center w-8 h-8 -ml-4 -mt-4 text-sm font-bold rounded-full ${colors.nodeNullBg} text-rose-200 border-2 ${colors.nodeNullBorder} shadow-lg`}
-                              style={{ left: node.x, top: node.y }}
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              exit={{ scale: 0 }}
-                              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            >
-                              ∅
-                            </motion.div>
-                          );
-                        }
-
-                        return (
-                          <div
-                            key={node.id}
-                            className="absolute"
-                            style={{ left: node.x, top: node.y }}
-                          >
-                            {showPointers && pointerLabels.length > 0 && (
-                              <Pointer
-                                labels={pointerLabels}
-                                x={0}
-                                y={0}
-                                themeClass={`text-${theme}-400 border-${theme}-800`}
-                                randomColor={randomizePointerColors}
-                              />
-                            )}
-                            <motion.div
-                              layout
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{
-                                scale: isActive ? 1.15 : 1,
-                                opacity: 1,
-                                backgroundColor: isActive
-                                  ? colors.nodeActiveBg
-                                  : "#1f2937",
-                                borderColor: isActive
-                                  ? colors.nodeActiveBorder
-                                  : "#374151",
-                              }}
-                              exit={{ scale: 0, opacity: 0 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 25,
-                              }}
-                              className={`absolute w-12 h-12 -ml-6 -mt-6 rounded-full border-2 flex items-center justify-center font-bold shadow-lg z-10 ${node.isDummy ? "border-dashed" : ""}`}
-                            >
-                              {node.val === -1 ? "D" : node.val}
-                            </motion.div>
-                          </div>
-                        );
-                      })}
-                    </AnimatePresence>
+                        <LinkedListEdges edges={layout.edges} theme={theme} />
+                        <LinkedListNodes
+                          nodes={layout.nodes}
+                          pointers={frame.pointers}
+                          activeNodeId={frame.activeNodeId}
+                          theme={theme}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </CanvasViewport>
 
-              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
+              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
                 Phase: <span className={colors.phaseText}>{frame.phase}</span>
               </div>
-            </div>
-
-            <div className="h-28 shrink-0">
-              <Variables
-                variables={frame.variables || {}}
-                highlightColorClass={colors.variablesText}
-              />
             </div>
           </Panel>
 
@@ -280,11 +208,11 @@ export default function LinkedListVisualizerLayout({
             minSize="20"
             className="flex flex-col gap-4 min-w-0"
           >
-            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
             <Explanation
               message={frame.message}
-              className={`h-32 rounded-xl border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
+              className={`h-32 rounded-md border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
             />
+            <SourceCode code={code} activeLine={frame.codeLine} theme={theme} />
           </Panel>
         </PanelGroup>
       </div>

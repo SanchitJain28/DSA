@@ -60,7 +60,7 @@ export function ArrayRenderer({ arr, frame, colors }: ArrayRendererProps) {
                     borderColor: isActive ? colors.nodeActiveBorder : "#374151",
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className={`min-w-[3.5rem] h-14 px-2 rounded-lg border-2 flex items-center justify-center font-bold text-lg shadow-lg z-10 ${isActive ? "z-20" : ""}`}
+                  className={`min-w-[3.5rem] h-14 px-2 rounded-md border-2 flex items-center justify-center font-bold text-lg shadow-md z-10 ${isActive ? "z-20" : ""}`}
                 >
                   {val !== null ? String(val) : ""}
                 </motion.div>

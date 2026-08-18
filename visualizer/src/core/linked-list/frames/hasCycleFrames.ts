@@ -2,38 +2,56 @@ import { ListNode } from "../ListNode";
 import type { Frame } from "../types";
 import { computeLayout } from "../layout";
 
-export function generateHasCycleFrames(): Frame[] {
+export function generateHasCycleFrames(
+  values: number[] = [3, 2, 0, -4],
+  pos: number = 1
+): Frame[] {
   const frames: Frame[] = [];
+
+  if (values.length === 0) {
+    frames.push({
+      layout: { nodes: [], edges: [] },
+      activeNodeId: "",
+      pointers: {},
+      variables: { slow: "null", fast: "null" },
+      message: "List is empty, hasCycle returns false.",
+      codeLine: 1,
+      phase: "Initialization",
+    });
+    return frames;
+  }
+
   const nodes: ListNode[] = [];
+  for (let i = 0; i < values.length; i++) {
+    const node = new ListNode(values[i], `node_${i}`);
+    nodes.push(node);
+    if (i > 0) {
+      nodes[i - 1].next = node;
+    }
+  }
 
-  // Create list: 3 -> 2 -> 0 -> -4
-  const node1 = new ListNode(3, "3");
-  const node2 = new ListNode(2, "2");
-  const node3 = new ListNode(0, "0");
-  const node4 = new ListNode(-4, "-4");
+  // If pos is valid, connect tail to nodes[pos]
+  if (pos >= 0 && pos < nodes.length) {
+    nodes[nodes.length - 1].next = nodes[pos];
+  }
 
-  node1.next = node2;
-  node2.next = node3;
-  node3.next = node4;
-  // Create cycle: -4 -> 2
-  node4.next = node2;
-
-  nodes.push(node1, node2, node3, node4);
-  const head = node1;
-
+  const head = nodes[0];
   let slow: ListNode | null = head;
   let fast: ListNode | null = head;
+
+  const cycleMsg =
+    pos >= 0 && pos < nodes.length
+      ? `List initialized with a cycle: tail node ${values[nodes.length - 1]} connects back to node ${values[pos]}.`
+      : "List initialized without a cycle (tail points to null).";
 
   frames.push({
     layout: computeLayout([{ head }], nodes),
     activeNodeId: "",
     pointers: {},
     variables: { slow: "null", fast: "null" },
-    message:
-      "Initial list with a cycle (tail node -4 connects back to node 2).",
+    message: cycleMsg,
     codeLine: 1,
     phase: "Initialization",
-    callStack: ["hasCycle(head)"],
   });
 
   frames.push({
@@ -44,7 +62,6 @@ export function generateHasCycleFrames(): Frame[] {
     message: "Initialize slow pointer at head.",
     codeLine: 2,
     phase: "Initialization",
-    callStack: ["hasCycle(head)"],
   });
 
   frames.push({
@@ -58,10 +75,14 @@ export function generateHasCycleFrames(): Frame[] {
     message: "Initialize fast pointer at head.",
     codeLine: 3,
     phase: "Initialization",
-    callStack: ["hasCycle(head)"],
   });
 
-  while (fast !== null && fast.next !== null) {
+  let stepCount = 0;
+  const maxSteps = values.length * 3 + 10;
+
+  while (fast !== null && fast.next !== null && stepCount < maxSteps) {
+    stepCount++;
+
     frames.push({
       layout: computeLayout([{ head }], nodes),
       activeNodeId: fast.id,
@@ -73,7 +94,6 @@ export function generateHasCycleFrames(): Frame[] {
       message: "Check loop condition: fast and fast.next are not null.",
       codeLine: 4,
       phase: "Traversal",
-      callStack: ["hasCycle(head)"],
     });
 
     slow = slow!.next;
@@ -85,54 +105,52 @@ export function generateHasCycleFrames(): Frame[] {
         slow: slow ? `Node(${slow.val})` : "null",
         fast: fast ? `Node(${fast.val})` : "null",
       },
-      message: "Move slow pointer one step forward.",
+      message: `Move slow pointer one step forward to Node(${slow?.val}).`,
       codeLine: 5,
       phase: "Traversal",
-      callStack: ["hasCycle(head)"],
     });
 
     fast = fast.next.next;
     frames.push({
       layout: computeLayout([{ head }], nodes),
       activeNodeId: fast?.id || "",
-      pointers: { slow: slow?.id || "", fast: fast?.id || "" },
+      pointers: { slow: slow?.id || "", fast: fast ? fast.id : "" },
       variables: {
         slow: slow ? `Node(${slow.val})` : "null",
         fast: fast ? `Node(${fast.val})` : "null",
       },
-      message: "Move fast pointer two steps forward.",
+      message: fast
+        ? `Move fast pointer two steps forward to Node(${fast.val}).`
+        : "Fast pointer moved two steps and reached null.",
       codeLine: 6,
       phase: "Traversal",
-      callStack: ["hasCycle(head)"],
     });
 
     frames.push({
       layout: computeLayout([{ head }], nodes),
       activeNodeId: slow?.id || "",
-      pointers: { slow: slow?.id || "", fast: fast?.id || "" },
+      pointers: { slow: slow?.id || "", fast: fast ? fast.id : "" },
       variables: {
         slow: slow ? `Node(${slow.val})` : "null",
         fast: fast ? `Node(${fast.val})` : "null",
       },
-      message: `Check if slow === fast (${slow?.id === fast?.id}).`,
+      message: `Check if slow === fast (${slow === fast}).`,
       codeLine: 7,
       phase: "Traversal",
-      callStack: ["hasCycle(head)"],
     });
 
-    if (slow === fast) {
+    if (slow === fast && fast !== null && slow !== null) {
       frames.push({
         layout: computeLayout([{ head }], nodes),
-        activeNodeId: slow?.id || "",
-        pointers: { slow: slow?.id || "", fast: fast?.id || "" },
+        activeNodeId: slow.id,
+        pointers: { slow: slow.id, fast: fast.id },
         variables: {
-          slow: slow ? `Node(${slow.val})` : "null",
-          fast: fast ? `Node(${fast.val})` : "null",
+          slow: `Node(${slow.val})`,
+          fast: `Node(${fast.val})`,
         },
-        message: "Slow and fast pointers met! Cycle detected, returning true.",
+        message: `Pointers met at Node(${slow.val})! Cycle detected, returning true.`,
         codeLine: 7,
-        phase: "Return",
-        callStack: ["hasCycle(head)"],
+        phase: "Cycle Detected",
       });
       return frames;
     }
@@ -141,16 +159,14 @@ export function generateHasCycleFrames(): Frame[] {
   frames.push({
     layout: computeLayout([{ head }], nodes),
     activeNodeId: "",
-    pointers: { slow: slow?.id || "", fast: fast?.id || "" },
+    pointers: { slow: slow?.id || "", fast: fast ? fast.id : "" },
     variables: {
       slow: slow ? `Node(${slow.val})` : "null",
       fast: fast ? `Node(${fast.val})` : "null",
     },
-    message:
-      "Fast pointer reached the end. No cycle detected, returning false.",
+    message: "Fast pointer reached null. No cycle detected, returning false.",
     codeLine: 9,
-    phase: "Return",
-    callStack: ["hasCycle(head)"],
+    phase: "No Cycle",
   });
 
   return frames;
