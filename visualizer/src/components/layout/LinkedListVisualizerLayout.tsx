@@ -9,6 +9,7 @@ import Explanation from "../shared/Explanation";
 import Header from "../shared/Header";
 import SourceCode from "../shared/SourceCode";
 import CanvasViewport from "../shared/CanvasViewport";
+import StepProgress from "../shared/StepProgress";
 import LinkedListEdges from "../linked-list/LinkedListEdges";
 import LinkedListNodes from "../linked-list/LinkedListNodes";
 import type { Frame } from "../../core/linked-list/types";
@@ -66,15 +67,15 @@ export default function LinkedListVisualizerLayout({
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx] ||
-    frames[0] || {
-      phase: "Ready",
-      codeLine: 1,
-      message: "",
-      variables: {},
-      pointers: {},
-      layout: { nodes: [], edges: [] },
-    };
+  const DEFAULT_FRAME: Frame = {
+    variables: {},
+    message: "No frame data",
+    codeLine: 0,
+    phase: "Ready",
+    layout: { nodes: [], edges: [] },
+  };
+
+  const frame: Frame = frames[currentIdx] || frames[0] || DEFAULT_FRAME;
 
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
@@ -195,8 +196,14 @@ export default function LinkedListVisualizerLayout({
                 </div>
               </CanvasViewport>
 
-              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              {/* Step Progress & Phase Indicator */}
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
           </Panel>

@@ -11,6 +11,7 @@ import Explanation from "../shared/Explanation";
 import { ArrayRenderer } from "../shared/ArrayRenderer";
 import DataStack from "../shared/DataStack";
 import CanvasViewport from "../shared/CanvasViewport";
+import StepProgress from "../shared/StepProgress";
 import type { StackFrame } from "../../core/stack/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
@@ -40,25 +41,34 @@ export default function StackVisualizerLayout({
   setCurrentIdx: setControlledIdx,
   isPlaying: controlledIsPlaying,
   setIsPlaying: setControlledIsPlaying,
-  onReset: customReset,
+  onReset,
   renderExtraCanvasContent,
 }: StackVisualizerLayoutProps) {
   const [internalIdx, setInternalIdx] = useState(0);
   const [internalIsPlaying, setInternalIsPlaying] = useState(false);
 
-  const isControlled =
-    controlledIdx !== undefined && setControlledIdx !== undefined;
-  const currentIdx = isControlled ? controlledIdx : internalIdx;
-  const setCurrentIdx = isControlled ? setControlledIdx : setInternalIdx;
+  const currentIdx = controlledIdx !== undefined ? controlledIdx : internalIdx;
+  const setCurrentIdx =
+    setControlledIdx !== undefined ? setControlledIdx : setInternalIdx;
+  const isPlaying =
+    controlledIsPlaying !== undefined
+      ? controlledIsPlaying
+      : internalIsPlaying;
+  const setIsPlaying =
+    setControlledIsPlaying !== undefined
+      ? setControlledIsPlaying
+      : setInternalIsPlaying;
 
-  const isPlayingControlled =
-    controlledIsPlaying !== undefined && setControlledIsPlaying !== undefined;
-  const isPlaying = isPlayingControlled
-    ? controlledIsPlaying
-    : internalIsPlaying;
-  const setIsPlaying = isPlayingControlled
-    ? setControlledIsPlaying
-    : setInternalIsPlaying;
+  const DEFAULT_FRAME: StackFrame = {
+    variables: {},
+    message: "No frame data",
+    codeLine: 0,
+    phase: "Idle",
+    stacks: [],
+    arrays: [],
+  };
+
+  const frame: StackFrame = frames[currentIdx] || frames[0] || DEFAULT_FRAME;
 
   usePlaybackTimer(
     isPlaying,
@@ -70,23 +80,22 @@ export default function StackVisualizerLayout({
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx] ||
-    frames[0] || {
-      phase: "Ready",
-      codeLine: 1,
-      message: "",
-      variables: {},
-      stacks: [],
-      arrays: [],
-    };
+  const handleNext = () => {
+    if (currentIdx < frames.length - 1) {
+      setCurrentIdx(currentIdx + 1);
+    }
+  };
 
-  const handleNext = () =>
-    setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
-  const handlePrev = () => setCurrentIdx((p) => Math.max(p - 1, 0));
+  const handlePrev = () => {
+    if (currentIdx > 0) {
+      setCurrentIdx(currentIdx - 1);
+    }
+  };
+
   const handleReset = () => {
     setCurrentIdx(0);
     setIsPlaying(false);
-    if (customReset) customReset();
+    onReset?.();
   };
 
   const colors = themeColors[theme] || themeColors.indigo;
@@ -143,8 +152,8 @@ export default function StackVisualizerLayout({
                           {frame.arrays.map((arr) => (
                             <ArrayRenderer
                               key={arr.id}
-                              arr={arr as any}
-                              frame={frame as any}
+                              arr={arr}
+                              frame={frame}
                               colors={colors}
                             />
                           ))}
@@ -155,9 +164,14 @@ export default function StackVisualizerLayout({
                 </div>
               </CanvasViewport>
 
-              {/* Phase Indicator */}
-              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              {/* Step Progress & Phase Indicator */}
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
           </Panel>

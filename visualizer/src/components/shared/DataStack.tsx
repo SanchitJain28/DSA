@@ -88,7 +88,7 @@ export default function DataStack({
                     animate={{
                       opacity: 1,
                       y: 0,
-                      scale: 1,
+                      scale: isTop ? 1.02 : 1,
                       backgroundColor: isExplode
                         ? "#7f1d1d"
                         : isTop
@@ -99,10 +99,15 @@ export default function DataStack({
                         : isTop
                           ? colors.nodeActiveBorder || "#6366f1"
                           : "#262626",
+                      boxShadow: isExplode
+                        ? "0 4px 12px rgba(220,38,38,0.5)"
+                        : isTop
+                          ? "0 4px 12px -2px rgba(99,102,241,0.4), 0 2px 0 rgba(79,70,229,0.7)"
+                          : "0 1px 2px rgba(0,0,0,0.3)",
                     }}
                     exit={{ opacity: 0, y: -25, scale: 0.6 }}
                     transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                    className="relative px-3 py-2 rounded border font-mono text-xs font-bold text-neutral-100 flex items-center justify-between shadow-md"
+                    className="relative px-3 py-2 rounded-lg border-2 font-mono text-xs font-bold text-neutral-100 flex items-center justify-between z-10"
                   >
                     {/* Index or Order Badge */}
                     <span className="text-[10px] font-mono text-neutral-500">

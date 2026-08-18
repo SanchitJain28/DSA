@@ -13,6 +13,7 @@ import SudokuGridRenderer from "../shared/SudokuGridRenderer";
 import HashMap from "../shared/HashMap";
 import StackBucket from "../shared/StackBucket";
 import CanvasViewport from "../shared/CanvasViewport";
+import StepProgress from "../shared/StepProgress";
 import type { ArrayFrame } from "../../core/array/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
@@ -67,18 +68,20 @@ export default function ArrayVisualizerLayout({
     setIsPlaying,
     currentIdx,
     setCurrentIdx,
-    frames.length
+    frames.length,
   );
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx] ||
-    frames[0] || {
-      phase: "Ready",
-      codeLine: 1,
-      message: "",
-      variables: {},
-    };
+  const DEFAULT_FRAME: ArrayFrame = {
+    phase: "Ready",
+    codeLine: 1,
+    message: "",
+    variables: {},
+    arrays: [],
+  };
+
+  const frame: ArrayFrame = frames[currentIdx] || frames[0] || DEFAULT_FRAME;
 
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
@@ -112,28 +115,18 @@ export default function ArrayVisualizerLayout({
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
           <Panel className="flex flex-col min-w-0 h-full">
-            {/* Main Interactive Canvas Area */}
             <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
               <CanvasViewport className="flex-1 w-full h-full">
                 <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full mx-auto">
-                  {/* 1. In-Canvas Variables Strip */}
                   <Variables
                     variables={frame.variables}
                     highlightColorClass={colors.variablesText}
                   />
-
-                  {/* 2. Extra In-Canvas Content (if provided) */}
                   {renderExtraCanvasContent && renderExtraCanvasContent(frame)}
-
-                  {/* 3. Arrays and HashMap In-Canvas Container */}
                   <div className="w-full flex flex-wrap items-start justify-center gap-10 py-2">
-                    {/* Arrays / Grid */}
                     <div className="flex flex-col items-center justify-center gap-8">
                       {frame.grid ? (
-                        <SudokuGridRenderer
-                          grid={frame.grid}
-                          colors={colors}
-                        />
+                        <SudokuGridRenderer grid={frame.grid} colors={colors} />
                       ) : (
                         <AnimatePresence mode="popLayout">
                           {frame.arrays?.map((arr) => (
@@ -148,7 +141,6 @@ export default function ArrayVisualizerLayout({
                       )}
                     </div>
 
-                    {/* In-Canvas HashMap */}
                     {hasHashMap && (
                       <div className="shrink-0 pt-2">
                         <HashMap
@@ -159,7 +151,6 @@ export default function ArrayVisualizerLayout({
                       </div>
                     )}
 
-                    {/* In-Canvas Call Stack Bucket */}
                     {frame.callStack && frame.callStack.length > 1 && (
                       <div className="shrink-0 pt-2">
                         <StackBucket
@@ -174,9 +165,13 @@ export default function ArrayVisualizerLayout({
                 </div>
               </CanvasViewport>
 
-              {/* Phase Indicator */}
-              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
           </Panel>

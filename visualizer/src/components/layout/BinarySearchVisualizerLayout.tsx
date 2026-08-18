@@ -8,6 +8,7 @@ import Variables from "../shared/Variables";
 import Explanation from "../shared/Explanation";
 import SourceCode from "../shared/SourceCode";
 import CanvasViewport from "../shared/CanvasViewport";
+import StepProgress from "../shared/StepProgress";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
 export interface BinarySearchVisualizerLayoutProps {
@@ -59,18 +60,19 @@ export default function BinarySearchVisualizerLayout({
     setIsPlaying,
     currentIdx,
     setCurrentIdx,
-    frames.length
+    frames.length,
   );
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx] ||
-    frames[0] || {
-      phase: "Ready",
-      codeLine: 1,
-      message: "",
-      variables: {},
-    };
+  const DEFAULT_FRAME = {
+    variables: {},
+    message: "No frame data",
+    codeLine: 0,
+    phase: "Ready",
+  };
+
+  const frame = frames[currentIdx] || frames[0] || DEFAULT_FRAME;
 
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
@@ -101,17 +103,14 @@ export default function BinarySearchVisualizerLayout({
       <div className="flex-1 mt-4 overflow-hidden">
         <PanelGroup orientation="horizontal">
           <Panel className="flex flex-col min-w-0 h-full">
-            {/* Main Interactive Canvas Area */}
             <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
               <CanvasViewport className="flex-1 w-full h-full">
                 <div className="flex flex-col items-center justify-center p-8 gap-6 min-w-[700px] max-w-[1100px] w-full mx-auto">
-                  {/* 1. In-Canvas Variables Strip */}
                   <Variables
                     variables={frame.variables}
                     highlightColorClass={colors.variablesText}
                   />
 
-                  {/* 2. Visualizer Content (Chart + Array / Packages) */}
                   {renderCanvasContent && (
                     <div className="w-full flex flex-col items-center gap-6">
                       {renderCanvasContent(frame)}
@@ -120,9 +119,14 @@ export default function BinarySearchVisualizerLayout({
                 </div>
               </CanvasViewport>
 
-              {/* Phase Indicator */}
-              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              {/* Step Progress & Phase Indicator */}
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
           </Panel>

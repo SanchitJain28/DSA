@@ -10,6 +10,7 @@ import SourceCode from "../shared/SourceCode";
 import Explanation from "../shared/Explanation";
 import Pointer from "../shared/Pointer";
 import CanvasViewport from "../shared/CanvasViewport";
+import StepProgress from "../shared/StepProgress";
 import type { SlidingWindowFrame } from "../../core/sliding-window/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
@@ -60,19 +61,21 @@ export default function SlidingWindowVisualizerLayout({
     setIsPlaying,
     currentIdx,
     setCurrentIdx,
-    frames.length
+    frames.length,
   );
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx] ||
-    frames[0] || {
-      phase: "Ready",
-      codeLine: 1,
-      message: "",
-      variables: {},
-      arrays: [],
-    };
+  const DEFAULT_FRAME: SlidingWindowFrame = {
+    phase: "Ready",
+    codeLine: 1,
+    message: "",
+    variables: {},
+    arrays: [],
+  };
+
+  const frame: SlidingWindowFrame =
+    frames[currentIdx] || frames[0] || DEFAULT_FRAME;
 
   const handleNext = () =>
     setCurrentIdx((p) => Math.min(p + 1, frames.length - 1));
@@ -172,9 +175,12 @@ export default function SlidingWindowVisualizerLayout({
                               // Active pointers for this index (e.g. L, R)
                               const activePointers = arr.pointers
                                 ? Object.entries(arr.pointers).filter(
-                                    ([_, pIdx]) => pIdx === idx
+                                    ([_, pIdx]) => pIdx === idx,
                                   )
                                 : [];
+
+                              const hasPointer = activePointers.length > 0;
+                              const isElementActive = isActive || hasPointer;
 
                               return (
                                 <div
@@ -185,7 +191,7 @@ export default function SlidingWindowVisualizerLayout({
                                   {activePointers.length > 0 && (
                                     <Pointer
                                       labels={activePointers.map(
-                                        ([label]) => label
+                                        ([label]) => label,
                                       )}
                                       x={28}
                                       y={34}
@@ -197,22 +203,28 @@ export default function SlidingWindowVisualizerLayout({
                                     layout
                                     initial={{ scale: 0.8, opacity: 0 }}
                                     animate={{
-                                      scale: isActive ? 1.1 : 1,
+                                      y: isElementActive ? -5 : 0,
+                                      scale: isElementActive ? 1.05 : 1,
                                       opacity: 1,
-                                      backgroundColor: isActive
-                                        ? colors.nodeActiveBg
-                                        : "#1f2937",
-                                      borderColor: isActive
-                                        ? colors.nodeActiveBorder
-                                        : "#374151",
+                                      backgroundColor: isElementActive
+                                        ? colors.nodeActiveBg || "#241a15"
+                                        : "#18181b",
+                                      borderColor: isElementActive
+                                        ? colors.nodeActiveBorder || "#f97316"
+                                        : "#2e2e32",
+                                      boxShadow: isElementActive
+                                        ? "0 4px 0 #9a3412, 0 8px 16px -2px rgba(249, 115, 22, 0.35)"
+                                        : "0 1px 2px rgba(0,0,0,0.3)",
                                     }}
                                     transition={{
                                       type: "spring",
-                                      stiffness: 300,
-                                      damping: 20,
+                                      stiffness: 350,
+                                      damping: 22,
                                     }}
-                                    className={`w-14 h-14 rounded-md border-2 flex items-center justify-center font-mono font-bold text-xl shadow-md z-10 select-none ${
-                                      isActive ? "z-20" : ""
+                                    className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center font-mono font-bold text-xl select-none z-10 ${
+                                      isElementActive
+                                        ? "z-20 text-white font-extrabold"
+                                        : "text-neutral-200"
                                     }`}
                                   >
                                     {val !== null ? String(val) : ""}
@@ -232,9 +244,14 @@ export default function SlidingWindowVisualizerLayout({
                 </div>
               </CanvasViewport>
 
-              {/* Phase Indicator */}
-              <div className="absolute bottom-3 left-4 text-xs text-neutral-400 font-medium z-10 pointer-events-none">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              {/* Step Progress & Phase Indicator */}
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
           </Panel>

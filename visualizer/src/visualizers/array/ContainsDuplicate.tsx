@@ -39,14 +39,13 @@ const TEST_CASES: ContainsDuplicateTestCase[] = [
 export default function ContainsDuplicate() {
   const [testCaseIdx, setTestCaseIdx] = useState(0);
   const [currentData, setCurrentData] = useState<ContainsDuplicateData>(
-    TEST_CASES[0].data!
+    TEST_CASES[0].data!,
   );
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Buffer state for modal
   const [tempNumsInput, setTempNumsInput] = useState(
-    `[${TEST_CASES[0].data!.nums.join(", ")}]`
+    `[${TEST_CASES[0].data!.nums.join(", ")}]`,
   );
 
   const modal = useConfigModal(0);

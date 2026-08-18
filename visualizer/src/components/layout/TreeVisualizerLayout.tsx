@@ -9,6 +9,7 @@ import Variables from "../shared/Variables";
 import CallStack from "../shared/CallStack";
 import SourceCode from "../shared/SourceCode";
 import Explanation from "../shared/Explanation";
+import StepProgress from "../shared/StepProgress";
 import type { Frame } from "../../core/tree/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
@@ -39,8 +40,8 @@ export default function TreeVisualizerLayout({
   code,
   children,
   headerChildren,
-  sidebarTitle,
-  sidebarMode,
+  sidebarTitle = "Call Stack",
+  sidebarMode = "stack",
   currentIdx: controlledIdx,
   setCurrentIdx: setControlledIdx,
   isPlaying: controlledIsPlaying,
@@ -49,19 +50,17 @@ export default function TreeVisualizerLayout({
   const [internalIdx, setInternalIdx] = useState(0);
   const [internalIsPlaying, setInternalIsPlaying] = useState(false);
 
-  const isControlled =
-    controlledIdx !== undefined && setControlledIdx !== undefined;
-  const currentIdx = isControlled ? controlledIdx : internalIdx;
-  const setCurrentIdx = isControlled ? setControlledIdx : setInternalIdx;
-
-  const isPlayingControlled =
-    controlledIsPlaying !== undefined && setControlledIsPlaying !== undefined;
-  const isPlaying = isPlayingControlled
-    ? controlledIsPlaying
-    : internalIsPlaying;
-  const setIsPlaying = isPlayingControlled
-    ? setControlledIsPlaying
-    : setInternalIsPlaying;
+  const currentIdx = controlledIdx !== undefined ? controlledIdx : internalIdx;
+  const setCurrentIdx =
+    setControlledIdx !== undefined ? setControlledIdx : setInternalIdx;
+  const isPlaying =
+    controlledIsPlaying !== undefined
+      ? controlledIsPlaying
+      : internalIsPlaying;
+  const setIsPlaying =
+    setControlledIsPlaying !== undefined
+      ? setControlledIsPlaying
+      : setInternalIsPlaying;
 
   const modalSlot = children || headerChildren;
 
@@ -75,7 +74,15 @@ export default function TreeVisualizerLayout({
 
   useKeyboardControls(frames.length, setCurrentIdx, setIsPlaying);
 
-  const frame = frames[currentIdx];
+  const DEFAULT_FRAME: Frame = {
+    variables: {},
+    message: "No frame data",
+    codeLine: 0,
+    phase: "Ready",
+  };
+
+  const frame: Frame = frames[currentIdx] || frames[0] || DEFAULT_FRAME;
+
   const activeLayout = frame.layout || layout;
 
   const handleNext = () =>
@@ -252,8 +259,14 @@ export default function TreeVisualizerLayout({
                 </div>
               </div>
 
-              <div className="absolute bottom-4 left-4 text-sm text-muted-foreground font-medium">
-                Phase: <span className={colors.phaseText}>{frame.phase}</span>
+              {/* Step Progress & Phase Indicator */}
+              <div className="absolute bottom-3 left-4 z-10">
+                <StepProgress
+                  label={frame.phase || "Phase"}
+                  currentStep={currentIdx}
+                  totalSteps={frames.length}
+                  onStepClick={setCurrentIdx}
+                />
               </div>
             </div>
 
