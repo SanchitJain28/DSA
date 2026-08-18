@@ -23,15 +23,6 @@ const TOPIC_LABELS: Record<string, string> = {
   recursion: "Recursion",
 };
 
-const CODES: Record<string, string> = {
-  trees: "TR",
-  arrays: "AR",
-  "linked-list": "LL",
-  stack: "ST",
-  "binary-search": "BS",
-  "sliding-window": "SW",
-  recursion: "RC",
-};
 
 const DIF_COLORS: Record<string, string> = {
   Easy: "#10b981",
@@ -172,7 +163,7 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-gradient-to-b from-[rgba(30,30,33,0.7)] to-[rgba(18,18,20,0.7)] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
               <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
                 {totalCount}+
               </span>
@@ -181,7 +172,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-gradient-to-b from-[rgba(30,30,33,0.7)] to-[rgba(18,18,20,0.7)] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
               <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
                 7
               </span>
@@ -190,7 +181,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-gradient-to-b from-[rgba(30,30,33,0.7)] to-[rgba(18,18,20,0.7)] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
               <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
                 Live
               </span>
@@ -369,7 +360,7 @@ export default function HomePage() {
   );
 }
 
-// Individual Problem Card matching Claude Design card specs
+// Individual Problem Card matching solid clean styling
 function ProblemCard({
   problem,
   onLaunch,
@@ -377,54 +368,32 @@ function ProblemCard({
   problem: ProblemInfo;
   onLaunch: () => void;
 }) {
-  const accent = ACCENTS[problem.topicId] || "#6366f1";
-  const code = CODES[problem.topicId] || "AL";
   const difColor = DIF_COLORS[problem.difficulty] || "#10b981";
 
   return (
     <div
       onClick={onLaunch}
-      style={
-        {
-          "--glowSolid": accent,
-          "--glow": `${accent}40`,
-        } as React.CSSProperties
-      }
-      className="group bg-gradient-to-b from-[rgba(30,30,33,0.85)] to-[rgba(17,17,19,0.9)] border border-[#2a2a2e] rounded-md shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_1px_2px_rgba(0,0,0,0.4)] p-[22px] flex flex-col gap-3.5 transition-all duration-200 relative cursor-pointer hover:border-[var(--glowSolid)] hover:shadow-[0_10px_40px_-10px_var(--glow),inset_0_1px_0_rgba(255,255,255,0.07)] hover:-translate-y-1"
+      className="group bg-[#121214] hover:bg-[#161619] border border-[#262626] hover:border-[#383838] rounded-md p-[22px] flex flex-col gap-3 transition-all duration-150 relative cursor-pointer"
     >
-      {/* Top Header: 2-Letter Topic Badge + Difficulty Badge */}
-      <div className="flex items-start justify-between gap-3">
-        <div
-          style={{
-            borderColor: accent,
-            color: accent,
-            boxShadow: `0 0 18px -6px ${accent}`,
-          }}
-          className="w-11 h-11 border rounded-md grid place-items-center font-['JetBrains_Mono',monospace] font-bold text-[15px] bg-gradient-to-br from-[#ffffff10] to-[#ffffff02]"
-        >
-          {code}
-        </div>
-
+      {/* Topic Name & Difficulty Badge in same top row */}
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-['JetBrains_Mono',monospace] text-[11px] text-[#737373] uppercase tracking-[0.1em]">
+          {problem.topic}
+        </span>
         <span
           style={{
-            color: difColor,
-            border: `1px solid ${difColor}55`,
-            background: `${difColor}12`,
+            backgroundColor: difColor,
+            color: problem.difficulty === "Medium" ? "#0a0a0a" : "#ffffff",
           }}
-          className="font-['JetBrains_Mono',monospace] text-[10.5px] font-bold uppercase tracking-[0.06em] px-2.5 py-1 rounded"
+          className="font-['JetBrains_Mono',monospace] text-[10.5px] font-bold uppercase tracking-[0.06em] px-2.5 py-0.5 rounded shadow-sm"
         >
           {problem.difficulty}
         </span>
       </div>
 
-      {/* Topic Name & Problem Title */}
-      <div>
-        <div className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#737373] uppercase tracking-[0.1em] mb-1.5">
-          {problem.topic}
-        </div>
-        <div className="text-[18px] font-semibold tracking-[-0.01em] leading-[1.25] text-[#f5f5f5] group-hover:text-white transition-colors">
-          {problem.title}
-        </div>
+      {/* Problem Title */}
+      <div className="text-[18px] font-semibold tracking-[-0.01em] leading-[1.25] text-[#f5f5f5] group-hover:text-white transition-colors">
+        {problem.title}
       </div>
 
       {/* Summary */}
@@ -433,23 +402,15 @@ function ProblemCard({
       </p>
 
       {/* Tags Chips */}
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5 pt-1">
         {problem.tags.map((tag) => (
           <span
             key={tag}
-            className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#a3a3a3] border border-[#262626] rounded px-2 py-0.5 bg-[#ffffff05]"
+            className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#a3a3a3] border border-[#262626] rounded px-2 py-0.5 bg-[#18181b]"
           >
             {tag}
           </span>
         ))}
-      </div>
-
-      {/* Launch Visualizer Link Button */}
-      <div className="flex items-center justify-between mt-1 pt-3.5 border-t border-[#1f1f1f] font-['JetBrains_Mono',monospace] text-[12.5px] font-medium text-[#e5e5e5] uppercase tracking-[0.04em] group-hover:text-[var(--glowSolid)] transition-colors">
-        <span>Launch Visualizer</span>
-        <span className="text-[15px] group-hover:translate-x-1 transition-transform">
-          →
-        </span>
       </div>
     </div>
   );
