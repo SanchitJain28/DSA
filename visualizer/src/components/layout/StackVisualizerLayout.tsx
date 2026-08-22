@@ -123,16 +123,10 @@ export default function StackVisualizerLayout({
             <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
               <CanvasViewport className="flex-1 w-full h-full">
                 <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full mx-auto">
-                  {/* 1. In-Canvas Variables Strip */}
-                  <Variables
-                    variables={frame.variables}
-                    highlightColorClass={colors.variablesText}
-                  />
-
-                  {/* 2. Extra In-Canvas Monotonic Pole Sight Chart (if provided) */}
+                  {/* 1. Extra In-Canvas Monotonic Pole Sight Chart (if provided) */}
                   {renderExtraCanvasContent && renderExtraCanvasContent(frame)}
 
-                  {/* 3. Arrays and Physical Data Stacks In-Canvas Flow */}
+                  {/* 2. Main Canvas Flow: Physical Data Stacks + Arrays + Variables State Card on Right */}
                   <div className="w-full flex flex-wrap items-start justify-center gap-12 py-2">
                     {/* Data Stacks */}
                     {frame.stacks?.map((st) => (
@@ -160,6 +154,14 @@ export default function StackVisualizerLayout({
                         </AnimatePresence>
                       </div>
                     )}
+
+                    {/* In-Canvas Variables State Card on Right */}
+                    <div className="shrink-0 pt-2">
+                      <Variables
+                        variables={frame.variables}
+                        highlightColorClass={colors.variablesText}
+                      />
+                    </div>
                   </div>
                 </div>
               </CanvasViewport>

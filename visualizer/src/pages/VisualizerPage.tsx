@@ -24,6 +24,8 @@ import KthSmallest from "@/visualizers/tree/KthSmallest";
 import LevelOrder from "@/visualizers/tree/LevelOrder";
 import ZigzagLevelOrder from "@/visualizers/tree/ZigzagLevelOrder";
 import RightSideView from "@/visualizers/tree/RightSideView";
+import WidthOfBinaryTree from "@/visualizers/tree/WidthOfBinaryTree";
+import MaxPathSum from "@/visualizers/tree/MaxPathSum";
 import TreeVisualizer from "@/visualizers/tree/TreeVisualizer";
 import SortList from "@/visualizers/linked-list/SortList";
 import MiddleNode from "@/visualizers/linked-list/MiddleNode";
@@ -32,6 +34,7 @@ import SwapPairs from "@/visualizers/linked-list/SwapPairs";
 import HasCycle from "@/visualizers/linked-list/HasCycle";
 import ReorderList from "@/visualizers/linked-list/ReorderList";
 import RotateList from "@/visualizers/linked-list/RotateList";
+import PartitionList from "@/visualizers/linked-list/PartitionList";
 import SortedSquares from "@/visualizers/array/SortedSquares";
 import ContainsDuplicate from "@/visualizers/array/ContainsDuplicate";
 import GroupAnagrams from "@/visualizers/array/GroupAnagrams";
@@ -47,6 +50,11 @@ import NextGreaterElement from "@/visualizers/stack/NextGreaterElement";
 import LongestRepeatingCharReplacement from "@/visualizers/sliding-window/LongestRepeatingCharReplacement";
 import SearchInsertPosition from "@/visualizers/binary-search/SearchInsertPosition";
 import ShipWithinDays from "@/visualizers/binary-search/ShipWithinDays";
+import Search2DMatrix from "@/visualizers/binary-search/Search2DMatrix";
+import FindMinRotatedArray from "@/visualizers/binary-search/FindMinRotatedArray";
+import SearchRotatedArray from "@/visualizers/binary-search/SearchRotatedArray";
+import KokoEatingBananas from "@/visualizers/binary-search/KokoEatingBananas";
+import MinHeapVisualizer from "@/visualizers/heap/MinHeapVisualizer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import { AppSidebar } from "@/components/layout/AppSidebar";
@@ -75,6 +83,8 @@ export type VisualizerType =
   | "levelorder"
   | "zigzaglevelorder"
   | "rightsideview"
+  | "widthofbinarytree"
+  | "maxpathsum"
   | "treevisualizer"
   | "sortlist"
   | "middlenode"
@@ -83,6 +93,7 @@ export type VisualizerType =
   | "hascycle"
   | "reorderlist"
   | "rotatelist"
+  | "partitionlist"
   | "sortedsquares"
   | "containsduplicate"
   | "groupanagrams"
@@ -98,23 +109,26 @@ export type VisualizerType =
   | "nextgreaterelement"
   | "longestcharreplacement"
   | "searchinsert"
-  | "shipwithindays";
+  | "shipwithindays"
+  | "search2dmatrix"
+  | "findmin"
+  | "searchrotated"
+  | "kokoeatingbananas"
+  | "minheap";
 
 function VisualizerPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const problemFromUrl = searchParams.get("problem") as VisualizerType | null;
 
   const [activeTab, setActiveTab] = useState<VisualizerType>(
-    problemFromUrl || "twosum"
+    problemFromUrl || "twosum",
   );
 
-  // Sync URL when activeTab changes
   const handleTabChange = (tab: VisualizerType) => {
     setActiveTab(tab);
     setSearchParams({ problem: tab });
   };
 
-  // Sync state if URL search param changes externally
   useEffect(() => {
     if (problemFromUrl && problemFromUrl !== activeTab) {
       setActiveTab(problemFromUrl);
@@ -152,6 +166,8 @@ function VisualizerPage() {
               {activeTab === "levelorder" && <LevelOrder />}
               {activeTab === "zigzaglevelorder" && <ZigzagLevelOrder />}
               {activeTab === "rightsideview" && <RightSideView />}
+              {activeTab === "widthofbinarytree" && <WidthOfBinaryTree />}
+              {activeTab === "maxpathsum" && <MaxPathSum />}
               {activeTab === "treevisualizer" && <TreeVisualizer />}
               {activeTab === "sortlist" && <SortList />}
               {activeTab === "middlenode" && <MiddleNode />}
@@ -160,6 +176,7 @@ function VisualizerPage() {
               {activeTab === "hascycle" && <HasCycle />}
               {activeTab === "reorderlist" && <ReorderList />}
               {activeTab === "rotatelist" && <RotateList />}
+              {activeTab === "partitionlist" && <PartitionList />}
               {activeTab === "sortedsquares" && <SortedSquares />}
               {activeTab === "containsduplicate" && <ContainsDuplicate />}
               {activeTab === "groupanagrams" && <GroupAnagrams />}
@@ -177,6 +194,11 @@ function VisualizerPage() {
               )}
               {activeTab === "searchinsert" && <SearchInsertPosition />}
               {activeTab === "shipwithindays" && <ShipWithinDays />}
+              {activeTab === "search2dmatrix" && <Search2DMatrix />}
+              {activeTab === "findmin" && <FindMinRotatedArray />}
+              {activeTab === "searchrotated" && <SearchRotatedArray />}
+              {activeTab === "kokoeatingbananas" && <KokoEatingBananas />}
+              {activeTab === "minheap" && <MinHeapVisualizer />}
             </div>
           </div>
         </div>

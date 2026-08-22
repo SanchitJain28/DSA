@@ -1,0 +1,17 @@
+export const maxPathSumCode = [
+  { line: 1, text: "function maxPathSum(root: TreeNode | null): number {" },
+  { line: 2, text: "  if (!root) return 0;" },
+  { line: 3, text: "  let max = -Infinity;" },
+  { line: 4, text: "" },
+  { line: 5, text: "  function dfs(node: TreeNode | null): number {" },
+  { line: 6, text: "    if (!node) return 0;" },
+  { line: 7, text: "    const left = Math.max(0, dfs(node.left));" },
+  { line: 8, text: "    const right = Math.max(0, dfs(node.right));" },
+  { line: 9, text: "    max = Math.max(max, left + right + node.val);" },
+  { line: 10, text: "    return node.val + Math.max(left, right);" },
+  { line: 11, text: "  }" },
+  { line: 12, text: "" },
+  { line: 13, text: "  dfs(root);" },
+  { line: 14, text: "  return max;" },
+  { line: 15, text: "}" },
+];

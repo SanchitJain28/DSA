@@ -105,17 +105,20 @@ export default function BinarySearchVisualizerLayout({
           <Panel className="flex flex-col min-w-0 h-full">
             <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
               <CanvasViewport className="flex-1 w-full h-full">
-                <div className="flex flex-col items-center justify-center p-8 gap-6 min-w-[700px] max-w-[1100px] w-full mx-auto">
-                  <Variables
-                    variables={frame.variables}
-                    highlightColorClass={colors.variablesText}
-                  />
-
+                <div className="flex items-start justify-center p-8 gap-10 w-fit max-w-full mx-auto">
                   {renderCanvasContent && (
-                    <div className="w-full flex flex-col items-center gap-6">
+                    <div className="flex flex-col items-center gap-6 shrink-0">
                       {renderCanvasContent(frame)}
                     </div>
                   )}
+
+                  {/* In-Canvas Variables State Card on Right */}
+                  <div className="shrink-0 pt-2">
+                    <Variables
+                      variables={frame.variables}
+                      highlightColorClass={colors.variablesText}
+                    />
+                  </div>
                 </div>
               </CanvasViewport>
 

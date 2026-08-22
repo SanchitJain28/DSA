@@ -12,7 +12,8 @@ export interface ProblemInfo {
     | "stack"
     | "binary-search"
     | "sliding-window"
-    | "recursion";
+    | "recursion"
+    | "heap";
   difficulty: "Easy" | "Medium" | "Hard";
   description: string;
   theme: ThemeName;
@@ -75,6 +76,13 @@ export const TOPIC_GROUPS: TopicGroup[] = [
     name: "Recursion & DP",
     description: "Call stack unwinding, branching decision trees, and 1D memoization.",
     iconName: "GitFork",
+    theme: "emerald",
+  },
+  {
+    id: "heap",
+    name: "Heap / Priority Queue",
+    description: "Complete binary tree representation, sift up, and sift down priority queue operations.",
+    iconName: "Binary",
     theme: "emerald",
   },
 ];
@@ -374,6 +382,26 @@ export const PROBLEMS: ProblemInfo[] = [
     tags: ["BFS", "Right View"],
   },
   {
+    id: "widthofbinarytree",
+    title: "Maximum Width of Binary Tree",
+    topic: "Trees & BST",
+    topicId: "trees",
+    difficulty: "Medium",
+    description: "Compute the maximum level width of a binary tree with 0-indexed position normalization.",
+    theme: "indigo",
+    tags: ["BFS", "Queue", "Tree Width", "Indexing"],
+  },
+  {
+    id: "maxpathsum",
+    title: "Binary Tree Maximum Path Sum",
+    topic: "Trees & BST",
+    topicId: "trees",
+    difficulty: "Hard",
+    description: "Find the maximum path sum across any sequence of adjacent nodes in a binary tree using postorder DFS.",
+    theme: "emerald",
+    tags: ["DFS", "Recursion", "Path Sum", "Hard"],
+  },
+  {
     id: "treevisualizer",
     title: "Tree Visualizer & Playground",
     topic: "Trees & BST",
@@ -455,6 +483,16 @@ export const PROBLEMS: ProblemInfo[] = [
     theme: "cyan",
     tags: ["Circular Ring", "Modulo Shift"],
   },
+  {
+    id: "partitionlist",
+    title: "Partition List",
+    topic: "Linked Lists",
+    topicId: "linked-list",
+    difficulty: "Medium",
+    description: "Partition a linked list around value x preserving original relative order using two dummy queues.",
+    theme: "indigo",
+    tags: ["Two Pointers", "Dummy Nodes", "List Partition"],
+  },
 
   // Stack
   {
@@ -529,6 +567,46 @@ export const PROBLEMS: ProblemInfo[] = [
     theme: "teal",
     tags: ["Binary Search on Answer", "Feasibility"],
   },
+  {
+    id: "search2dmatrix",
+    title: "Search a 2D Matrix",
+    topic: "Binary Search",
+    topicId: "binary-search",
+    difficulty: "Medium",
+    description: "Perform O(log(m*n)) binary search over a sorted 2D matrix using virtual 1D to 2D coordinate projections.",
+    theme: "sky",
+    tags: ["Binary Search", "2D Matrix", "Coordinate Mapping"],
+  },
+  {
+    id: "findmin",
+    title: "Find Minimum in Rotated Sorted Array",
+    topic: "Binary Search",
+    topicId: "binary-search",
+    difficulty: "Medium",
+    description: "Find the minimum element in an O(log n) binary search comparing mid against the right boundary.",
+    theme: "sky",
+    tags: ["Binary Search", "Rotated Array", "Inflection Point"],
+  },
+  {
+    id: "searchrotated",
+    title: "Search in Rotated Sorted Array",
+    topic: "Binary Search",
+    topicId: "binary-search",
+    difficulty: "Medium",
+    description: "Find the target index in a rotated sorted array using two-phase pivot location and segmented binary search.",
+    theme: "sky",
+    tags: ["Binary Search", "Rotated Array", "Pivot Search"],
+  },
+  {
+    id: "kokoeatingbananas",
+    title: "Koko Eating Bananas",
+    topic: "Binary Search",
+    topicId: "binary-search",
+    difficulty: "Medium",
+    description: "Binary search on answer over speed range [1 ... max(piles)] to find minimal rate to finish in h hours.",
+    theme: "amber",
+    tags: ["Binary Search on Answer", "Feasibility", "Math"],
+  },
 
   // Sliding Window
   {
@@ -562,5 +640,17 @@ export const PROBLEMS: ProblemInfo[] = [
     description: "Reverse string in-place recursively tracking call stack push and pop unwinding.",
     theme: "indigo",
     tags: ["Call Stack", "Recursion", "Two Pointers"],
+  },
+
+  // Heap / Priority Queue
+  {
+    id: "minheap",
+    title: "Min Heap (Heapify Up & Down)",
+    topic: "Heap / Priority Queue",
+    topicId: "heap",
+    difficulty: "Medium",
+    description: "Interactive Min Heap implementation visualizing _heapifyUp() upon insertion and _heapifyDown() upon root extraction across both binary tree and array representations.",
+    theme: "emerald",
+    tags: ["Min Heap", "Binary Heap", "Heapify Up", "Heapify Down", "Complete Binary Tree"],
   },
 ];

@@ -1,24 +1,21 @@
-class Solution________ {
-  minEatingSpeed(piles: number[], h: number): number {
-    let left = 1;
-    let right = Math.max(...piles);
-    while (left <= right) {
-      let mid = Math.floor((left + right) / 2);
-      let totalHours = this.getTotalHours(piles, mid);
-      if (totalHours <= h) {
-        right = mid - 1;
-      } else {
-        left = mid + 1;
-      }
+function minEatingSpeed(piles: number[], h: number): number {
+  let left = 1;
+  let right = Math.max(...piles);
+  function getHours(piles: number[], mid: number): number {
+    let th = 0;
+    for (let pile of piles) th += Math.ceil(pile / mid);
+    return th;
+  }
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    let totalHours = getHours(piles, mid);
+    if (totalHours > h) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
     }
-    return left;
   }
-
-  private getTotalHours(a: number[], m: number) {
-    let H = 0;
-    for (let h of a) H += Math.ceil(h / m);
-    return H;
-  }
+  return left;
 }
 
 // Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.

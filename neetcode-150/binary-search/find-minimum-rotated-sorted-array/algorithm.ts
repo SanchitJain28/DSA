@@ -1,17 +1,10 @@
-function findMin__(nums: number[]): number {
+function findMin(nums: number[]): number {
   let left = 0;
   let right = nums.length - 1;
-  //? [3 , 4, 5 , 6 , 1 , 2 ]
   while (left < right) {
     const mid = Math.floor((left + right) / 2);
-
-    if (nums[mid] > nums[right]) {
-      //? if this is bigger , there must be a drop
-      left = mid + 1;
-    } else {
-      //? this is perfectly sorted now 
-      right = mid;
-    }
+    if (nums[mid] > nums[right]) left = mid + 1;
+    else right = mid;
   }
   return nums[left];
 }

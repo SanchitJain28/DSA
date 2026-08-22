@@ -19,6 +19,7 @@ import {
   ListOrdered,
   Search,
   ArrowLeft,
+  Layers,
 } from "lucide-react";
 
 export function AppSidebar({
@@ -289,6 +290,24 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  isActive={activeTab === "widthofbinarytree"}
+                  onClick={() => setActiveTab("widthofbinarytree")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Maximum Width of Tree</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "maxpathsum"}
+                  onClick={() => setActiveTab("maxpathsum")}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  <span>Maximum Path Sum</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
                   isActive={activeTab === "treevisualizer"}
                   onClick={() => setActiveTab("treevisualizer")}
                 >
@@ -392,6 +411,59 @@ export function AppSidebar({
                   <span>Capacity To Ship Packages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "search2dmatrix"}
+                  onClick={() => setActiveTab("search2dmatrix")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Search a 2D Matrix</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "findmin"}
+                  onClick={() => setActiveTab("findmin")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Find Min in Rotated Array</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "searchrotated"}
+                  onClick={() => setActiveTab("searchrotated")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Search in Rotated Array</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "kokoeatingbananas"}
+                  onClick={() => setActiveTab("kokoeatingbananas")}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  <span>Koko Eating Bananas</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Heap / Priority Queue</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "minheap"}
+                  onClick={() => setActiveTab("minheap")}
+                >
+                  <Layers className="w-4 h-4 mr-2" />
+                  <span>Min Heap (Intro)</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -461,6 +533,15 @@ export function AppSidebar({
                 >
                   <LinkIcon className="w-4 h-4 mr-2" />
                   <span>Rotate List</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "partitionlist"}
+                  onClick={() => setActiveTab("partitionlist")}
+                >
+                  <LinkIcon className="w-4 h-4 mr-2" />
+                  <span>Partition List</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

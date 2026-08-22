@@ -150,11 +150,6 @@ export default function LinkedListVisualizerLayout({
             <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
               <CanvasViewport className="flex-1 w-full h-full">
                 <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full">
-                  <Variables
-                    variables={frame.variables}
-                    highlightColorClass={colors.variablesText}
-                  />
-
                   <div className="flex items-start justify-center gap-12 w-full pt-2">
                     {hasCallStack && (
                       <div className="shrink-0">
@@ -169,7 +164,7 @@ export default function LinkedListVisualizerLayout({
                     )}
 
                     <div
-                      className="relative bg-transparent flex items-center justify-center"
+                      className="relative bg-transparent flex items-center justify-center shrink-0"
                       style={{
                         width: totalGraphWidth,
                         height: totalGraphHeight,
@@ -191,6 +186,14 @@ export default function LinkedListVisualizerLayout({
                           theme={theme}
                         />
                       </div>
+                    </div>
+
+                    {/* In-Canvas Variables State Card on Right */}
+                    <div className="shrink-0 pt-2">
+                      <Variables
+                        variables={frame.variables}
+                        highlightColorClass={colors.variablesText}
+                      />
                     </div>
                   </div>
                 </div>

@@ -83,7 +83,7 @@ export default function RightSideView() {
       layout={layout}
       frames={rootAndFrames.frames}
       code={rightSideViewCode}
-      sidebarTitle="Queue (BFS)"
+      sidebarTitle="Queue"
       sidebarMode="queue"
       headerChildren={
         <TestCaseSwitcher
