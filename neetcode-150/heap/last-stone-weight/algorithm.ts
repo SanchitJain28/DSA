@@ -1,7 +1,7 @@
-import { MaxHeap } from "../intro/algorithm";
+import { Heap } from "../intro/algorithm";
 
 function lastStoneWeight(stones: number[]): number {
-  const heap = new MaxHeap(stones);
+  const heap = new Heap<number>((a, b) => b - a, stones);
   while (heap.size() > 1) {
     const firstMax = heap.poll()!;
     const secondMax = heap.poll()!;

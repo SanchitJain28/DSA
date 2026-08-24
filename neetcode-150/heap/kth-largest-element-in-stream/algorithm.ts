@@ -1,12 +1,12 @@
-import { MinHeap } from "../intro/algorithm";
+import { Heap } from "../intro/algorithm";
 
 class KthLargest {
-  private heap: MinHeap;
+  private heap: Heap<number>;
   private k: number;
 
   constructor(k: number, nums: number[]) {
     this.k = k;
-    this.heap = new MinHeap(nums.slice(0, k));
+    this.heap = new Heap<number>((a, b) => a - b, nums.slice(0, k));
     for (let i = k; i < nums.length; i++) this.add(nums[i]);
   }
 

@@ -7,7 +7,9 @@
 // console.log("Shifted (removed) : \n",shift, "\n");
 // console.log("Unshifted (added) : \n", unshift, "\n");
 
-import { MaxHeap } from "./neetcode-150/heap/intro/algorithm";
+import { Heap } from "./neetcode-150/heap/intro/algorithm";
+
+// import { Heap, MaxHeap } from "./neetcode-150/heap/intro/algorithm";
 
 // import { MinHeap } from "./neetcode-150/heap/intro/algorithm";
 
@@ -75,8 +77,25 @@ import { MaxHeap } from "./neetcode-150/heap/intro/algorithm";
 //   return [...map.values()];
 // }
 
-const maxHeap = new MaxHeap([2, 7, 4, 1, 8, 1]);
-console.log(maxHeap);
-console.log("Max element : " ,maxHeap.peek())
-console.log("Popped element :", maxHeap.poll())
-console.log("Updated heap : " , maxHeap)
+// const maxHeap = new MaxHeap([2, 7, 4, 1, 8, 1]);
+// console.log(maxHeap);
+// console.log("Max element : " ,maxHeap.peek())
+// console.log("Popped element :", maxHeap.poll())
+// console.log("Updated heap : " , maxHeap)
+
+function topKFrequent(nums: number[], k: number): number[] {
+  const freq = new Map<number, number>();
+  const heap = new Heap<number[]>((a, b) => b[1] - a[1]);
+  for (let num of nums) freq.set(num, (freq.get(num)! ?? 0) + 1);
+  for (let [val, fre] of freq) heap.add([val, fre]);
+  const result: number[] = [];
+  console.log("Heap : ", heap);
+  for (let i = 0; i < k; i++) {
+    const popped = heap.poll()!;
+    console.log("Popped : ", popped);
+    result.push(popped[0]);
+  }
+  return result;
+}
+
+console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));

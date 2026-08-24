@@ -5,7 +5,7 @@
     "markdown": true,
     "scminput": false,
     "javascript": true,
-    "typescript": false,
+    "typescript": true,
     "typescriptreact": true
   }
 }
