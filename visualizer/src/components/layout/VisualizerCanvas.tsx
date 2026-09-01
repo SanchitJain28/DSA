@@ -2,6 +2,7 @@ import CanvasViewport from "../shared/CanvasViewport";
 import Variables from "../shared/Variables";
 import StackBucket from "../shared/StackBucket";
 import StepProgress from "../shared/StepProgress";
+import Explanation from "../shared/Explanation";
 import { STRUCTURE_PANELS } from "../primitives/registry";
 import type { Scene } from "../../core/shared/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
@@ -19,9 +20,9 @@ export function VisualizerCanvas({
   currentStep,
   totalSteps,
   onStepClick,
-  theme = "violet",
+  theme = "bone" as any,
 }: VisualizerCanvasProps) {
-  const colors = themeColors[theme] || themeColors.violet;
+  const colors = themeColors[theme] || themeColors.bone || themeColors.amber;
 
   // Normalize variables (supports either Record<string, any> or Array<{name, value}>)
   const normalizedVariables: Record<string, any> = {};
@@ -39,26 +40,34 @@ export function VisualizerCanvas({
     ([_, state]) => state !== undefined && state !== null,
   );
 
+  const hasVariables = Object.keys(normalizedVariables).length > 0;
+  const hasCallStack = Boolean(frame.callStack && frame.callStack.length > 0);
+  const explanationMessage = frame.explanation || frame.message;
+
   return (
-    <div className="flex-1 relative bg-card rounded-md border border-border overflow-hidden shadow-inner flex flex-col h-full">
-      <CanvasViewport className="flex-1 w-full h-full">
-        <div className="flex flex-col items-center justify-center p-8 gap-8 min-w-[700px] w-full mx-auto">
-          {/* Main Visualizer Elements Row */}
-          <div className="w-full flex flex-wrap items-start justify-center gap-10 py-2">
+    <div className="flex-1 relative bg-[#0a0a0c] rounded-[14px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] overflow-hidden flex flex-col h-full font-['Poppins',sans-serif]">
+      {/* Anchored Viewport for Zero Layout Shift */}
+      <CanvasViewport className="flex-1 w-full h-full relative">
+        <div className="absolute inset-0 flex items-center justify-center p-8 min-w-[600px] pointer-events-auto">
+          {/* Main Visualizer Data Structures & Primitives */}
+          <div className="flex flex-wrap items-center justify-center gap-12">
             {structureEntries.map(([key, structState]) => {
               const PanelComponent = STRUCTURE_PANELS[key];
               if (!PanelComponent) {
                 return (
                   <div
                     key={key}
-                    className="p-4 border border-dashed border-neutral-700 rounded text-xs text-neutral-400 font-mono"
+                    className="p-4 border border-dashed border-[#2e2e34] rounded-[10px] text-xs text-[#8a8a93] font-['JetBrains_Mono',monospace]"
                   >
                     Unregistered structure: {key}
                   </div>
                 );
               }
               return (
-                <div key={key} className="shrink-0 flex items-center justify-center">
+                <div
+                  key={key}
+                  className="shrink-0 flex items-center justify-center"
+                >
                   <PanelComponent
                     state={structState}
                     theme={theme}
@@ -68,33 +77,28 @@ export function VisualizerCanvas({
               );
             })}
 
-            {/* In-Canvas Call Stack Bucket if recursion/callstack exists */}
-            {frame.callStack && frame.callStack.length > 1 && (
-              <div className="shrink-0 pt-2">
-                <StackBucket
-                  stack={frame.callStack}
-                  themeColorClass={colors.titleClass}
-                  activeBgClass={colors.callStackBg}
-                  activeBorderClass={colors.callStackBorder}
-                />
-              </div>
-            )}
-
-            {/* In-Canvas Variables State Card */}
-            {Object.keys(normalizedVariables).length > 0 && (
-              <div className="shrink-0 pt-2">
-                <Variables
-                  variables={normalizedVariables}
-                  highlightColorClass={colors.variablesText}
-                />
+            {/* In-Canvas Call Stack Bucket */}
+            {hasCallStack && (
+              <div className="shrink-0 flex items-center justify-center">
+                <StackBucket stack={frame.callStack!} />
               </div>
             )}
           </div>
         </div>
       </CanvasViewport>
 
-      {/* Step Progress & Phase Indicator at Bottom-Left */}
-      <div className="absolute bottom-3 left-4 z-10">
+      {/* Floating State Variables Card (Top-Right) */}
+      {hasVariables && (
+        <div className="absolute top-4 right-4 z-20 pointer-events-auto">
+          <Variables
+            variables={normalizedVariables}
+            highlightColorClass="text-[#c9c3b6]"
+          />
+        </div>
+      )}
+
+      {/* Step Progress & Phase Indicator at Top-Left */}
+      <div className="absolute top-4 left-4 z-20 pointer-events-auto">
         <StepProgress
           label={frame.phase || "Step"}
           currentStep={currentStep}
@@ -102,6 +106,13 @@ export function VisualizerCanvas({
           onStepClick={onStepClick}
         />
       </div>
+
+      {/* Floating Explanation Card (Bottom-Center) */}
+      {explanationMessage && (
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 pointer-events-auto max-w-2xl w-[92%] sm:w-auto">
+          <Explanation message={explanationMessage} />
+        </div>
+      )}
     </div>
   );
 }

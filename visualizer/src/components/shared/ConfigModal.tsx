@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { SlidersHorizontal, Sparkles, Check } from "lucide-react";
 import { type ThemeName } from "../../utils/theme";
@@ -34,91 +33,9 @@ export interface ConfigModalProps {
   children?: React.ReactNode;
 }
 
-const themeStyles: Record<
-  ThemeName,
-  {
-    iconColor: string;
-    headerIconWrapper: string;
-    presetSelected: string;
-    applyButton: string;
-  }
-> = {
-  indigo: {
-    iconColor: "text-indigo-400",
-    headerIconWrapper: "bg-indigo-500/10 border-indigo-500/20 text-indigo-400",
-    presetSelected:
-      "bg-indigo-950/50 border-indigo-500/60 text-neutral-100 ring-1 ring-indigo-500/40 shadow-sm",
-    applyButton: "bg-indigo-600 hover:bg-indigo-500",
-  },
-  cyan: {
-    iconColor: "text-cyan-400",
-    headerIconWrapper: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
-    presetSelected:
-      "bg-cyan-950/50 border-cyan-500/60 text-neutral-100 ring-1 ring-cyan-500/40 shadow-sm",
-    applyButton: "bg-cyan-600 hover:bg-cyan-500",
-  },
-  emerald: {
-    iconColor: "text-emerald-400",
-    headerIconWrapper: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
-    presetSelected:
-      "bg-emerald-950/50 border-emerald-500/60 text-neutral-100 ring-1 ring-emerald-500/40 shadow-sm",
-    applyButton: "bg-emerald-600 hover:bg-emerald-500",
-  },
-  amber: {
-    iconColor: "text-amber-400",
-    headerIconWrapper: "bg-amber-500/10 border-amber-500/20 text-amber-400",
-    presetSelected:
-      "bg-amber-950/50 border-amber-500/60 text-neutral-100 ring-1 ring-amber-500/40 shadow-sm",
-    applyButton: "bg-amber-600 hover:bg-amber-500",
-  },
-  rose: {
-    iconColor: "text-rose-400",
-    headerIconWrapper: "bg-rose-500/10 border-rose-500/20 text-rose-400",
-    presetSelected:
-      "bg-rose-950/50 border-rose-500/60 text-neutral-100 ring-1 ring-rose-500/40 shadow-sm",
-    applyButton: "bg-rose-600 hover:bg-rose-500",
-  },
-  fuchsia: {
-    iconColor: "text-fuchsia-400",
-    headerIconWrapper: "bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-400",
-    presetSelected:
-      "bg-fuchsia-950/50 border-fuchsia-500/60 text-neutral-100 ring-1 ring-fuchsia-500/40 shadow-sm",
-    applyButton: "bg-fuchsia-600 hover:bg-fuchsia-500",
-  },
-  teal: {
-    iconColor: "text-teal-400",
-    headerIconWrapper: "bg-teal-500/10 border-teal-500/20 text-teal-400",
-    presetSelected:
-      "bg-teal-950/50 border-teal-500/60 text-neutral-100 ring-1 ring-teal-500/40 shadow-sm",
-    applyButton: "bg-teal-600 hover:bg-teal-500",
-  },
-  orange: {
-    iconColor: "text-orange-400",
-    headerIconWrapper: "bg-orange-500/10 border-orange-500/20 text-orange-400",
-    presetSelected:
-      "bg-orange-950/50 border-orange-500/60 text-neutral-100 ring-1 ring-orange-500/40 shadow-sm",
-    applyButton: "bg-orange-600 hover:bg-orange-500",
-  },
-  violet: {
-    iconColor: "text-violet-400",
-    headerIconWrapper: "bg-violet-500/10 border-violet-500/20 text-violet-400",
-    presetSelected:
-      "bg-violet-950/50 border-violet-500/60 text-neutral-100 ring-1 ring-violet-500/40 shadow-sm",
-    applyButton: "bg-violet-600 hover:bg-violet-500",
-  },
-  sky: {
-    iconColor: "text-sky-400",
-    headerIconWrapper: "bg-sky-500/10 border-sky-500/20 text-sky-400",
-    presetSelected:
-      "bg-sky-950/50 border-sky-500/60 text-neutral-100 ring-1 ring-sky-500/40 shadow-sm",
-    applyButton: "bg-sky-600 hover:bg-sky-500",
-  },
-};
-
 export default function ConfigModal({
   title,
   description,
-  theme = "indigo",
   icon: HeaderIcon = SlidersHorizontal,
   triggerLabel = "Configure Inputs",
   isOpen,
@@ -130,68 +47,71 @@ export default function ConfigModal({
   onApply,
   children,
 }: ConfigModalProps) {
-  const tStyle = themeStyles[theme] || themeStyles.indigo;
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger
         onClick={onOpen}
-        className="flex items-center gap-1.5 bg-card hover:bg-accent/10 border border-border px-3 py-1.5 rounded-md text-xs font-medium text-foreground transition-colors shadow-sm cursor-pointer"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12.5px] font-medium text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33] cursor-pointer transition-all active:scale-95 font-['Poppins',sans-serif]"
       >
-        <HeaderIcon className={`w-3.5 h-3.5 ${tStyle.iconColor}`} />
+        <HeaderIcon className="w-3.5 h-3.5 text-[#c9c3b6]" />
         <span>{triggerLabel}</span>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-xl bg-neutral-900 border-neutral-800 text-neutral-100 shadow-2xl p-5 rounded-lg">
+      <DialogContent className="sm:max-w-xl bg-[#131316] border border-[#1e1e23] text-[#ededf0] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.06)] p-6 rounded-[16px] font-['Poppins',sans-serif]">
         <DialogHeader>
-          <div className="flex items-center gap-2.5">
-            <div className={`p-2 rounded-md border ${tStyle.headerIconWrapper}`}>
+          <div className="flex items-center gap-3">
+            <div className="w-[34px] h-[34px] rounded-[9px] bg-[#c9c3b6]/10 border border-[#c9c3b6]/25 grid place-items-center text-[#c9c3b6] shrink-0">
               <HeaderIcon className="w-4 h-4" />
             </div>
             <div>
-              <DialogTitle className="text-base font-semibold text-neutral-100">
+              <DialogTitle className="text-[17.5px] font-semibold text-[#ededf0] tracking-[-0.015em]">
                 {title}
               </DialogTitle>
-              <DialogDescription className="text-xs text-neutral-400 mt-0.5">
+              <DialogDescription className="text-[13px] text-[#82828b] mt-0.5">
                 {description}
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
 
-        <div className="space-y-4 py-2">
-          {/* Preset Test Scenarios Grid */}
+        <div className="py-3 space-y-4 max-h-[62vh] overflow-y-auto pr-1">
+          {/* Preset Cases Selector */}
           {presets.length > 0 && (
-            <div>
-              <label className="text-xs font-mono font-semibold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
-                <Sparkles className={`w-3.5 h-3.5 ${tStyle.iconColor}`} />
-                Preset Test Scenarios
+            <div className="space-y-2">
+              <label className="text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#a8a296] flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Presets Scenarios</span>
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-52 overflow-y-auto pr-1">
+
+              <div className="grid grid-cols-1 gap-2">
                 {presets.map((preset, idx) => {
                   const isSelected = selectedPresetIdx === idx;
                   return (
                     <button
                       key={preset.id}
                       type="button"
-                      onClick={() => onSelectPreset && onSelectPreset(idx)}
-                      className={`p-2.5 rounded-md border text-left transition-all cursor-pointer flex flex-col gap-1 ${
+                      onClick={() => onSelectPreset?.(idx)}
+                      className={`text-left p-3 rounded-[10px] transition-all flex items-start justify-between gap-3 cursor-pointer ${
                         isSelected
-                          ? tStyle.presetSelected
-                          : "bg-neutral-950/50 border-neutral-800 hover:bg-neutral-800/50 text-neutral-400 hover:text-neutral-200"
+                          ? "bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#c9c3b6] text-[#ededf0] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_6px_rgba(0,0,0,0.4)]"
+                          : "bg-[#1c1c21] border border-transparent text-[#8a8a93] hover:text-[#ededf0] hover:border-[#38383f]"
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-neutral-100">
+                      <div className="space-y-1 min-w-0">
+                        <div className="text-[13px] font-medium tracking-tight truncate">
                           {preset.name}
-                        </span>
-                        {isSelected && (
-                          <Check className={`w-3.5 h-3.5 ${tStyle.iconColor} shrink-0`} />
+                        </div>
+                        {preset.preview && (
+                          <div className="font-['JetBrains_Mono',monospace] text-[11px] text-[#7c7c85] truncate">
+                            {preset.preview}
+                          </div>
                         )}
                       </div>
-                      <div className="font-mono text-[11px] text-neutral-400 truncate">
-                        {preset.preview}
-                      </div>
+                      {isSelected && (
+                        <span className="w-5 h-5 rounded-full bg-[#c9c3b6] grid place-items-center text-[#15150f] shrink-0 mt-0.5">
+                          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                        </span>
+                      )}
                     </button>
                   );
                 })}
@@ -199,27 +119,26 @@ export default function ConfigModal({
             </div>
           )}
 
-          {/* Custom Children Form Inputs */}
+          {/* Custom Form Inputs Section */}
           {children && (
-            <div className={`${presets.length > 0 ? "pt-3 border-t border-neutral-800" : ""}`}>
-              {children}
-            </div>
+            <div className="pt-2 border-t border-[#1e1e23]">{children}</div>
           )}
         </div>
 
-        <DialogFooter className="mt-2 flex items-center justify-end gap-2 border-t border-neutral-800 bg-neutral-950/60 pt-4 rounded-b-lg">
-          <DialogClose
+        <DialogFooter className="gap-2 sm:gap-0 pt-2 border-t border-[#1e1e23]">
+          <button
             type="button"
-            className="px-3.5 py-1.5 rounded-md border border-neutral-700 bg-neutral-800 text-xs font-medium text-neutral-300 hover:text-white hover:bg-neutral-700 transition-colors cursor-pointer"
+            onClick={() => onOpenChange(false)}
+            className="px-4 py-2 rounded-[9px] text-[13px] font-medium text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#1c1c20] transition-colors cursor-pointer"
           >
             Cancel
-          </DialogClose>
+          </button>
           <button
             type="button"
             onClick={onApply}
-            className={`px-4 py-1.5 rounded-md text-xs font-semibold text-white shadow-lg transition-colors cursor-pointer ${tStyle.applyButton}`}
+            className="px-5 py-2 rounded-[9px] text-[13px] font-semibold text-[#15150f] bg-gradient-to-b from-[#d6d0c4] to-[#c4beb0] border border-[#b3ac9d] shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_8px_rgba(0,0,0,0.5)] hover:from-[#e2ddd2] hover:to-[#d2ccbe] transition-all cursor-pointer"
           >
-            Apply & Run
+            Apply &amp; Run
           </button>
         </DialogFooter>
       </DialogContent>

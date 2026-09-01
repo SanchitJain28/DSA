@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Pointer from "../shared/Pointer";
 import { useSettings } from "../../contexts/SettingsContext";
 import type { ArrayData, ArrayState } from "../../core/structures/array/types";
-import { themeColors, type ThemeName } from "../../utils/theme";
+import { type ThemeName } from "../../utils/theme";
 
 interface ArrayPanelProps {
   state: ArrayState;
@@ -12,20 +12,16 @@ interface ArrayPanelProps {
 
 export function ArrayPanel({
   state,
-  theme = "violet",
-  colors: customColors,
 }: ArrayPanelProps) {
-  const colors = customColors || themeColors[theme] || themeColors.violet;
   const arrays = Array.isArray(state) ? state : [state];
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 w-fit mx-auto bg-transparent">
+    <div className="flex flex-col items-center justify-center gap-8 w-fit mx-auto bg-transparent font-['Poppins',sans-serif]">
       <AnimatePresence mode="popLayout">
         {arrays.map((arr) => (
           <SingleArrayRenderer
             key={arr.id}
             arr={arr}
-            colors={colors}
           />
         ))}
       </AnimatePresence>
@@ -35,17 +31,15 @@ export function ArrayPanel({
 
 function SingleArrayRenderer({
   arr,
-  colors,
 }: {
   arr: ArrayData;
-  colors: Record<string, string>;
 }) {
   const { showPointers, randomizePointerColors } = useSettings();
 
   return (
     <div className="flex flex-col items-start w-fit bg-transparent">
       {arr.name && (
-        <div className="text-neutral-400 text-xs font-mono font-semibold uppercase tracking-wider mb-3 ml-1">
+        <div className="text-[#8a8a93] text-[11.5px] font-semibold uppercase tracking-[0.1em] mb-3 ml-1">
           {arr.name}
         </div>
       )}
@@ -76,9 +70,9 @@ function SingleArrayRenderer({
                 stiffness: 300,
                 damping: 25,
               }}
-              className={`absolute -top-2.5 h-[76px] rounded-md z-0 pointer-events-none border-2 bg-indigo-500/10 shadow-sm ${
+              className={`absolute -top-2.5 h-[76px] rounded-[12px] z-0 pointer-events-none border-2 bg-[#c9c3b6]/10 shadow-sm ${
                 window.colorClass ||
-                "border-indigo-400/80 shadow-indigo-500/20"
+                "border-[#c9c3b6]/80 shadow-[#c9c3b6]/20"
               }`}
               style={{ originX: 0 }}
             />
@@ -109,7 +103,7 @@ function SingleArrayRenderer({
                   labels={activePointers.map(([label]) => label)}
                   x={28}
                   y={34}
-                  themeClass={colors.callStackBorder}
+                  themeClass="border-[#c9c3b6] text-[#c9c3b6]"
                   randomColor={randomizePointerColors || false}
                 />
               )}
@@ -120,7 +114,6 @@ function SingleArrayRenderer({
                   isActive={isActive}
                   isMatch={isMatch}
                   isConflict={isConflict}
-                  colors={colors}
                 />
               ) : (
                 <motion.div
@@ -130,43 +123,43 @@ function SingleArrayRenderer({
                     y: isActive || isMatch || isConflict ? -4 : 0,
                     scale: isActive || isMatch || isConflict ? 1.04 : 1,
                     opacity: 1,
-                    backgroundColor: isConflict
-                      ? "#3b1219"
+                    background: isConflict
+                      ? "linear-gradient(180deg, #2b1c1c, #1a1010)"
                       : isMatch
-                      ? "#062e24"
+                      ? "linear-gradient(180deg, #18261e, #0e1712)"
                       : isActive
-                      ? colors.nodeActiveBg || "#241a15"
-                      : "#171717",
+                      ? "linear-gradient(180deg, #302e2a, #201f1c)"
+                      : "linear-gradient(180deg, #24242a, #1a1a1f)",
                     borderColor: isConflict
-                      ? "#f43f5e"
+                      ? "#b08a8a"
                       : isMatch
-                      ? "#10b981"
+                      ? "#7d9b86"
                       : isActive
-                      ? colors.nodeActiveBorder || "#f97316"
-                      : "#2e2e32",
+                      ? "#c9c3b6"
+                      : "#34343c",
                     boxShadow: isConflict
-                      ? "0 0 12px rgba(244, 63, 94, 0.4)"
+                      ? "0 0 14px rgba(176, 138, 138, 0.4)"
                       : isMatch
-                      ? "0 0 12px rgba(16, 185, 129, 0.4)"
+                      ? "0 0 14px rgba(125, 155, 134, 0.4)"
                       : isActive
-                      ? `0 4px 12px -2px rgba(249, 115, 22, 0.35)`
-                      : "0 1px 2px rgba(0,0,0,0.3)",
+                      ? "0 0 14px rgba(201, 195, 182, 0.35), inset 0 1px 0 rgba(255,255,255,0.12)"
+                      : "0 4px 10px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08)",
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 24 }}
-                  className={`w-14 h-14 rounded-md border flex items-center justify-center font-mono font-bold text-lg select-none z-10 ${
+                  className={`w-14 h-14 rounded-[10px] border flex items-center justify-center font-['JetBrains_Mono',monospace] font-bold text-lg select-none z-10 ${
                     isConflict
-                      ? "text-rose-200"
+                      ? "text-[#b08a8a]"
                       : isMatch
-                      ? "text-emerald-200 font-extrabold"
+                      ? "text-[#7d9b86]"
                       : isActive
-                      ? "text-white font-extrabold"
-                      : "text-neutral-300"
+                      ? "text-[#ffffff]"
+                      : "text-[#ededf0]"
                   }`}
                 >
                   {val !== null && val !== undefined ? String(val) : ""}
                 </motion.div>
               )}
-              <div className="text-[10px] font-mono text-neutral-500 mt-2">
+              <div className="text-[11px] font-['JetBrains_Mono',monospace] text-[#6c6c76] mt-2 font-medium">
                 {idx}
               </div>
             </div>
@@ -182,13 +175,11 @@ function NestedArrayRenderer({
   isActive,
   isMatch,
   isConflict,
-  colors,
 }: {
   val: any[];
   isActive: boolean;
   isMatch: boolean;
   isConflict: boolean;
-  colors: Record<string, string>;
 }) {
   return (
     <motion.div
@@ -198,53 +189,47 @@ function NestedArrayRenderer({
         y: isActive || isMatch || isConflict ? -4 : 0,
         scale: isActive || isMatch || isConflict ? 1.04 : 1,
         opacity: 1,
-        backgroundColor: isConflict
-          ? "#3b1219"
+        background: isConflict
+          ? "linear-gradient(180deg, #2b1c1c, #1a1010)"
           : isMatch
-          ? "#062e24"
+          ? "linear-gradient(180deg, #18261e, #0e1712)"
           : isActive
-          ? colors.nodeActiveBg || "#241a15"
-          : "#171717",
+          ? "linear-gradient(180deg, #302e2a, #201f1c)"
+          : "linear-gradient(180deg, #24242a, #1a1a1f)",
         borderColor: isConflict
-          ? "#f43f5e"
+          ? "#b08a8a"
           : isMatch
-          ? "#10b981"
+          ? "#7d9b86"
           : isActive
-          ? colors.nodeActiveBorder || "#f97316"
-          : "#2e2e32",
+          ? "#c9c3b6"
+          : "#34343c",
         boxShadow: isConflict
-          ? "0 0 12px rgba(244, 63, 94, 0.4)"
+          ? "0 0 14px rgba(176, 138, 138, 0.4)"
           : isMatch
-          ? "0 0 12px rgba(16, 185, 129, 0.4)"
+          ? "0 0 14px rgba(125, 155, 134, 0.4)"
           : isActive
-          ? `0 4px 12px -2px rgba(249, 115, 22, 0.35)`
-          : "0 1px 2px rgba(0,0,0,0.3)",
+          ? "0 0 14px rgba(201, 195, 182, 0.35)"
+          : "0 4px 10px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08)",
       }}
       transition={{ type: "spring", stiffness: 350, damping: 24 }}
-      className={`h-14 px-3 rounded-md border flex items-center justify-center font-mono font-bold text-sm shadow-sm z-10 gap-1.5 whitespace-nowrap ${
+      className={`min-w-14 h-14 px-2.5 rounded-[10px] border flex items-center justify-center gap-1.5 font-['JetBrains_Mono',monospace] font-bold text-sm select-none z-10 ${
         isConflict
-          ? "text-rose-200"
+          ? "text-[#b08a8a]"
           : isMatch
-          ? "text-emerald-200"
+          ? "text-[#7d9b86]"
           : isActive
-          ? "text-white"
-          : "text-neutral-300"
+          ? "text-[#ffffff]"
+          : "text-[#ededf0]"
       }`}
     >
-      <span className="text-neutral-500 font-mono">[</span>
-      {val.map((innerVal: any, i: number) => (
-        <span
-          key={i}
-          className="px-1.5 py-0.5 bg-neutral-900 rounded border border-neutral-800 text-neutral-200"
-        >
-          {innerVal !== null && innerVal !== undefined
-            ? typeof innerVal === "string"
-              ? `"${innerVal}"`
-              : String(innerVal)
-            : ""}
+      <span>[</span>
+      {val.map((item, i) => (
+        <span key={i} className="flex items-center">
+          <span>{String(item)}</span>
+          {i < val.length - 1 && <span className="text-[#6c6c76] mr-1">,</span>}
         </span>
       ))}
-      <span className="text-neutral-500 font-mono">]</span>
+      <span>]</span>
     </motion.div>
   );
 }

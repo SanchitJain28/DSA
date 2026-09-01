@@ -9,6 +9,8 @@ export interface TreeLayoutNode {
 
 export interface TreeLayoutEdge {
   id: string;
+  fromId?: string;
+  toId?: string;
   x1: number;
   y1: number;
   x2: number;
@@ -21,4 +23,5 @@ export interface TreeState {
   edges: TreeLayoutEdge[];
   activeNodeId?: string | null;
   activeNodeIds?: string[];
+  activePathIds?: string[];
 }

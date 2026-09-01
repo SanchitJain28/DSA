@@ -2,18 +2,19 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PROBLEMS, getProblemPath, type ProblemInfo } from "@/data/problems";
 
-// Category color accents and 2-letter codes from Claude Design
-const ACCENTS: Record<string, string> = {
-  trees: "#10b981",
-  arrays: "#6366f1",
-  "linked-list": "#8b5cf6",
-  stack: "#f59e0b",
-  "binary-search": "#06b6d4",
-  "sliding-window": "#0ea5e9",
-  recursion: "#f43f5e",
+// 2-Letter Topic Codes from Design System
+const TOPIC_CODES: Record<string, string> = {
+  trees: "TR",
+  arrays: "AR",
+  "linked-list": "LL",
+  stack: "ST",
+  "binary-search": "BS",
+  "sliding-window": "SW",
+  recursion: "RC",
+  heap: "HP",
 };
 
-const TOPIC_LABELS: Record<string, string> = {
+const TOPIC_NAMES: Record<string, string> = {
   trees: "Trees",
   arrays: "Arrays",
   "linked-list": "Linked Lists",
@@ -21,13 +22,13 @@ const TOPIC_LABELS: Record<string, string> = {
   "binary-search": "Binary Search",
   "sliding-window": "Sliding Window",
   recursion: "Recursion",
+  heap: "Heap",
 };
 
-
-const DIF_COLORS: Record<string, string> = {
-  Easy: "#10b981",
-  Medium: "#f59e0b",
-  Hard: "#f43f5e",
+const DIFFICULTY_DOTS: Record<string, string> = {
+  Easy: "#7d9b86",
+  Medium: "#c9b98f",
+  Hard: "#b08a8a",
 };
 
 export default function HomePage() {
@@ -94,45 +95,45 @@ export default function HomePage() {
     setSelectedDiff(null);
   };
 
-  const topicsList = Object.keys(ACCENTS) as (keyof typeof ACCENTS)[];
+  const topicsList = Object.keys(TOPIC_CODES);
   const diffsList = ["Easy", "Medium", "Hard"] as const;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e5e5e5] font-['Space_Grotesk',sans-serif] relative overflow-x-hidden selection:bg-[#6366f1] selection:text-white">
+    <div className="min-h-screen bg-[#0a0a0c] text-[#ededf0] font-['Poppins',sans-serif] relative overflow-x-hidden selection:bg-[#c9c3b6] selection:text-[#15150f]">
       {/* Background Grid Pattern */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           backgroundImage:
-            "linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
+            "linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
         }}
       />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-[14px] bg-[rgba(10,10,10,0.72)] border-b border-[#262626]">
-        <div className="max-w-[1240px] mx-auto px-7 py-4 flex items-center justify-between gap-5">
-          <Link to="/" className="flex items-center gap-3 group cursor-pointer">
+      <header className="sticky top-0 z-50 backdrop-blur-[16px] bg-[rgba(10,10,12,0.78)] border-b border-transparent">
+        <div className="max-w-[1200px] mx-auto px-7 py-[18px] flex items-center justify-between gap-5">
+          <Link to="/" className="flex items-center gap-2.5 group cursor-pointer">
             <img
               src="/tracedsa.png"
               alt="Trace DSA Logo"
-              className="w-[34px] h-[34px] object-contain rounded-md shadow-[0_0_16px_-4px_rgba(99,102,241,0.4)] group-hover:scale-105 transition-all"
+              className="w-[30px] h-[30px] object-contain rounded-md transition-transform group-hover:scale-105"
             />
-            <span className="font-['JetBrains_Mono',monospace] font-bold text-[16px] tracking-[-0.02em] text-white">
-              Trace<span className="text-[#6366f1]">DSA</span>
+            <span className="font-semibold text-[16px] tracking-[-0.01em] text-[#ededf0]">
+              Trace<span className="text-[#c9c3b6]">DSA</span>
             </span>
           </Link>
 
-          <nav className="flex items-center gap-2 font-['JetBrains_Mono',monospace] text-[12.5px]">
+          <nav className="flex items-center gap-[6px] bg-[#161619] p-[5px] rounded-[12px]">
             <Link
               to="/visualizer"
-              className="px-3.5 py-2 border border-[#262626] rounded text-[#d4d4d4] uppercase tracking-[0.04em] transition-all hover:border-[#6366f1] hover:text-white hover:bg-[#6366f114]"
+              className="px-4 py-[9px] rounded-[9px] text-[13.5px] font-medium text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33] transition-all"
             >
               Visualizer Workbench
             </Link>
             <Link
               to="/revision"
-              className="px-3.5 py-2 border border-[#262626] rounded text-[#d4d4d4] uppercase tracking-[0.04em] transition-all hover:border-[#8b5cf6] hover:text-white hover:bg-[#8b5cf614]"
+              className="px-4 py-[9px] rounded-[9px] text-[13.5px] font-medium text-[#8a8a93] hover:text-[#ededf0] transition-colors"
             >
               Spaced Repetition
             </Link>
@@ -141,182 +142,166 @@ export default function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-[1240px] mx-auto px-7">
+      <main className="relative z-10 max-w-[1200px] mx-auto px-7">
         {/* Hero Section */}
-        <section className="pt-20 pb-14 max-w-[820px] relative">
-          <div className="inline-flex items-center gap-2 border border-[#262626] px-3 py-1.5 font-['JetBrains_Mono',monospace] text-[11px] tracking-[0.08em] uppercase text-[#a3a3a3] mb-7 rounded-sm bg-[#0f0f0f]/60">
-            <span className="w-[7px] h-[7px] bg-[#10b981] animate-pulse rounded-full" />
-            Interactive algorithm playground
-          </div>
-
-          <h1 className="text-[clamp(40px,6vw,72px)] leading-[1.02] font-bold tracking-[-0.03em] mb-5 text-white">
-            Master DSA Through{" "}
-            <span className="text-[#8b5cf6] bg-gradient-to-r from-[#a78bfa] to-[#8b5cf6] bg-clip-text text-transparent">
-              Visual Intuition
-            </span>
+        <section className="pt-20 pb-11 max-w-[760px]">
+          <h1 className="text-[clamp(38px,5.6vw,64px)] leading-[1.08] font-semibold tracking-[-0.035em] mb-5 text-[#ededf0]">
+            Master DSA through <span className="text-[#c9c3b6]">visual intuition</span>
           </h1>
 
-          <p className="text-[18px] leading-[1.6] text-[#a3a3a3] max-w-[600px] mb-9">
-            Step through data structures and algorithms frame by frame. Watch
-            pointers move, trees balance, and windows slide — no more
-            memorizing, start seeing.
+          <p className="text-[17px] leading-[1.65] text-[#8a8a93] max-w-[560px] mb-[34px] font-normal">
+            Step through data structures and algorithms frame by frame. Watch pointers
+            move, trees balance, and windows slide — no more memorizing, start seeing.
           </p>
 
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
-              <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
-                {totalCount}+
-              </span>
-              <span className="text-[13px] text-[#737373] uppercase tracking-[0.06em]">
-                Visualizers
-              </span>
+          <div className="inline-flex items-stretch bg-[#141417] rounded-[14px] p-[6px] gap-[2px]">
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+              <span className="font-semibold text-[17px] text-[#f5f5f7]">{totalCount}+</span>
+              <span className="text-[12.5px] text-[#7c7c85]">Visualizers</span>
             </div>
 
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
-              <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
-                7
-              </span>
-              <span className="text-[13px] text-[#737373] uppercase tracking-[0.06em]">
-                Categories
-              </span>
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+              <span className="font-semibold text-[17px] text-[#f5f5f7]">8</span>
+              <span className="text-[12.5px] text-[#7c7c85]">Categories</span>
             </div>
 
-            <div className="flex items-center gap-2.5 border border-[#262626] rounded bg-[#141416] px-4 py-3">
-              <span className="font-['JetBrains_Mono',monospace] font-bold text-[18px] text-[#e5e5e5]">
-                Live
-              </span>
-              <span className="text-[13px] text-[#737373] uppercase tracking-[0.06em]">
-                Playback
-              </span>
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+              <span className="font-semibold text-[17px] text-[#f5f5f7]">Live</span>
+              <span className="text-[12.5px] text-[#7c7c85]">Playback</span>
             </div>
           </div>
         </section>
 
         {/* Sticky Search & Filter Bar */}
-        <div className="sticky top-[67px] z-40 py-4 bg-[rgba(10,10,10,0.85)] backdrop-blur-[14px] border-b border-[#1a1a1a] -mx-7 px-7">
-          <div className="flex items-center border border-[#2a2a2e] focus-within:border-[#6366f1] rounded-md bg-[#0f0f0f] px-4 h-[52px] transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)] focus-within:shadow-[inset_0_1px_2px_rgba(0,0,0,0.5),0_0_0_3px_rgba(99,102,241,0.12)]">
-            <span className="font-['JetBrains_Mono',monospace] text-[#525252] text-[16px] mr-3">
-              /
-            </span>
+        <div className="sticky top-[70px] z-40 py-[14px] pb-[16px] bg-[rgba(10,10,12,0.86)] backdrop-blur-[16px] -mx-7 px-7">
+          <div className="flex items-center bg-[#141417] rounded-[13px] px-[18px] h-[54px] transition-all focus-within:shadow-[0_0_0_2px_rgba(201,195,182,0.34)]">
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#6c6c76"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              className="mr-3 shrink-0"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3.5-3.5" />
+            </svg>
             <input
               ref={searchRef}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search visualizers — problems, topics, tags…"
-              className="flex-1 bg-transparent border-none outline-none text-[#e5e5e5] text-[15px] placeholder:text-[#525252]"
+              placeholder="Search visualizers, topics or tags…"
+              className="flex-1 bg-transparent border-none outline-none text-[#ededf0] text-[14.5px] placeholder:text-[#5a5a63]"
             />
             {query && (
               <button
                 onClick={() => setQuery("")}
-                className="text-[#737373] hover:text-white mr-2 text-xs font-mono"
+                className="text-[#7c7c85] hover:text-[#ededf0] mr-2 text-xs font-mono cursor-pointer"
               >
                 ✕
               </button>
             )}
-            <kbd className="font-['JetBrains_Mono',monospace] text-[11px] text-[#737373] border border-[#333] rounded px-2 py-1 tracking-[0.05em] bg-[#171717]">
+            <kbd className="font-['JetBrains_Mono',monospace] text-[11px] text-[#8a8a93] bg-[#212126] rounded-[7px] px-[9px] py-[5px]">
               ⌘K
             </kbd>
           </div>
 
-          {/* Topic & Level Filters */}
-          <div className="flex flex-wrap gap-2 mt-3.5 items-center">
-            <span className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#525252] uppercase tracking-[0.1em] mr-1">
-              Topic
-            </span>
+          {/* Segmented Filter Tracks */}
+          <div className="flex flex-wrap gap-[14px] mt-3 items-center">
+            {/* Topic Pills */}
+            <div className="flex flex-wrap gap-1 bg-[#141417] p-[5px] rounded-[12px]">
+              {topicsList.map((tId) => {
+                const name = TOPIC_NAMES[tId] || tId;
+                const on = selectedTopic === tId;
+                return (
+                  <button
+                    key={tId}
+                    onClick={() =>
+                      setSelectedTopic((prev) => (prev === tId ? null : tId))
+                    }
+                    className={`font-['Poppins',sans-serif] text-[13px] font-medium px-[14px] py-2 rounded-[9px] cursor-pointer whitespace-nowrap transition-all ${
+                      on
+                        ? "text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)]"
+                        : "text-[#9a9aa3] bg-transparent border border-transparent hover:text-[#ededf0]"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
 
-            {topicsList.map((tId) => {
-              const name = TOPIC_LABELS[tId];
-              const a = ACCENTS[tId];
-              const on = selectedTopic === tId;
-              return (
-                <button
-                  key={tId}
-                  onClick={() =>
-                    setSelectedTopic((prev) => (prev === tId ? null : tId))
-                  }
-                  style={{
-                    color: on ? "#fff" : "#a3a3a3",
-                    border: `1px solid ${on ? a : "#262626"}`,
-                    background: on ? `${a}1f` : "transparent",
-                  }}
-                  className="font-['JetBrains_Mono',monospace] text-[12px] px-3 py-1.5 rounded cursor-pointer tracking-[0.02em] transition-all hover:border-[#404040] hover:text-[#e5e5e5]"
-                >
-                  {name}
-                </button>
-              );
-            })}
-
-            <span className="w-[1px] h-5 bg-[#262626] mx-1.5" />
-
-            <span className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#525252] uppercase tracking-[0.1em] mr-1">
-              Level
-            </span>
-
-            {diffsList.map((dName) => {
-              const c = DIF_COLORS[dName];
-              const on = selectedDiff === dName;
-              return (
-                <button
-                  key={dName}
-                  onClick={() =>
-                    setSelectedDiff((prev) => (prev === dName ? null : dName))
-                  }
-                  style={{
-                    color: on ? "#0a0a0a" : c,
-                    border: `1px solid ${c}${on ? "" : "55"}`,
-                    background: on ? c : `${c}12`,
-                  }}
-                  className="font-['JetBrains_Mono',monospace] text-[12px] px-3 py-1.5 rounded cursor-pointer tracking-[0.06em] uppercase font-bold transition-all"
-                >
-                  {dName}
-                </button>
-              );
-            })}
+            {/* Difficulty Chips */}
+            <div className="flex gap-1 bg-[#141417] p-[5px] rounded-[12px]">
+              {diffsList.map((dName) => {
+                const dotColor = DIFFICULTY_DOTS[dName];
+                const on = selectedDiff === dName;
+                return (
+                  <button
+                    key={dName}
+                    onClick={() =>
+                      setSelectedDiff((prev) => (prev === dName ? null : dName))
+                    }
+                    className={`inline-flex items-center gap-[7px] font-['Poppins',sans-serif] text-[13px] font-medium px-[14px] py-2 rounded-[9px] cursor-pointer whitespace-nowrap transition-all ${
+                      on
+                        ? "text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)]"
+                        : "text-[#9a9aa3] bg-transparent border border-transparent hover:text-[#ededf0]"
+                    }`}
+                  >
+                    <span
+                      className="w-[6px] h-[6px] rounded-full"
+                      style={{ backgroundColor: dotColor }}
+                    />
+                    {dName}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Counter & Clear Button Bar */}
-        <section className="pt-7 pb-3 flex items-baseline justify-between">
-          <span className="font-['JetBrains_Mono',monospace] text-[13px] text-[#737373]">
-            <span className="text-[#e5e5e5] font-semibold">{filtered.length}</span>{" "}
-            visualizer{filtered.length === 1 ? "" : "s"}
+        <section className="pt-[26px] pb-[14px] flex items-center justify-between gap-4">
+          <span className="text-[13.5px] text-[#7c7c85]">
+            <span className="text-[#ededf0] font-medium">{filtered.length}</span>{" "}
+            visualizer{filtered.length === 1 ? "" : "s"} available
           </span>
 
           {hasFilters && (
             <button
               onClick={handleReset}
-              className="font-['JetBrains_Mono',monospace] text-[12px] text-[#a3a3a3] bg-transparent border border-[#262626] px-3 py-1.5 rounded cursor-pointer uppercase tracking-[0.05em] transition-all hover:border-[#f43f5e] hover:text-[#f43f5e] hover:bg-[#f43f5e10]"
+              className="font-['Poppins',sans-serif] text-[13px] font-medium text-[#c8c8d0] bg-gradient-to-b from-[#2b2b31] to-[#202026] border border-[#38383f] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_2px_4px_rgba(0,0,0,0.4)] rounded-[9px] px-[15px] py-[9px] cursor-pointer hover:text-[#ededf0] hover:from-[#33333a] hover:to-[#26262c] transition-all"
             >
-              Clear filters ✕
+              Clear filters
             </button>
           )}
         </section>
 
         {/* Problems Cards Grid */}
-        <section className="pt-2 pb-20">
+        <section className="pt-[6px] pb-20">
           {filtered.length === 0 ? (
             /* Empty State */
-            <div className="border border-dashed border-[#333] rounded-lg py-20 px-6 text-center flex flex-col items-center gap-4 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.02),transparent_60%)]">
-              <div className="font-['JetBrains_Mono',monospace] text-[40px] text-[#404040]">
-                [&nbsp;&nbsp;]
+            <div className="bg-[#111114] rounded-[16px] py-[76px] px-6 text-center flex flex-col items-center gap-2 border border-transparent shadow-[0_0_0_1px_rgba(255,255,255,0.045)]">
+              <div className="flex items-center mb-[14px]">
+                <div className="w-[34px] h-[34px] rounded-full border border-[#2e2e34]" />
+                <div className="w-[44px] h-[1px] bg-[#232328]" />
+                <div className="w-[34px] h-[34px] rounded-full border border-dashed border-[#3a3a42]" />
               </div>
-              <div>
-                <div className="text-[20px] font-semibold mb-1.5 text-white">
-                  No visualizers found
-                </div>
-                <div className="text-[#737373] text-[14px]">
-                  Nothing matches your current search and filters.
-                </div>
+              <div className="text-[19px] font-semibold text-[#ededf0]">No visualizers found</div>
+              <div className="text-[#7c7c85] text-[14px] mb-5">
+                Nothing matches your current search and filters.
               </div>
               <button
                 onClick={handleReset}
-                className="font-['JetBrains_Mono',monospace] text-[13px] text-[#0a0a0a] bg-[#e5e5e5] border-none rounded px-5 py-2.5 cursor-pointer font-bold uppercase tracking-[0.05em] transition-all hover:bg-white hover:shadow-[0_4px_20px_-6px_rgba(255,255,255,0.4)]"
+                className="font-['Poppins',sans-serif] text-[14px] font-semibold text-[#15150f] bg-gradient-to-b from-[#d6d0c4] to-[#c4beb0] border border-[#b3ac9d] shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_8px_rgba(0,0,0,0.5)] rounded-[11px] px-6 py-3 cursor-pointer hover:from-[#e2ddd2] hover:to-[#d2ccbe] transition-all"
               >
                 Reset filters
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(324px,1fr))] gap-[14px]">
               {filtered.map((problem) => (
                 <ProblemCard
                   key={problem.id}
@@ -330,29 +315,37 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-[#262626] mt-5">
-        <div className="max-w-[1240px] mx-auto px-7 py-8 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5 font-['JetBrains_Mono',monospace] text-[13px] text-[#737373]">
+      <footer className="relative z-10 bg-[#0d0d10]">
+        <div className="max-w-[1200px] mx-auto px-7 py-[30px] flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5 text-[13px] text-[#6c6c76]">
             <img
               src="/tracedsa.png"
-              alt="Trace DSA"
-              className="w-4 h-4 object-contain rounded-sm"
+              alt="Trace DSA Logo"
+              className="w-[18px] h-[18px] object-contain rounded-sm"
             />
-            <span>Trace DSA — built for people who learn by seeing.</span>
+            <span>TraceDSA — built for people who learn by seeing.</span>
           </div>
-          <div className="flex gap-5 font-['JetBrains_Mono',monospace] text-[12px] text-[#737373] uppercase tracking-[0.05em]">
+          <div className="flex gap-[22px] text-[13px]">
             <Link
               to="/visualizer"
-              className="hover:text-[#c7d2fe] transition-colors"
+              className="text-[#8a8a93] hover:text-[#ededf0] transition-colors"
             >
               Workbench
             </Link>
             <Link
               to="/revision"
-              className="hover:text-[#c7d2fe] transition-colors"
+              className="text-[#8a8a93] hover:text-[#ededf0] transition-colors"
             >
               Revision
             </Link>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#8a8a93] hover:text-[#ededf0] transition-colors"
+            >
+              GitHub
+            </a>
           </div>
         </div>
       </footer>
@@ -360,7 +353,7 @@ export default function HomePage() {
   );
 }
 
-// Individual Problem Card matching solid clean styling
+// Problem Card matching the new design system
 function ProblemCard({
   problem,
   onLaunch,
@@ -368,45 +361,50 @@ function ProblemCard({
   problem: ProblemInfo;
   onLaunch: () => void;
 }) {
-  const difColor = DIF_COLORS[problem.difficulty] || "#10b981";
+  const code = TOPIC_CODES[problem.topicId] || "DS";
+  const difDot = DIFFICULTY_DOTS[problem.difficulty] || "#c9b98f";
 
   return (
     <div
       onClick={onLaunch}
-      className="group bg-[#121214] hover:bg-[#161619] border border-[#262626] hover:border-[#383838] rounded-md p-[22px] flex flex-col gap-3 transition-all duration-150 relative cursor-pointer"
+      className="bg-[#131316] hover:bg-[#17171b] rounded-[16px] p-5 flex flex-col gap-[13px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] transition-colors duration-200 cursor-pointer"
     >
-      {/* Topic Name & Difficulty Badge in same top row */}
-      <div className="flex items-center justify-between gap-2">
-        <span className="font-['JetBrains_Mono',monospace] text-[11px] text-[#737373] uppercase tracking-[0.1em]">
-          {problem.topic}
-        </span>
-        <span
-          style={{
-            backgroundColor: difColor,
-            color: problem.difficulty === "Medium" ? "#0a0a0a" : "#ffffff",
-          }}
-          className="font-['JetBrains_Mono',monospace] text-[10.5px] font-bold uppercase tracking-[0.06em] px-2.5 py-0.5 rounded shadow-sm"
-        >
+      {/* Top Row: Circular 2-Letter Code & Topic Name + Difficulty Chip */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-[11px] min-w-0">
+          <div className="w-[38px] h-[38px] rounded-full border border-[#34343c] bg-[#1a1a1e] grid place-items-center font-['JetBrains_Mono',monospace] text-[11.5px] font-semibold text-[#b8b8c0] shrink-0">
+            {code}
+          </div>
+          <span className="text-[12.5px] text-[#7c7c85] truncate">
+            {problem.topic}
+          </span>
+        </div>
+
+        <span className="inline-flex items-center gap-[6px] text-[11.5px] font-medium px-[10px] py-[5px] rounded-[8px] text-[#b0b0b8] bg-[#1c1c21] shrink-0">
+          <span
+            className="w-[5px] h-[5px] rounded-full"
+            style={{ backgroundColor: difDot }}
+          />
           {problem.difficulty}
         </span>
       </div>
 
-      {/* Problem Title */}
-      <div className="text-[18px] font-semibold tracking-[-0.01em] leading-[1.25] text-[#f5f5f5] group-hover:text-white transition-colors">
+      {/* Title */}
+      <div className="text-[17.5px] font-semibold tracking-[-0.015em] leading-[1.3] text-[#ededf0]">
         {problem.title}
       </div>
 
       {/* Summary */}
-      <p className="text-[#8f8f8f] text-[13.5px] leading-[1.55] m-0 flex-1">
+      <p className="text-[#82828b] text-[13.5px] leading-[1.6] m-0 flex-1">
         {problem.description}
       </p>
 
       {/* Tags Chips */}
-      <div className="flex flex-wrap gap-1.5 pt-1">
+      <div className="flex flex-wrap gap-[6px]">
         {problem.tags.map((tag) => (
           <span
             key={tag}
-            className="font-['JetBrains_Mono',monospace] text-[10.5px] text-[#a3a3a3] border border-[#262626] rounded px-2 py-0.5 bg-[#18181b]"
+            className="text-[11.5px] text-[#8a8a93] bg-[#1c1c21] rounded-[7px] px-[10px] py-1"
           >
             {tag}
           </span>

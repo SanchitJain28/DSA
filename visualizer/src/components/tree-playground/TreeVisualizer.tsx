@@ -829,10 +829,10 @@ export default function TreeVisualizer() {
               <Controls className="bg-card/90 border border-border rounded-lg fill-foreground text-foreground shadow-lg" />
               <MiniMap
                 nodeColor={(n) => {
-                  if (n.data?.status === "success") return "#10b981";
-                  if (n.data?.status === "active") return "#0284c7";
-                  if (n.data?.status === "target") return "#f59e0b";
-                  return "#38bdf8";
+                  if (n.data?.status === "success") return "#7d9b86";
+                  if (n.data?.status === "active") return "#c9c3b6";
+                  if (n.data?.status === "target") return "#b08a8a";
+                  return "#3d3d45";
                 }}
                 maskColor="rgba(0, 0, 0, 0.7)"
                 className="bg-card/90 border border-border rounded-lg shadow-lg"

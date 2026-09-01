@@ -1,33 +1,29 @@
 import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
+import { themeColors, type ThemeName } from "../../utils/theme";
 
 interface PointerProps {
   labels: string[];
   x: number;
   y: number;
-  themeClass: string;
+  themeClass?: string;
   randomColor?: boolean;
 }
 
-import { themeColors, type ThemeName } from "../../utils/theme";
-
-export default function Pointer({ labels, x, y, themeClass, randomColor }: PointerProps) {
+export default function Pointer({ labels, x, y, themeClass = "border-[#3d3d45]", randomColor }: PointerProps) {
   if (labels.length === 0) return null;
 
   let customStyle: React.CSSProperties = {};
-  let finalThemeClass = themeClass;
-  let finalArrowClass = themeClass.replace("border-", "text-");
+  let finalArrowClass = "text-[#c9c3b6]";
 
   if (randomColor && labels.length > 0) {
-    const hash = labels[0].split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const hash = labels[0].split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const themeNames = Object.keys(themeColors) as ThemeName[];
     const randomThemeName = themeNames[hash % themeNames.length];
     const bgColor = themeColors[randomThemeName].edge;
-    
-    customStyle = { backgroundColor: bgColor, color: 'white', borderColor: 'transparent' };
-    finalThemeClass = "";
-    // We can't easily dynamically set text color in tailwind if it's not safelisted, 
-    // but we can set style color for the arrow too by using a span wrapper or directly on ArrowUp if we remove tailwind color class.
+
+    customStyle = { backgroundColor: bgColor, color: "white", borderColor: "transparent" };
+    finalArrowClass = "";
   }
 
   return (
@@ -37,15 +33,15 @@ export default function Pointer({ labels, x, y, themeClass, randomColor }: Point
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`absolute flex flex-col items-center justify-start z-20 pointer-events-none -translate-x-1/2`}
+      className="absolute flex flex-col items-center justify-start z-20 pointer-events-none -translate-x-1/2"
       style={{ left: x, top: y + 26 }}
     >
-      <ArrowUp 
-        className={`w-4 h-4 mb-1 ${randomColor ? '' : finalArrowClass}`} 
+      <ArrowUp
+        className={`w-3.5 h-3.5 mb-1 ${randomColor ? "" : finalArrowClass}`}
         style={randomColor ? { color: customStyle.backgroundColor } : undefined}
       />
-      <div 
-        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-lg bg-card border ${finalThemeClass}`}
+      <div
+        className={`px-2 py-0.5 rounded-[6px] text-[10.5px] font-['JetBrains_Mono',monospace] font-bold uppercase tracking-wider shadow-[0_4px_10px_rgba(0,0,0,0.5)] bg-[#1c1c21] text-[#ededf0] border ${themeClass}`}
         style={customStyle}
       >
         {labels.join(", ")}

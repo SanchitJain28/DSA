@@ -12,14 +12,14 @@ export interface LinkedListEdgesProps {
 
 export default function LinkedListEdges({
   edges,
-  theme = "indigo",
+  theme = "bone" as any,
   edgeColor,
   edgeNullColor,
   className = "",
 }: LinkedListEdgesProps) {
-  const colors = themeColors[theme] || themeColors.indigo;
-  const strokeColor = edgeColor || colors.edge;
-  const nullStrokeColor = edgeNullColor || colors.edgeNull;
+  const colors = themeColors[theme] || themeColors.bone;
+  const strokeColor = edgeColor || colors.edge || "#3d3d45";
+  const nullStrokeColor = edgeNullColor || colors.edgeNull || "#2e2e34";
 
   return (
     <svg
@@ -28,23 +28,23 @@ export default function LinkedListEdges({
       <defs>
         <marker
           id={`arrowhead-${theme}`}
-          markerWidth="8"
+          markerWidth="7"
           markerHeight="6"
-          refX="7"
+          refX="6"
           refY="3"
           orient="auto"
         >
-          <polygon points="0 0, 8 3, 0 6" fill={strokeColor} />
+          <polygon points="0 0.5, 6 3, 0 5.5" fill={strokeColor} />
         </marker>
         <marker
           id={`arrowhead-null-${theme}`}
-          markerWidth="8"
+          markerWidth="7"
           markerHeight="6"
-          refX="7"
+          refX="6"
           refY="3"
           orient="auto"
         >
-          <polygon points="0 0, 8 3, 0 6" fill={nullStrokeColor} />
+          <polygon points="0 0.5, 6 3, 0 5.5" fill={nullStrokeColor} />
         </marker>
       </defs>
 
@@ -81,9 +81,9 @@ export default function LinkedListEdges({
               }}
               exit={{ opacity: 0 }}
               stroke={edge.isNull ? nullStrokeColor : strokeColor}
-              strokeDasharray={edge.isNull ? "6 6" : "none"}
+              strokeDasharray={edge.isNull ? "5 5" : "none"}
               fill="transparent"
-              strokeWidth="2.5"
+              strokeWidth="2"
               markerEnd={
                 edge.isNull
                   ? `url(#arrowhead-null-${theme})`

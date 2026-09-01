@@ -41,8 +41,13 @@ export function computeTreeLayoutWithOffset(
 
     const nextOffset = Math.max(30, offset / 1.8);
 
+    const leftChildId = node.left
+      ? `${prefix}${node.left.id}`
+      : `${nodeId}-left-null`;
     edges.push({
       id: `${nodeId}-left`,
+      fromId: nodeId,
+      toId: leftChildId,
       x1: x,
       y1: y,
       x2: x - offset,
@@ -51,8 +56,13 @@ export function computeTreeLayoutWithOffset(
     });
     traverse(node.left, x - offset, y + levelHeight, nextOffset, node.id, "left");
 
+    const rightChildId = node.right
+      ? `${prefix}${node.right.id}`
+      : `${nodeId}-right-null`;
     edges.push({
       id: `${nodeId}-right`,
+      fromId: nodeId,
+      toId: rightChildId,
       x1: x,
       y1: y,
       x2: x + offset,

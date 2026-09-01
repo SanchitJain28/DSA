@@ -5,7 +5,7 @@ import { type ThemeName } from "../../utils/theme";
 
 interface HeaderProps {
   title: string;
-  titleColorClass: string;
+  titleColorClass?: string;
   theme?: ThemeName;
   isPlaying: boolean;
   onPlayPause: () => void;
@@ -15,23 +15,8 @@ interface HeaderProps {
   children?: React.ReactNode;
 }
 
-const playButtonClasses: Record<ThemeName, string> = {
-  cyan: "bg-cyan-600 hover:bg-cyan-500",
-  orange: "bg-orange-600 hover:bg-orange-500",
-  fuchsia: "bg-fuchsia-600 hover:bg-fuchsia-500",
-  emerald: "bg-emerald-600 hover:bg-emerald-500",
-  teal: "bg-teal-600 hover:bg-teal-500",
-  indigo: "bg-indigo-600 hover:bg-indigo-500",
-  rose: "bg-rose-600 hover:bg-rose-500",
-  violet: "bg-violet-600 hover:bg-violet-500",
-  amber: "bg-amber-600 hover:bg-amber-500",
-  sky: "bg-sky-600 hover:bg-sky-500",
-};
-
 export default function Header({
   title,
-  titleColorClass,
-  theme = "indigo",
   isPlaying,
   onPlayPause,
   onNext,
@@ -39,40 +24,64 @@ export default function Header({
   onReset,
   children,
 }: HeaderProps) {
-  const activePlayClass = playButtonClasses[theme];
   return (
-    <header className="flex items-center justify-between pb-2">
-      <div className="flex items-center gap-3.5">
-        <SidebarTrigger className="text-muted-foreground hover:text-white" />
-        <h1 className={`text-2xl font-bold ${titleColorClass}`}>{title}</h1>
+    <header className="flex items-center justify-between pb-1 select-none font-['Poppins',sans-serif]">
+      {/* Title & Actions */}
+      <div className="flex items-center gap-3">
+        <SidebarTrigger className="text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#141417] p-1.5 rounded-[8px] transition-colors cursor-pointer" />
+        <h1 className="text-[21px] font-semibold text-[#ededf0] tracking-[-0.025em]">
+          {title}
+        </h1>
         {children && <div className="ml-1">{children}</div>}
       </div>
-      <div className="flex items-center gap-2">
+
+      {/* Recessed Playback Controls Track */}
+      <div className="flex items-center gap-1 bg-[#141417] p-1 rounded-[12px]">
         <button
+          type="button"
           onClick={onPrev}
-          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors"
+          title="Previous Step (Left Arrow)"
+          className="p-2 text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33] rounded-[8px] cursor-pointer transition-all active:scale-95"
         >
-          <SkipBack size={18} />
+          <SkipBack className="w-4 h-4" />
         </button>
+
         <button
+          type="button"
           onClick={onPlayPause}
-          className={`flex items-center gap-2 px-4 py-2 text-white font-bold rounded-md transition-colors ${activePlayClass}`}
+          title={isPlaying ? "Pause (Space)" : "Play (Space)"}
+          className={`flex items-center gap-1.5 px-4 py-1.5 rounded-[8px] text-[13px] font-semibold cursor-pointer transition-all active:scale-95 ${
+            isPlaying
+              ? "text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33]"
+              : "text-[#15150f] bg-gradient-to-b from-[#d6d0c4] to-[#c4beb0] border border-[#b3ac9d] shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_8px_rgba(0,0,0,0.5)] hover:from-[#e2ddd2] hover:to-[#d2ccbe]"
+          }`}
         >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? (
+            <Pause className="w-4 h-4 fill-current" />
+          ) : (
+            <Play className="w-4 h-4 fill-current" />
+          )}
+          <span>{isPlaying ? "Pause" : "Play"}</span>
         </button>
+
         <button
+          type="button"
           onClick={onNext}
-          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors"
+          title="Next Step (Right Arrow)"
+          className="p-2 text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33] rounded-[8px] cursor-pointer transition-all active:scale-95"
         >
-          <SkipForward size={18} />
+          <SkipForward className="w-4 h-4" />
         </button>
+
+        <div className="w-[1px] h-4 bg-[#26262c] mx-0.5" />
+
         <button
+          type="button"
           onClick={onReset}
-          className="p-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors ml-2"
-          title="Reset"
+          title="Reset Simulation (R)"
+          className="p-2 text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#1c1c20] rounded-[8px] cursor-pointer transition-all"
         >
-          <RotateCcw size={18} />
+          <RotateCcw className="w-4 h-4" />
         </button>
       </div>
     </header>

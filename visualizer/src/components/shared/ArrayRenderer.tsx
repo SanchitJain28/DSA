@@ -7,19 +7,21 @@ import type { BaseFrame } from "../../core/shared/types";
 interface ArrayRendererProps {
   arr: ArrayData;
   frame: BaseFrame;
-  colors: Record<string, string>;
+  colors?: Record<string, string>;
 }
 
-export function ArrayRenderer({ arr, frame, colors }: ArrayRendererProps) {
+export function ArrayRenderer({ arr, frame }: ArrayRendererProps) {
   const { showPointers, randomizePointerColors } = useSettings();
 
   return (
-    <div className="flex flex-col items-start w-fit">
-      <div className="text-muted-foreground font-bold mb-4 ml-2">
-        {arr.name || arr.id}
-      </div>
+    <div className="flex flex-col items-start w-fit font-['Poppins',sans-serif]">
+      {arr.name && (
+        <div className="text-[#8a8a93] text-[11.5px] font-semibold uppercase tracking-[0.1em] mb-3 ml-1">
+          {arr.name}
+        </div>
+      )}
 
-      <div className="relative flex items-center gap-2">
+      <div className="relative flex items-center gap-2.5">
         {arr.values.map((val: any, idx: number) => {
           const nodeId = `${arr.id}-${idx}`;
           const activePointers = arr.pointers
@@ -41,7 +43,7 @@ export function ArrayRenderer({ arr, frame, colors }: ArrayRendererProps) {
                   labels={activePointers.map(([label]) => label)}
                   x={28}
                   y={34}
-                  themeClass={colors.callStackBorder}
+                  themeClass="border-[#c9c3b6] text-[#c9c3b6]"
                   randomColor={randomizePointerColors || false}
                 />
               )}
@@ -50,35 +52,32 @@ export function ArrayRenderer({ arr, frame, colors }: ArrayRendererProps) {
                 <NestedArrayRenderer
                   val={val}
                   isActive={isActive}
-                  colors={colors}
                 />
               ) : (
                 <motion.div
                   layout
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{
-                    y: isActive ? -5 : 0,
-                    scale: isActive ? 1.05 : 1,
+                    y: isActive ? -4 : 0,
+                    scale: isActive ? 1.04 : 1,
                     opacity: 1,
-                    backgroundColor: isActive
-                      ? colors.nodeActiveBg || "#241a15"
-                      : "#18181b",
-                    borderColor: isActive
-                      ? colors.nodeActiveBorder || "#f97316"
-                      : "#2e2e32",
+                    background: isActive
+                      ? "linear-gradient(180deg, #302e2a, #201f1c)"
+                      : "linear-gradient(180deg, #24242a, #1a1a1f)",
+                    borderColor: isActive ? "#c9c3b6" : "#34343c",
                     boxShadow: isActive
-                      ? "0 4px 0 #9a3412, 0 8px 16px -2px rgba(249, 115, 22, 0.35)"
-                      : "0 1px 2px rgba(0,0,0,0.3)",
+                      ? "0 0 14px rgba(201, 195, 182, 0.35), inset 0 1px 0 rgba(255,255,255,0.12)"
+                      : "0 4px 10px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08)",
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className={`w-14 h-14 rounded-xl border-2 flex items-center justify-center font-mono font-bold text-xl select-none z-10 ${
-                    isActive ? "z-20 text-white font-extrabold" : "text-neutral-200"
+                  className={`w-14 h-14 rounded-[10px] border flex items-center justify-center font-['JetBrains_Mono',monospace] font-bold text-lg select-none z-10 ${
+                    isActive ? "z-20 text-[#ffffff]" : "text-[#ededf0]"
                   }`}
                 >
-                  {val !== null ? String(val) : ""}
+                  {val !== null && val !== undefined ? String(val) : ""}
                 </motion.div>
               )}
-              <div className="text-[10px] text-muted-foreground mt-2">
+              <div className="text-[11px] font-['JetBrains_Mono',monospace] text-[#6c6c76] mt-2 font-medium">
                 {idx}
               </div>
             </div>
@@ -92,49 +91,41 @@ export function ArrayRenderer({ arr, frame, colors }: ArrayRendererProps) {
 function NestedArrayRenderer({
   val,
   isActive,
-  colors,
 }: {
   val: any[];
   isActive: boolean;
-  colors: Record<string, string>;
 }) {
   return (
     <motion.div
       layout
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{
-        y: isActive ? -5 : 0,
-        scale: isActive ? 1.05 : 1,
+        y: isActive ? -4 : 0,
+        scale: isActive ? 1.04 : 1,
         opacity: 1,
-        backgroundColor: isActive
-          ? colors.nodeActiveBg || "#241a15"
-          : "#18181b",
-        borderColor: isActive
-          ? colors.nodeActiveBorder || "#f97316"
-          : "#2e2e32",
+        background: isActive
+          ? "linear-gradient(180deg, #302e2a, #201f1c)"
+          : "linear-gradient(180deg, #24242a, #1a1a1f)",
+        borderColor: isActive ? "#c9c3b6" : "#34343c",
         boxShadow: isActive
-          ? "0 4px 0 #9a3412, 0 8px 16px -2px rgba(249, 115, 22, 0.35)"
-          : "0 1px 2px rgba(0,0,0,0.3)",
+          ? "0 0 14px rgba(201, 195, 182, 0.35)"
+          : "0 4px 10px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08)",
       }}
       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-      className={`h-14 px-3 rounded-xl border-2 flex items-center justify-center font-mono font-bold text-sm shadow-lg z-10 gap-1.5 whitespace-nowrap ${
-        isActive ? "z-20 text-white" : "text-neutral-300"
+      className={`min-w-14 h-14 px-2.5 rounded-[10px] border flex items-center justify-center gap-1.5 font-['JetBrains_Mono',monospace] font-bold text-sm select-none z-10 ${
+        isActive ? "text-[#ffffff]" : "text-[#ededf0]"
       }`}
     >
-      <span className="text-muted-foreground font-mono">[</span>
-      {val.map((innerVal: any, i: number) => (
-        <span
-          key={i}
-          className="px-1.5 py-0.5 bg-[#1f1f23] rounded border border-neutral-700 text-neutral-100"
-        >
-          {innerVal !== null
-            ? typeof innerVal === "string"
-              ? `"${innerVal}"`
-              : String(innerVal)
-            : ""}
+      <span>[</span>
+      {val.map((item, i) => (
+        <span key={i} className="flex items-center">
+          <span>{String(item)}</span>
+          {i < val.length - 1 && <span className="text-[#6c6c76] mr-1">,</span>}
         </span>
       ))}
-      <span className="text-muted-foreground font-mono">]</span>
+      <span>]</span>
     </motion.div>
   );
 }
+
+export default ArrayRenderer;

@@ -43,7 +43,6 @@ export default function CanvasViewport({
     const container = containerRef.current;
     if (!container) return;
 
-    // Passive: false to allow e.preventDefault() for smooth custom zoom without scrolling the page
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       container.removeEventListener("wheel", handleWheel);
@@ -52,7 +51,6 @@ export default function CanvasViewport({
 
   // Pan / Drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Only drag on primary mouse click and not on interactive form elements or buttons
     if (e.button !== 0) return;
     const target = e.target as HTMLElement;
     if (
@@ -107,12 +105,12 @@ export default function CanvasViewport({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className={`relative w-full h-full overflow-hidden select-none ${
+      className={`relative w-full h-full overflow-hidden select-none bg-[#0a0a0c] ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       } ${className}`}
       style={{
-        backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px)`,
-        backgroundSize: "20px 20px",
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)`,
+        backgroundSize: "44px 44px",
         backgroundPosition: `${position.x}px ${position.y}px`,
       }}
     >
@@ -126,19 +124,19 @@ export default function CanvasViewport({
         {children}
       </div>
 
-      {/* Floating Canvas Controls (Bottom-Left) */}
+      {/* Floating Canvas Zoom Controls */}
       {showControls && (
-        <div className="absolute bottom-3 right-4 z-20 flex items-center gap-1 bg-neutral-900/90 border border-neutral-800/90 rounded-md p-1 shadow-lg backdrop-blur-md text-neutral-300">
+        <div className="absolute bottom-3.5 right-4 z-20 flex items-center gap-1 bg-[#141417] p-1 rounded-[10px] shadow-[0_4px_12px_rgba(0,0,0,0.5)] border border-[#1e1e23]">
           <button
             type="button"
             onClick={handleZoomOut}
             title="Zoom Out"
-            className="p-1.5 hover:bg-neutral-800 hover:text-white rounded transition-colors cursor-pointer"
+            className="p-1.5 text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_1px_2px_rgba(0,0,0,0.4)] hover:from-[#3a3a42] hover:to-[#2c2c33] rounded-[6px] cursor-pointer transition-all active:scale-95"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
 
-          <span className="font-mono text-[11px] px-2 py-0.5 text-neutral-300 min-w-[44px] text-center font-medium">
+          <span className="font-['JetBrains_Mono',monospace] text-[11px] px-2 py-0.5 text-[#8a8a93] min-w-[44px] text-center font-medium">
             {Math.round(scale * 100)}%
           </span>
 
@@ -146,18 +144,18 @@ export default function CanvasViewport({
             type="button"
             onClick={handleZoomIn}
             title="Zoom In"
-            className="p-1.5 hover:bg-neutral-800 hover:text-white rounded transition-colors cursor-pointer"
+            className="p-1.5 text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_1px_2px_rgba(0,0,0,0.4)] hover:from-[#3a3a42] hover:to-[#2c2c33] rounded-[6px] cursor-pointer transition-all active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
 
-          <div className="w-[1px] h-3.5 bg-neutral-800 mx-0.5" />
+          <div className="w-[1px] h-3.5 bg-[#26262c] mx-0.5" />
 
           <button
             type="button"
             onClick={handleReset}
             title="Reset View"
-            className="p-1.5 hover:bg-neutral-800 hover:text-white rounded transition-colors cursor-pointer"
+            className="p-1.5 text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#1c1c20] rounded-[6px] cursor-pointer transition-all active:scale-95"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>

@@ -3,11 +3,10 @@ import { Panel, Group as PanelGroup } from "react-resizable-panels";
 import ResizeHandle from "../shared/ResizeHandle";
 import Header from "../shared/Header";
 import SourceCode from "../shared/SourceCode";
-import Explanation from "../shared/Explanation";
 import ConfigModal from "../shared/ConfigModal";
 import VisualizerCanvas from "./VisualizerCanvas";
 import type { ProblemMeta, Scene, SourceCodeLine } from "../../core/shared/types";
-import { themeColors, type ThemeName } from "../../utils/theme";
+import { type ThemeName } from "../../utils/theme";
 import { Binary } from "lucide-react";
 
 export interface VisualizerLayoutProps {
@@ -42,8 +41,7 @@ export function VisualizerLayout({
   source,
   state,
 }: VisualizerLayoutProps) {
-  const theme: ThemeName = meta.theme || "violet";
-  const colors = themeColors[theme] || themeColors.violet;
+  const theme: ThemeName = meta.theme || "bone" as any;
 
   const DEFAULT_SCENE: Scene = {
     structures: {},
@@ -53,15 +51,13 @@ export function VisualizerLayout({
   };
 
   const frame = frames[state.currentIdx] || frames[0] || DEFAULT_SCENE;
-
   const inputSchema = meta.inputSchema || [];
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground font-sans p-4">
+    <div className="flex flex-col h-screen bg-[#0a0a0c] text-[#ededf0] font-['Poppins',sans-serif] p-4 selection:bg-[#c9c3b6] selection:text-[#15150f]">
       {/* Top Header */}
       <Header
         title={meta.title}
-        titleColorClass={colors.titleClass}
         theme={theme}
         isPlaying={state.isPlaying}
         onPlayPause={state.handlePlayPause}
@@ -72,7 +68,7 @@ export function VisualizerLayout({
         {/* Unified Configure Inputs Modal */}
         <ConfigModal
           title={`Configure ${meta.title}`}
-          description="Select a preset scenario or provide custom problem inputs."
+          description="Select a preset scenario or supply custom inputs."
           theme={theme}
           isOpen={state.modal.isOpen}
           onOpenChange={state.modal.setIsOpen}
@@ -87,7 +83,7 @@ export function VisualizerLayout({
           onApply={state.modal.onApply}
         >
           {inputSchema.length > 0 && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div
                 className={`grid gap-3 ${
                   inputSchema.length > 1
@@ -96,9 +92,9 @@ export function VisualizerLayout({
                 }`}
               >
                 {inputSchema.map((field) => (
-                  <div key={field.key} className="space-y-1">
-                    <label className="text-[11px] font-mono text-neutral-400 flex items-center gap-1.5">
-                      <Binary className={`w-3.5 h-3.5 ${colors.titleClass}`} />
+                  <div key={field.key} className="space-y-1.5">
+                    <label className="text-[11px] font-['JetBrains_Mono',monospace] text-[#82828b] flex items-center gap-1.5">
+                      <Binary className="w-3.5 h-3.5 text-[#c9c3b6]" />
                       <span>{field.label}:</span>
                     </label>
                     <input
@@ -108,7 +104,7 @@ export function VisualizerLayout({
                         state.setFieldValue(field.key, e.target.value)
                       }
                       placeholder={field.placeholder}
-                      className="w-full bg-neutral-950/80 border border-neutral-700/80 rounded-md px-3 py-2 text-xs font-mono text-neutral-100 focus:outline-none focus:ring-1 focus:ring-indigo-500/60 focus:border-indigo-500 placeholder:text-neutral-600"
+                      className="w-full bg-[#141417] border border-[#26262c] focus:border-[#c9c3b6] focus:shadow-[0_0_0_2px_rgba(201,195,182,0.34)] rounded-[9px] px-3 py-2 text-xs font-['JetBrains_Mono',monospace] text-[#ededf0] focus:outline-none placeholder:text-[#5a5a63] transition-all"
                     />
                   </div>
                 ))}
@@ -119,9 +115,9 @@ export function VisualizerLayout({
       </Header>
 
       {/* Main Resizable Workspace */}
-      <div className="flex-1 mt-4 overflow-hidden">
+      <div className="flex-1 mt-3 overflow-hidden">
         <PanelGroup orientation="horizontal">
-          {/* Left Canvas Panel */}
+          {/* Left Canvas Panel (with floating HUD overlays) */}
           <Panel className="flex flex-col min-w-0 h-full">
             <VisualizerCanvas
               frame={frame}
@@ -134,16 +130,12 @@ export function VisualizerLayout({
 
           <ResizeHandle />
 
-          {/* Right Explanation & Code Panel */}
+          {/* Right Source Code Panel */}
           <Panel
             defaultSize={30}
             minSize={20}
-            className="flex flex-col gap-4 min-w-0"
+            className="flex flex-col min-w-0 h-full"
           >
-            <Explanation
-              message={frame.explanation || frame.message}
-              className={`h-32 rounded-md border p-4 shadow-inner shrink-0 ${colors.explanationBg} ${colors.explanationBorder}`}
-            />
             <SourceCode
               code={source}
               activeLine={frame.codeLine ?? 1}

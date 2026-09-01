@@ -8,7 +8,11 @@ interface SourceCodeProps {
   theme?: ThemeName;
 }
 
-export default function SourceCode({ code, activeLine, theme = "cyan" }: SourceCodeProps) {
+export default function SourceCode({
+  code,
+  activeLine,
+  theme = "bone" as any,
+}: SourceCodeProps) {
   const monaco = useMonaco();
   const editorRef = useRef<any>(null);
   const decorationsRef = useRef<any[]>([]);
@@ -33,25 +37,27 @@ export default function SourceCode({ code, activeLine, theme = "cyan" }: SourceC
               monacoActiveLineIndex,
               1,
               monacoActiveLineIndex,
-              1,
+              1
             ),
             options: {
               isWholeLine: true,
               className: `monaco-active-line-${theme}`,
             },
           },
-        ],
+        ]
       );
       editorRef.current.revealLineInCenter(monacoActiveLineIndex);
     }
   }, [monacoActiveLineIndex, monaco, theme]);
 
   return (
-    <div className="h-full flex flex-col">
-      <h3 className="text-muted-foreground text-sm font-bold mb-2 uppercase tracking-wider">
-        Source Code
-      </h3>
-      <div className="flex-1 overflow-hidden rounded-md border border-border shadow-inner">
+    <div className="h-full flex flex-col font-['Poppins',sans-serif]">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#a8a296]">
+          02 — Source Code
+        </span>
+      </div>
+      <div className="flex-1 overflow-hidden rounded-[14px] bg-[#131316] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] p-2">
         <Editor
           height="100%"
           defaultLanguage="typescript"
@@ -62,9 +68,13 @@ export default function SourceCode({ code, activeLine, theme = "cyan" }: SourceC
             readOnly: true,
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
-            fontSize: 14,
+            fontSize: 13,
+            lineHeight: 22,
+            fontFamily: "'JetBrains Mono', monospace",
             domReadOnly: true,
-            padding: { top: 16, bottom: 16 },
+            padding: { top: 12, bottom: 12 },
+            lineNumbersMinChars: 3,
+            renderLineHighlight: "none",
           }}
         />
       </div>

@@ -12,7 +12,7 @@ interface LinkedListPanelProps {
 
 export function LinkedListPanel({
   state,
-  theme = "indigo",
+  theme = "bone" as any,
 }: LinkedListPanelProps) {
   const nodes = state?.nodes || [];
   const edges = state?.edges || [];
@@ -52,7 +52,7 @@ export function LinkedListPanel({
   }, [state?.nodes]);
 
   return (
-    <div className="relative flex items-center justify-center select-none bg-transparent">
+    <div className="relative flex items-center justify-center select-none bg-transparent font-['Poppins',sans-serif]">
       <div
         className="relative bg-transparent flex items-center justify-center shrink-0"
         style={{

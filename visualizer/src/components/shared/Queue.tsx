@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { themeColors, type ThemeName } from "../../utils/theme";
+import { type ThemeName } from "../../utils/theme";
 
 interface QueueProps {
   queue: string[];
@@ -14,27 +14,16 @@ interface QueueProps {
 export default function Queue({
   queue,
   title = "QUEUE",
-  theme = "indigo",
-  activeBgClass,
-  activeTextClass,
-  activeBorderClass,
 }: QueueProps) {
-  const colors = themeColors[theme] || themeColors.indigo;
-
-  const bg = activeBgClass || colors.callStackBg || "bg-indigo-950/60";
-  const text = activeTextClass || colors.callStackText || "text-indigo-200";
-  const border =
-    activeBorderClass || colors.callStackBorder || "border-indigo-500/50";
-
   return (
-    <div className="flex items-center gap-3 w-fit max-w-full select-none">
+    <div className="flex items-center gap-3 w-fit max-w-full select-none font-['Poppins',sans-serif]">
       {/* Left Exit Arrow */}
-      <ArrowLeft className="w-4 h-4 text-rose-400/90 shrink-0 animate-pulse" />
+      <ArrowLeft className="w-4 h-4 text-[#b08a8a] shrink-0 animate-pulse" />
 
       {/* Main Queue Conduit Box with Top-Border Title Notch */}
-      <div className="relative w-fit max-w-full bg-transparent border border-neutral-800 rounded-md px-4 pt-3 pb-2 shadow-sm flex items-center gap-2.5">
+      <div className="relative w-fit max-w-full bg-[#131316] border border-[#26262c] rounded-[12px] px-4 pt-3 pb-2 shadow-[0_0_0_1px_rgba(255,255,255,0.045)] flex items-center gap-2.5">
         {/* Top-Border Floating Title Notch */}
-        <span className="absolute -top-2.5 left-4 px-2 py-0.5 bg-[#171717] border border-neutral-800 rounded text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-300">
+        <span className="absolute -top-2.5 left-4 px-2 py-0.5 bg-[#1c1c21] border border-[#26262c] rounded-[6px] text-[10px] font-['JetBrains_Mono',monospace] font-bold uppercase tracking-widest text-[#a8a296]">
           {title}
         </span>
 
@@ -47,7 +36,7 @@ export default function Queue({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-neutral-600 font-mono text-xs italic px-4 py-1"
+                className="text-[#5a5a63] font-['JetBrains_Mono',monospace] text-xs italic px-4 py-1"
               >
                 (Empty)
               </motion.span>
@@ -72,22 +61,21 @@ export default function Queue({
                   >
                     {/* Floating Notch on Top Border of Card */}
                     {isFront && (
-                      <span className="absolute -top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.2 text-[8px] font-mono font-bold uppercase tracking-wider text-rose-300 bg-[#171717] border border-rose-500/50 rounded z-10">
+                      <span className="absolute -top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.2 text-[8px] font-['JetBrains_Mono',monospace] font-bold uppercase tracking-wider text-[#b08a8a] bg-[#1c1c21] border border-[#b08a8a]/50 rounded z-10">
                         FRONT
                       </span>
                     )}
                     {isRear && (
-                      <span className="absolute -top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.2 text-[8px] font-mono font-bold uppercase tracking-wider text-emerald-300 bg-[#171717] border border-emerald-500/50 rounded z-10">
+                      <span className="absolute -top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.2 text-[8px] font-['JetBrains_Mono',monospace] font-bold uppercase tracking-wider text-[#7d9b86] bg-[#1c1c21] border border-[#7d9b86]/50 rounded z-10">
                         REAR
                       </span>
                     )}
 
-                    {/* Element Box */}
                     <div
-                      className={`px-3 py-1.5 rounded-md font-mono text-xs whitespace-nowrap transition-colors duration-200 ${
+                      className={`min-w-[48px] h-12 px-3 rounded-[8px] border flex items-center justify-center font-['JetBrains_Mono',monospace] text-xs font-bold transition-all shadow-sm ${
                         isFront
-                          ? `${bg} ${text} ${border} border shadow-md font-semibold ring-1 ring-indigo-400/30`
-                          : "bg-neutral-900/90 text-neutral-300 border border-neutral-800/90 hover:border-neutral-700"
+                          ? "bg-gradient-to-b from-[#302e2a] to-[#201f1c] border-[#c9c3b6] text-white shadow-[0_0_10px_rgba(201,195,182,0.25)]"
+                          : "bg-gradient-to-b from-[#24242a] to-[#1a1a1f] border-[#34343c] text-[#ededf0]"
                       }`}
                     >
                       {item}
@@ -100,8 +88,8 @@ export default function Queue({
         </div>
       </div>
 
-      {/* Right Entry Arrow */}
-      <ArrowRight className="w-4 h-4 text-emerald-400/90 shrink-0 animate-pulse" />
+      {/* Right Entrance Arrow */}
+      <ArrowRight className="w-4 h-4 text-[#7d9b86] shrink-0" />
     </div>
   );
 }

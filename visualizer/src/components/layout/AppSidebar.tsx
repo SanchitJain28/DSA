@@ -37,23 +37,23 @@ export function AppSidebar({
   } = useSettings();
 
   return (
-    <Sidebar side="left" variant="sidebar">
-      <SidebarHeader className="border-b border-sidebar-border h-[60px] px-3 flex flex-row items-center justify-between">
+    <Sidebar side="left" variant="sidebar" className="bg-[#0d0d10] border-r border-[#1e1e23] font-['Poppins',sans-serif]">
+      <SidebarHeader className="border-b border-[#1e1e23] h-[60px] px-3.5 flex flex-row items-center justify-between bg-[#0d0d10]">
         <Link
           to="/"
-          className="flex items-center gap-1.5 text-xs font-semibold text-neutral-300 hover:text-white px-2 py-1 rounded bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition-colors"
+          className="flex items-center gap-1.5 text-[12px] font-medium text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_1px_2px_rgba(0,0,0,0.4)] px-2.5 py-1 rounded-[7px] hover:from-[#3a3a42] hover:to-[#2c2c33] transition-all"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Home</span>
         </Link>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <img
             src="/tracedsa.png"
             alt="Trace DSA Logo"
             className="w-5 h-5 rounded object-contain"
           />
-          <span className="font-['JetBrains_Mono',monospace] text-xs font-bold text-neutral-200">
-            Trace<span className="text-indigo-400">DSA</span>
+          <span className="font-semibold text-[13px] text-[#ededf0] tracking-[-0.01em]">
+            Trace<span className="text-[#c9c3b6]">DSA</span>
           </span>
         </div>
       </SidebarHeader>
@@ -71,7 +71,7 @@ export function AppSidebar({
                     checked={showPointers}
                     onChange={(e) => setShowPointers(e.target.checked)}
                   />
-                  <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <div className="w-11 h-6 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#c9c3b6]"></div>
                 </label>
               </SidebarMenuItem>
               <SidebarMenuItem className="p-4 flex items-center justify-between border-t border-sidebar-border">
@@ -87,7 +87,7 @@ export function AppSidebar({
                     disabled={!showPointers}
                   />
                   <div
-                    className={`w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all ${showPointers ? "peer-checked:bg-blue-600" : "opacity-50 cursor-not-allowed"}`}
+                    className={`w-11 h-6 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all ${showPointers ? "peer-checked:bg-[#c9c3b6]" : "opacity-50 cursor-not-allowed"}`}
                   ></div>
                 </label>
               </SidebarMenuItem>

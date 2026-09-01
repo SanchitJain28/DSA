@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowDown, GitCommit } from "lucide-react";
 import type { RangeState } from "../../core/structures/range/types";
-import { themeColors, type ThemeName } from "../../utils/theme";
+import { type ThemeName } from "../../utils/theme";
 
 interface RangePanelProps {
   state: RangeState;
@@ -11,10 +11,7 @@ interface RangePanelProps {
 
 export function RangePanel({
   state,
-  theme = "sky",
-  colors: customColors,
 }: RangePanelProps) {
-  const colors = customColors || themeColors[theme] || themeColors.sky;
   const {
     title = "Search Space Range",
     min,
@@ -46,21 +43,21 @@ export function RangePanel({
   const rangeWidthPct = Math.max(1, rightPct - leftPct);
 
   return (
-    <div className="w-full max-w-2xl bg-transparent border border-neutral-800/90 rounded-md p-4 flex flex-col gap-3 select-none">
+    <div className="w-full max-w-2xl bg-[#131316] rounded-[14px] p-4 flex flex-col gap-3.5 select-none shadow-[0_0_0_1px_rgba(255,255,255,0.045)] font-['Poppins',sans-serif]">
       {/* Header Info */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-[#1e1e23] pb-2">
         <div className="flex items-center gap-2">
-          <GitCommit className={`w-4 h-4 ${colors.titleClass}`} />
-          <span className="text-xs font-bold font-mono uppercase tracking-wider text-neutral-200">
+          <GitCommit className="w-4 h-4 text-[#c9c3b6]" />
+          <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#ededf0]">
             {title}
           </span>
         </div>
 
         {hasRange && (
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="px-2.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300">
+          <div className="flex items-center gap-2 font-['JetBrains_Mono',monospace] text-[11.5px]">
+            <span className="px-2.5 py-0.5 rounded-[7px] bg-[#1c1c21] text-[#82828b]">
               Active Window:{" "}
-              <strong className={colors.titleClass}>
+              <strong className="text-[#c9c3b6]">
                 [{left} .. {right}]
               </strong>
             </span>
@@ -71,15 +68,11 @@ export function RangePanel({
       {/* Visual Range Track */}
       <div className="relative pt-6 pb-4 px-3 select-none">
         {/* Full Domain Rail */}
-        <div className="h-2.5 w-full bg-neutral-900/90 rounded-full relative overflow-hidden border border-neutral-800">
+        <div className="h-2.5 w-full bg-[#141417] rounded-full relative overflow-hidden border border-[#26262c]">
           {/* Active Range Highlight */}
           {hasRange && (
             <motion.div
-              className={`absolute top-0 bottom-0 ${
-                theme === "teal"
-                  ? "bg-teal-500/40 border-y border-teal-400"
-                  : "bg-sky-500/40 border-y border-sky-400"
-              }`}
+              className="absolute top-0 bottom-0 bg-[#c9c3b6]/30 border-y border-[#c9c3b6]/60"
               initial={false}
               animate={{
                 left: `${leftPct}%`,
@@ -91,7 +84,7 @@ export function RangePanel({
         </div>
 
         {/* Min & Max End Points */}
-        <div className="flex justify-between items-center text-[10px] font-mono text-neutral-500 mt-1.5 px-0.5">
+        <div className="flex justify-between items-center text-[10.5px] font-['JetBrains_Mono',monospace] text-[#6c6c76] mt-2 px-0.5">
           <span>
             {min}
             {unit}
@@ -110,10 +103,10 @@ export function RangePanel({
             animate={{ left: `${leftPct}%` }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <span className="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-tighter">
+            <span className="text-[10.5px] font-['JetBrains_Mono',monospace] font-bold text-[#c9c3b6] uppercase tracking-tighter">
               L ({left})
             </span>
-            <div className="w-1.5 h-1.5 rotate-45 bg-sky-400 mt-0.5" />
+            <div className="w-1.5 h-1.5 rotate-45 bg-[#c9c3b6] mt-0.5" />
           </motion.div>
         )}
 
@@ -125,10 +118,10 @@ export function RangePanel({
             animate={{ left: `${rightPct}%` }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <span className="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-tighter">
+            <span className="text-[10.5px] font-['JetBrains_Mono',monospace] font-bold text-[#c9c3b6] uppercase tracking-tighter">
               R ({right})
             </span>
-            <div className="w-1.5 h-1.5 rotate-45 bg-sky-400 mt-0.5" />
+            <div className="w-1.5 h-1.5 rotate-45 bg-[#c9c3b6] mt-0.5" />
           </motion.div>
         )}
 
@@ -141,23 +134,17 @@ export function RangePanel({
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
           >
             <div
-              className={`px-2 py-0.5 rounded shadow-lg border text-[11px] font-mono font-bold flex items-center gap-1 ${
+              className={`px-2 py-0.5 rounded-[7px] shadow-[0_4px_12px_rgba(0,0,0,0.5)] border text-[11px] font-['JetBrains_Mono',monospace] font-bold flex items-center gap-1 ${
                 isMatch
-                  ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-950/60"
-                  : theme === "teal"
-                    ? "bg-teal-600 text-white border-teal-400 shadow-teal-950/60"
-                    : "bg-sky-600 text-white border-sky-400 shadow-sky-950/60"
+                  ? "bg-[#7d9b86] text-white border-[#7d9b86] shadow-emerald-950/60"
+                  : "bg-gradient-to-b from-[#33333a] to-[#26262c] text-[#ededf0] border-[#c9c3b6]"
               }`}
             >
               mid: {mid}
             </div>
             <ArrowDown
               className={`w-3.5 h-3.5 -mt-0.5 ${
-                isMatch
-                  ? "text-emerald-400"
-                  : theme === "teal"
-                    ? "text-teal-400"
-                    : "text-sky-400"
+                isMatch ? "text-[#7d9b86]" : "text-[#c9c3b6]"
               }`}
             />
           </motion.div>

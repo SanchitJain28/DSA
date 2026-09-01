@@ -1,10 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { themeColors, type ThemeName } from "../../utils/theme";
 
 export interface VariablesProps {
   variables?: Record<string, string | number | boolean | null | undefined>;
   title?: string;
-  theme?: ThemeName;
+  theme?: string;
   highlightColorClass?: string;
   className?: string;
 }
@@ -12,8 +11,6 @@ export interface VariablesProps {
 export default function Variables({
   variables = {},
   title = "state",
-  theme,
-  highlightColorClass,
   className = "",
 }: VariablesProps) {
   const entries = Object.entries(variables || {}).filter(
@@ -22,23 +19,20 @@ export default function Variables({
 
   if (entries.length === 0) return null;
 
-  const colorClass =
-    highlightColorClass ||
-    (theme && themeColors[theme]
-      ? themeColors[theme].variablesText
-      : "text-neutral-100");
-
   return (
     <div
-      className={`bg-neutral-900/90 border border-neutral-800/90 rounded-md p-3.5 min-w-[200px] max-w-[320px] shadow-sm flex flex-col gap-2.5 ${className}`}
+      className={`bg-[#131316] rounded-[14px] p-4 min-w-[210px] max-w-[320px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] flex flex-col gap-3 font-['Poppins',sans-serif] ${className}`}
     >
       {/* Header */}
-      <div className="text-sm font-bold text-neutral-100 tracking-tight font-sans select-none">
-        {title}
+      <div className="flex items-center justify-between border-b border-[#1e1e23] pb-2">
+        <span className="text-[13px] font-semibold text-[#ededf0] tracking-[-0.01em] select-none">
+          {title}
+        </span>
+        <span className="w-[5px] h-[5px] rounded-full bg-[#c9c3b6]" />
       </div>
 
       {/* Key-Value Rows */}
-      <div className="flex flex-col gap-1.5 font-mono text-xs">
+      <div className="flex flex-col gap-1.5 font-['JetBrains_Mono',monospace] text-[12px]">
         {entries.map(([key, val]) => {
           const valStr = String(val);
           const isDimmed =
@@ -52,20 +46,18 @@ export default function Variables({
           return (
             <div
               key={key}
-              className="flex items-center justify-between gap-6 py-0.5"
+              className="flex items-center justify-between gap-5 py-0.5"
             >
-              <span className="text-neutral-400 font-mono select-none">
-                {key}
-              </span>
+              <span className="text-[#82828b] select-none">{key}</span>
               <AnimatePresence mode="popLayout">
                 <motion.span
                   key={valStr}
-                  initial={{ opacity: 0, y: -4 }}
+                  initial={{ opacity: 0, y: -3 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 4 }}
+                  exit={{ opacity: 0, y: 3 }}
                   transition={{ duration: 0.15 }}
-                  className={`font-mono font-medium text-right select-none ${
-                    isDimmed ? "text-neutral-500 font-normal" : colorClass
+                  className={`font-medium text-right select-none ${
+                    isDimmed ? "text-[#5a5a63] font-normal" : "text-[#c9c3b6]"
                   }`}
                 >
                   {valStr}
