@@ -18,4 +18,14 @@ export interface ArrayData {
   windows?: ArrayWindow[];
 }
 
+export interface SudokuGridData {
+  board: string[][];
+  activeCell?: [number, number]; // [r, c]
+  activeRow?: number;
+  activeCol?: number;
+  activeBox?: number;
+  conflictCell?: [number, number];
+  conflictType?: "row" | "col" | "box";
+}
+
 export type ArrayState = ArrayData | ArrayData[];

@@ -4,7 +4,7 @@ import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 
 
 
-import TreeVisualizer from "@/visualizers/tree/TreeVisualizer";
+import TreeVisualizer from "@/components/tree-playground/TreeVisualizer";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SettingsProvider } from "@/contexts/SettingsContext";

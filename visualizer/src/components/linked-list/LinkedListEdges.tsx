@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { type LayoutEdge } from "../../core/linked-list/types";
+import { type LayoutEdge } from "../../core/structures/linked-list/types";
 import { themeColors, type ThemeName } from "../../utils/theme";
 
 export interface LinkedListEdgesProps {

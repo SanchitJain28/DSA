@@ -1,8 +1,7 @@
 import { FrameBuilder } from "../../shared/FrameBuilder";
 import type { Scene } from "../../shared/types";
-import { TreeNode } from "../../tree/TreeNode";
-import { computeLayout } from "../../tree/layout";
-import type { TreeState } from "../../../components/primitives/TreePanel";
+import { TreeNode } from "../../structures/tree/TreeNode";
+import { toTreeState } from "../../structures/tree/helpers";
 
 export function generateFrames(data: { n: number }): Scene[] {
   const n = Math.min(data.n, 5); // cap at 5 for clean recursion tree
@@ -10,18 +9,6 @@ export function generateFrames(data: { n: number }): Scene[] {
 
   let idCounter = 0;
   let globalRoot: TreeNode | null = null;
-
-  function layoutToTreeState(
-    root: TreeNode | null,
-    activeNodeId?: string | null,
-  ): TreeState {
-    const layout = computeLayout(root);
-    return {
-      nodes: layout.nodes,
-      edges: layout.edges,
-      activeNodeId: activeNodeId || null,
-    };
-  }
 
   function startSimulation(nVal: number) {
     idCounter = 0;
@@ -31,7 +18,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 1,
       explanation: `Calling climbStairs(${n})`,
       structures: {
-        tree: layoutToTreeState(null),
+        tree: toTreeState(null),
       },
       variables: { n },
     });
@@ -43,7 +30,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 4,
       explanation: `Execution complete. Total ways to climb ${nVal} stairs: ${res}`,
       structures: {
-        tree: layoutToTreeState(globalRoot),
+        tree: toTreeState(globalRoot),
       },
       variables: { finalResult: res },
     });
@@ -71,7 +58,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 1,
       explanation: `Entering climbStairs with n = ${nVal}`,
       structures: {
-        tree: layoutToTreeState(globalRoot, currentId),
+        tree: toTreeState(globalRoot, currentId),
       },
       variables: { n: nVal },
     });
@@ -81,7 +68,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 2,
       explanation: `Checking if ${nVal} <= 2.`,
       structures: {
-        tree: layoutToTreeState(globalRoot, currentId),
+        tree: toTreeState(globalRoot, currentId),
       },
       variables: { n: nVal },
     });
@@ -93,7 +80,7 @@ export function generateFrames(data: { n: number }): Scene[] {
         codeLine: 2,
         explanation: `${nVal} <= 2, so return ${res}`,
         structures: {
-          tree: layoutToTreeState(globalRoot, currentId),
+          tree: toTreeState(globalRoot, currentId),
         },
         variables: { n: nVal, result: res },
       });
@@ -106,7 +93,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 3,
       explanation: `Need to compute climbStairs(${nVal} - 1) and climbStairs(${nVal} - 2).`,
       structures: {
-        tree: layoutToTreeState(globalRoot, currentId),
+        tree: toTreeState(globalRoot, currentId),
       },
       variables: { n: nVal },
     });
@@ -118,7 +105,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 3,
       explanation: `climbStairs(${nVal} - 1) returned ${leftRes}. Now compute climbStairs(${nVal} - 2).`,
       structures: {
-        tree: layoutToTreeState(globalRoot, currentId),
+        tree: toTreeState(globalRoot, currentId),
       },
       variables: { n: nVal, leftResult: leftRes },
     });
@@ -132,7 +119,7 @@ export function generateFrames(data: { n: number }): Scene[] {
       codeLine: 3,
       explanation: `Both recursive calls finished. ${leftRes} + ${rightRes} = ${total}. Returning ${total}.`,
       structures: {
-        tree: layoutToTreeState(globalRoot, currentId),
+        tree: toTreeState(globalRoot, currentId),
       },
       variables: { n: nVal, result: total },
     });

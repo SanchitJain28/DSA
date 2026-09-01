@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { SudokuGridData } from "../../core/array/types";
+import type { SudokuGridData } from "../../core/structures/array/types";
 
 interface SudokuGridRendererProps {
   grid: SudokuGridData;

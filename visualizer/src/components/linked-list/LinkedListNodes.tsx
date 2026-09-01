@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Pointer from "../shared/Pointer";
-import { type LayoutNode } from "../../core/linked-list/types";
+import { type LayoutNode } from "../../core/structures/linked-list/types";
 import { useSettings } from "../../contexts/SettingsContext";
 import { themeColors, type ThemeName } from "../../utils/theme";
 

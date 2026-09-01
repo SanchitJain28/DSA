@@ -33,7 +33,7 @@ import {
   type TLShapePartial,
 } from "tldraw";
 import "tldraw/tldraw.css";
-import { TreeNode } from "../../core/tree/TreeNode";
+import { TreeNode } from "../../core/structures/tree/TreeNode";
 
 interface ParsedNode {
   id: string;

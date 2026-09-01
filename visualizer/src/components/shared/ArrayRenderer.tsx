@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Pointer from "./Pointer";
 import { useSettings } from "../../contexts/SettingsContext";
-import type { ArrayData } from "../../core/array/types";
+import type { ArrayData } from "../../core/structures/array/types";
 import type { BaseFrame } from "../../core/shared/types";
 
 interface ArrayRendererProps {
