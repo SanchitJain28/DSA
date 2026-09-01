@@ -36,7 +36,7 @@ export default function Header({
       </div>
 
       {/* Recessed Playback Controls Track */}
-      <div className="flex items-center gap-1 bg-[#141417] p-1 rounded-[12px]">
+      <div className="flex items-center gap-1 bg-[#15161c] border border-white/[0.05] p-1 rounded-[12px]">
         <button
           type="button"
           onClick={onPrev}
@@ -73,13 +73,13 @@ export default function Header({
           <SkipForward className="w-4 h-4" />
         </button>
 
-        <div className="w-[1px] h-4 bg-[#26262c] mx-0.5" />
+        <div className="w-[1px] h-4 bg-[#282932] mx-0.5" />
 
         <button
           type="button"
           onClick={onReset}
           title="Reset Simulation (R)"
-          className="p-2 text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#1c1c20] rounded-[8px] cursor-pointer transition-all"
+          className="p-2 text-[#8a8a93] hover:text-[#ededf0] hover:bg-[#20212a] rounded-[8px] cursor-pointer transition-all"
         >
           <RotateCcw className="w-4 h-4" />
         </button>

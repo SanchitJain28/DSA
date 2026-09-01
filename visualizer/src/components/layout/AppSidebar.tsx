@@ -37,8 +37,8 @@ export function AppSidebar({
   } = useSettings();
 
   return (
-    <Sidebar side="left" variant="sidebar" className="bg-[#0d0d10] border-r border-[#1e1e23] font-['Poppins',sans-serif]">
-      <SidebarHeader className="border-b border-[#1e1e23] h-[60px] px-3.5 flex flex-row items-center justify-between bg-[#0d0d10]">
+    <Sidebar side="left" variant="sidebar" className="bg-[#111217] border-r border-[#24252d] font-['Poppins',sans-serif]">
+      <SidebarHeader className="border-b border-[#24252d] h-[60px] px-3.5 flex flex-row items-center justify-between bg-[#111217]">
         <Link
           to="/"
           className="flex items-center gap-1.5 text-[12px] font-medium text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_1px_2px_rgba(0,0,0,0.4)] px-2.5 py-1 rounded-[7px] hover:from-[#3a3a42] hover:to-[#2c2c33] transition-all"

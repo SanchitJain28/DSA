@@ -4,10 +4,10 @@ import type { TreeLayoutNode, TreeLayoutEdge } from "./types";
 export function computeTreeLayoutWithOffset(
   root: TreeNode | null,
   startX = 300,
-  startY = 50,
+  startY = 40,
   prefix = "",
-  initialOffset = 120,
-  levelHeight = 80,
+  initialOffset = 95,
+  levelHeight = 64,
 ): {
   nodes: TreeLayoutNode[];
   edges: TreeLayoutEdge[];
@@ -39,7 +39,7 @@ export function computeTreeLayoutWithOffset(
     const nodeId = `${prefix}${node.id}`;
     nodes.push({ id: nodeId, val: node.val, x, y });
 
-    const nextOffset = Math.max(30, offset / 1.8);
+    const nextOffset = Math.max(26, offset / 1.7);
 
     const leftChildId = node.left
       ? `${prefix}${node.left.id}`

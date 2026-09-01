@@ -57,7 +57,7 @@ export default function SourceCode({
           02 — Source Code
         </span>
       </div>
-      <div className="flex-1 overflow-hidden rounded-[14px] bg-[#131316] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] p-2">
+      <div className="flex-1 overflow-hidden rounded-[14px] bg-[#141519] border border-white/[0.05] p-2">
         <Editor
           height="100%"
           defaultLanguage="typescript"

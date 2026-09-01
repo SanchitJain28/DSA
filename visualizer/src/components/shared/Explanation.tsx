@@ -8,7 +8,7 @@ interface ExplanationProps {
 
 export default function Explanation({
   message,
-  className = "bg-[#131316]/90 backdrop-blur-md border border-[#26262c] rounded-[14px] px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.06)] font-['Poppins',sans-serif] min-w-[320px] max-w-2xl text-center",
+  className = "bg-[#16171d]/95 backdrop-blur-md border border-[#2b2d38] rounded-[14px] px-5 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.06)] font-['Poppins',sans-serif] min-w-[320px] max-w-2xl text-center",
 }: ExplanationProps) {
   return (
     <div className={className}>

@@ -23,5 +23,7 @@ export interface TreeState {
   edges: TreeLayoutEdge[];
   activeNodeId?: string | null;
   activeNodeIds?: string[];
+  targetNodeId?: string | null;
+  targetNodeIds?: string[];
   activePathIds?: string[];
 }

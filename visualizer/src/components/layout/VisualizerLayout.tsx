@@ -54,7 +54,7 @@ export function VisualizerLayout({
   const inputSchema = meta.inputSchema || [];
 
   return (
-    <div className="flex flex-col h-screen bg-[#0a0a0c] text-[#ededf0] font-['Poppins',sans-serif] p-4 selection:bg-[#c9c3b6] selection:text-[#15150f]">
+    <div className="flex flex-col h-screen bg-[#0f1013] text-[#ededf0] font-['Poppins',sans-serif] p-4 selection:bg-[#c9c3b6] selection:text-[#15150f]">
       {/* Top Header */}
       <Header
         title={meta.title}

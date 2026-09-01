@@ -41,11 +41,11 @@ export function VisualizerCanvas({
   );
 
   const hasVariables = Object.keys(normalizedVariables).length > 0;
-  const hasCallStack = Boolean(frame.callStack && frame.callStack.length > 0);
+  const hasCallStack = Boolean(frame.callStack && frame.callStack.length > 1);
   const explanationMessage = frame.explanation || frame.message;
 
   return (
-    <div className="flex-1 relative bg-[#0a0a0c] rounded-[14px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] overflow-hidden flex flex-col h-full font-['Poppins',sans-serif]">
+    <div className="flex-1 relative bg-[#141519] rounded-[14px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] overflow-hidden flex flex-col h-full font-['Poppins',sans-serif]">
       {/* Anchored Viewport for Zero Layout Shift */}
       <CanvasViewport className="flex-1 w-full h-full relative">
         <div className="absolute inset-0 flex items-center justify-center p-8 min-w-[600px] pointer-events-auto">

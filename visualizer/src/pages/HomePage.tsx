@@ -99,19 +99,19 @@ export default function HomePage() {
   const diffsList = ["Easy", "Medium", "Hard"] as const;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[#ededf0] font-['Poppins',sans-serif] relative overflow-x-hidden selection:bg-[#c9c3b6] selection:text-[#15150f]">
+    <div className="min-h-screen bg-[#0f1013] text-[#ededf0] font-['Poppins',sans-serif] relative overflow-x-hidden selection:bg-[#c9c3b6] selection:text-[#15150f]">
       {/* Background Grid Pattern */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
+            "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
         }}
       />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-[16px] bg-[rgba(10,10,12,0.78)] border-b border-transparent">
+      <header className="sticky top-0 z-50 backdrop-blur-[16px] bg-[#0f1013]/85 border-b border-white/[0.04]">
         <div className="max-w-[1200px] mx-auto px-7 py-[18px] flex items-center justify-between gap-5">
           <Link to="/" className="flex items-center gap-2.5 group cursor-pointer">
             <img
@@ -124,7 +124,7 @@ export default function HomePage() {
             </span>
           </Link>
 
-          <nav className="flex items-center gap-[6px] bg-[#161619] p-[5px] rounded-[12px]">
+          <nav className="flex items-center gap-[6px] bg-[#15161c] border border-white/[0.05] p-[5px] rounded-[12px]">
             <Link
               to="/visualizer"
               className="px-4 py-[9px] rounded-[9px] text-[13.5px] font-medium text-[#f2f2f5] bg-gradient-to-b from-[#33333a] to-[#26262c] border border-[#3d3d45] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.45)] hover:from-[#3a3a42] hover:to-[#2c2c33] transition-all"
@@ -154,18 +154,18 @@ export default function HomePage() {
             move, trees balance, and windows slide — no more memorizing, start seeing.
           </p>
 
-          <div className="inline-flex items-stretch bg-[#141417] rounded-[14px] p-[6px] gap-[2px]">
-            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+          <div className="inline-flex items-stretch bg-[#15161c] border border-white/[0.05] rounded-[14px] p-[6px] gap-[2px]">
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1d24]">
               <span className="font-semibold text-[17px] text-[#f5f5f7]">{totalCount}+</span>
               <span className="text-[12.5px] text-[#7c7c85]">Visualizers</span>
             </div>
 
-            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1d24]">
               <span className="font-semibold text-[17px] text-[#f5f5f7]">8</span>
               <span className="text-[12.5px] text-[#7c7c85]">Categories</span>
             </div>
 
-            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1c20]">
+            <div className="flex items-baseline gap-2 px-[18px] py-[11px] rounded-[10px] bg-[#1c1d24]">
               <span className="font-semibold text-[17px] text-[#f5f5f7]">Live</span>
               <span className="text-[12.5px] text-[#7c7c85]">Playback</span>
             </div>
@@ -173,8 +173,8 @@ export default function HomePage() {
         </section>
 
         {/* Sticky Search & Filter Bar */}
-        <div className="sticky top-[70px] z-40 py-[14px] pb-[16px] bg-[rgba(10,10,12,0.86)] backdrop-blur-[16px] -mx-7 px-7">
-          <div className="flex items-center bg-[#141417] rounded-[13px] px-[18px] h-[54px] transition-all focus-within:shadow-[0_0_0_2px_rgba(201,195,182,0.34)]">
+        <div className="sticky top-[70px] z-40 py-[14px] pb-[16px] bg-[#0f1013]/85 backdrop-blur-[16px] -mx-7 px-7">
+          <div className="flex items-center bg-[#15161c] border border-white/[0.06] rounded-[13px] px-[18px] h-[54px] transition-all focus-within:shadow-[0_0_0_2px_rgba(201,195,182,0.34)]">
             <svg
               width="17"
               height="17"
@@ -203,7 +203,7 @@ export default function HomePage() {
                 ✕
               </button>
             )}
-            <kbd className="font-['JetBrains_Mono',monospace] text-[11px] text-[#8a8a93] bg-[#212126] rounded-[7px] px-[9px] py-[5px]">
+            <kbd className="font-['JetBrains_Mono',monospace] text-[11px] text-[#8a8a93] bg-[#21222b] rounded-[7px] px-[9px] py-[5px]">
               ⌘K
             </kbd>
           </div>
@@ -211,7 +211,7 @@ export default function HomePage() {
           {/* Segmented Filter Tracks */}
           <div className="flex flex-wrap gap-[14px] mt-3 items-center">
             {/* Topic Pills */}
-            <div className="flex flex-wrap gap-1 bg-[#141417] p-[5px] rounded-[12px]">
+            <div className="flex flex-wrap gap-1 bg-[#15161c] border border-white/[0.05] p-[5px] rounded-[12px]">
               {topicsList.map((tId) => {
                 const name = TOPIC_NAMES[tId] || tId;
                 const on = selectedTopic === tId;
@@ -234,7 +234,7 @@ export default function HomePage() {
             </div>
 
             {/* Difficulty Chips */}
-            <div className="flex gap-1 bg-[#141417] p-[5px] rounded-[12px]">
+            <div className="flex gap-1 bg-[#15161c] border border-white/[0.05] p-[5px] rounded-[12px]">
               {diffsList.map((dName) => {
                 const dotColor = DIFFICULTY_DOTS[dName];
                 const on = selectedDiff === dName;
@@ -367,12 +367,12 @@ function ProblemCard({
   return (
     <div
       onClick={onLaunch}
-      className="bg-[#131316] hover:bg-[#17171b] rounded-[16px] p-5 flex flex-col gap-[13px] shadow-[0_0_0_1px_rgba(255,255,255,0.045)] transition-colors duration-200 cursor-pointer"
+      className="bg-[#15161d] hover:bg-[#1b1c25] rounded-[16px] p-5 flex flex-col gap-[13px] border border-white/[0.05] shadow-[0_4px_16px_rgba(0,0,0,0.25)] transition-colors duration-200 cursor-pointer"
     >
       {/* Top Row: Circular 2-Letter Code & Topic Name + Difficulty Chip */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-[11px] min-w-0">
-          <div className="w-[38px] h-[38px] rounded-full border border-[#34343c] bg-[#1a1a1e] grid place-items-center font-['JetBrains_Mono',monospace] text-[11.5px] font-semibold text-[#b8b8c0] shrink-0">
+          <div className="w-[38px] h-[38px] rounded-full border border-[#323440] bg-[#1f2029] grid place-items-center font-['JetBrains_Mono',monospace] text-[11.5px] font-semibold text-[#c8c8d0] shrink-0">
             {code}
           </div>
           <span className="text-[12.5px] text-[#7c7c85] truncate">
@@ -380,7 +380,7 @@ function ProblemCard({
           </span>
         </div>
 
-        <span className="inline-flex items-center gap-[6px] text-[11.5px] font-medium px-[10px] py-[5px] rounded-[8px] text-[#b0b0b8] bg-[#1c1c21] shrink-0">
+        <span className="inline-flex items-center gap-[6px] text-[11.5px] font-medium px-[10px] py-[5px] rounded-[8px] text-[#b0b0b8] bg-[#1f2029] shrink-0">
           <span
             className="w-[5px] h-[5px] rounded-full"
             style={{ backgroundColor: difDot }}
@@ -404,7 +404,7 @@ function ProblemCard({
         {problem.tags.map((tag) => (
           <span
             key={tag}
-            className="text-[11.5px] text-[#8a8a93] bg-[#1c1c21] rounded-[7px] px-[10px] py-1"
+            className="text-[11.5px] text-[#8a8a93] bg-[#1f2029] rounded-[7px] px-[10px] py-1"
           >
             {tag}
           </span>
