@@ -634,11 +634,20 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  isActive={activeTab === "climbstairs"}
-                  onClick={() => setActiveTab("climbstairs")}
+                  isActive={activeTab === "climbstairstree"}
+                  onClick={() => setActiveTab("climbstairstree")}
                 >
                   <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Climbing Stairs</span>
+                  <span>Climbing Stairs (Tree)</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={activeTab === "climbstairsdp"}
+                  onClick={() => setActiveTab("climbstairsdp")}
+                >
+                  <ListOrdered className="w-4 h-4 mr-2" />
+                  <span>Climbing Stairs (1D DP)</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

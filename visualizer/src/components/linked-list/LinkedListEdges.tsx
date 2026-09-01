@@ -36,22 +36,37 @@ export default function LinkedListEdges({
         >
           <polygon points="0 0, 8 3, 0 6" fill={strokeColor} />
         </marker>
+        <marker
+          id={`arrowhead-null-${theme}`}
+          markerWidth="8"
+          markerHeight="6"
+          refX="7"
+          refY="3"
+          orient="auto"
+        >
+          <polygon points="0 0, 8 3, 0 6" fill={nullStrokeColor} />
+        </marker>
       </defs>
 
       <AnimatePresence>
         {edges.map((edge) => {
           const isBackward =
             edge.x1 > edge.x2 && Math.abs(edge.y1 - edge.y2) < 40;
+          const isLongForward =
+            edge.x2 - edge.x1 > 120 && Math.abs(edge.y1 - edge.y2) < 40;
           const isCircular = edge.id.includes("circle");
 
           let pathD: string;
-          if (isBackward || isCircular) {
+          if (isBackward || isLongForward || isCircular) {
             const startX = edge.x1;
             const startY = edge.y1 - 24;
             const endX = edge.x2;
             const endY = edge.y2 - 24;
             const midX = (startX + endX) / 2;
-            pathD = `M ${startX} ${startY} Q ${midX} ${Math.min(startY, endY) - 65} ${endX} ${endY}`;
+            const arcHeight = Math.abs(edge.x1 - edge.x2) > 200 ? 80 : 55;
+            pathD = `M ${startX} ${startY} Q ${midX} ${
+              Math.min(startY, endY) - arcHeight
+            } ${endX} ${endY}`;
           } else {
             pathD = `M ${edge.x1} ${edge.y1} L ${edge.x2} ${edge.y2}`;
           }
@@ -69,7 +84,11 @@ export default function LinkedListEdges({
               strokeDasharray={edge.isNull ? "6 6" : "none"}
               fill="transparent"
               strokeWidth="2.5"
-              markerEnd={`url(#arrowhead-${theme})`}
+              markerEnd={
+                edge.isNull
+                  ? `url(#arrowhead-null-${theme})`
+                  : `url(#arrowhead-${theme})`
+              }
               transition={{
                 type: "spring",
                 stiffness: 300,

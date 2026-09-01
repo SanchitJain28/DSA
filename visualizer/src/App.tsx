@@ -7,6 +7,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/problems/:topicId/:problemId" element={<VisualizerPage />} />
+      <Route path="/problems/:problemId" element={<VisualizerPage />} />
       <Route path="/visualizer" element={<VisualizerPage />} />
       <Route path="/revision" element={<RevisionPage />} />
     </Routes>

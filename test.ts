@@ -83,19 +83,37 @@ import { Heap } from "./neetcode-150/heap/intro/algorithm";
 // console.log("Popped element :", maxHeap.poll())
 // console.log("Updated heap : " , maxHeap)
 
-function topKFrequent(nums: number[], k: number): number[] {
-  const freq = new Map<number, number>();
-  const heap = new Heap<number[]>((a, b) => b[1] - a[1]);
-  for (let num of nums) freq.set(num, (freq.get(num)! ?? 0) + 1);
-  for (let [val, fre] of freq) heap.add([val, fre]);
-  const result: number[] = [];
-  console.log("Heap : ", heap);
-  for (let i = 0; i < k; i++) {
-    const popped = heap.poll()!;
-    console.log("Popped : ", popped);
-    result.push(popped[0]);
-  }
-  return result;
-}
+// function topKFrequent(nums: number[], k: number): number[] {
+//   const freq = new Map<number, number>();
+//   const heap = new Heap<number[]>((a, b) => b[1] - a[1]);
+//   for (let num of nums) freq.set(num, (freq.get(num)! ?? 0) + 1);
+//   for (let [val, fre] of freq) heap.add([val, fre]);
+//   const result: number[] = [];
+//   console.log("Heap : ", heap);
+//   for (let i = 0; i < k; i++) {
+//     const popped = heap.poll()!;
+//     console.log("Popped : ", popped);
+//     result.push(popped[0]);
+//   }
+//   return result;
+// }
 
-console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));
+// console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));
+
+
+// function nextGreaterElements(nums: number[]): number[] {
+//     const stack: number[] = []
+//     const nextGreater = new Map<number, number>()
+//     let n = nums.length
+//     for (let i = 0; i < n * 2; i++) {
+//         let index = i % n
+//         while (stack.length && stack[stack.length - 1] < nums[index]) {
+//             nextGreater.set(stack.pop()!, nums[index])
+//         }
+//         stack.push(nums[i])
+//     }
+//     console.log("Next Greater Map : ", nextGreater)
+//     return nums.map((num) => nextGreater.get(num) ?? -1)
+// };
+
+// console.log(nextGreaterElements([1, 2, 1]));

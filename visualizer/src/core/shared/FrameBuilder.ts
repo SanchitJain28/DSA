@@ -1,12 +1,12 @@
-import type { BaseFrame } from "./types";
-
-export class FrameBuilder<T extends BaseFrame> {
+export class FrameBuilder<T extends { callStack?: string[] }> {
   private frames: T[] = [];
   private callStack: string[] = [];
+  private returnValue: any = undefined;
 
   public executeCall<R>(callString: string, callback: () => R): R {
     this.callStack.push(callString);
     const result = callback();
+    this.returnValue = result;
     this.callStack.pop();
     return result;
   }
@@ -18,7 +18,7 @@ export class FrameBuilder<T extends BaseFrame> {
   public popCall() {
     this.callStack.pop();
   }
-  
+
   public pushFrame(frameData: Omit<T, "callStack"> & { callStack?: string[] }) {
     this.frames.push({
       ...frameData,
@@ -28,5 +28,9 @@ export class FrameBuilder<T extends BaseFrame> {
 
   public getFrames(): T[] {
     return this.frames;
+  }
+
+  public getReturnValue(): any {
+    return this.returnValue;
   }
 }

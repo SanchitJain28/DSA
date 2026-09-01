@@ -15,11 +15,8 @@ function threeSum___(nums: number[]): number[][] {
         k--;
         while (j < k && nums[j] === nums[j - 1]) j++;
         while (j < k && nums[k] === nums[k + 1]) k--;
-      } else if (sum < 0) {
-        j++;
-      } else {
-        k--;
-      }
+      } else if (sum < 0) j++;
+      else k--;
     }
   }
   return result;

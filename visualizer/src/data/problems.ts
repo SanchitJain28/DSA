@@ -622,14 +622,24 @@ export const PROBLEMS: ProblemInfo[] = [
 
   // Recursion & DP
   {
-    id: "climbstairs",
-    title: "Climbing Stairs",
+    id: "climbstairstree",
+    title: "Climbing Stairs (Recursion Tree)",
     topic: "Recursion & DP",
     topicId: "recursion",
     difficulty: "Easy",
-    description: "Calculate distinct ways to climb n stairs via recursion decision tree or 1D DP table.",
+    description: "Visualize the recursive decision tree for climbing n stairs taking 1 or 2 steps at a time.",
     theme: "emerald",
-    tags: ["Recursion Tree", "Dynamic Programming", "Fibonacci"],
+    tags: ["Recursion Tree", "Decision Tree", "Fibonacci", "Call Stack"],
+  },
+  {
+    id: "climbstairsdp",
+    title: "Climbing Stairs (1D DP)",
+    topic: "Recursion & DP",
+    topicId: "recursion",
+    difficulty: "Easy",
+    description: "Calculate distinct ways to climb n stairs using top-down memoization, filling a 1D DP table.",
+    theme: "emerald",
+    tags: ["Dynamic Programming", "Memoization", "Fibonacci", "1D DP"],
   },
   {
     id: "reversestring",
@@ -654,3 +664,16 @@ export const PROBLEMS: ProblemInfo[] = [
     tags: ["Min Heap", "Binary Heap", "Heapify Up", "Heapify Down", "Complete Binary Tree"],
   },
 ];
+
+export function getProblemInfo(id: string): ProblemInfo | undefined {
+  return PROBLEMS.find((p) => p.id === id);
+}
+
+export function getProblemPath(id: string): string {
+  const prob = getProblemInfo(id);
+  if (prob) {
+    return `/problems/${prob.topicId}/${prob.id}`;
+  }
+  return `/problems/${id}`;
+}
+

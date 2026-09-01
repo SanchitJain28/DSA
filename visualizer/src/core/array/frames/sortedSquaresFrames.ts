@@ -4,7 +4,6 @@ import { FrameBuilder } from "../../shared/FrameBuilder";
 export function generateFrames(nums: number[]): ArrayFrame[] {
   const builder = new FrameBuilder<ArrayFrame>();
 
-  // Clone initial nums array
   const currentNums = [...nums];
   const result: (number | null)[] = new Array(nums.length).fill(null);
 

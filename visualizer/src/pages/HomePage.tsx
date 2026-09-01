@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PROBLEMS, type ProblemInfo } from "@/data/problems";
+import { PROBLEMS, getProblemPath, type ProblemInfo } from "@/data/problems";
 
 // Category color accents and 2-letter codes from Claude Design
 const ACCENTS: Record<string, string> = {
@@ -321,7 +321,7 @@ export default function HomePage() {
                 <ProblemCard
                   key={problem.id}
                   problem={problem}
-                  onLaunch={() => navigate(`/visualizer?problem=${problem.id}`)}
+                  onLaunch={() => navigate(getProblemPath(problem.id))}
                 />
               ))}
             </div>
