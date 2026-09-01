@@ -20,14 +20,28 @@ import {
   Search,
   ArrowLeft,
   Layers,
+  TreePine,
 } from "lucide-react";
+import { TOPIC_GROUPS, PROBLEMS } from "@/data/problems";
+import type { VisualizerType } from "@/types/visualizer";
+
+const TOPIC_ICONS: Record<string, React.ElementType> = {
+  arrays: SquareTerminal,
+  "binary-search": Search,
+  stack: Layers,
+  "sliding-window": BetweenHorizontalEnd,
+  "linked-list": LinkIcon,
+  recursion: ListOrdered,
+  trees: Network,
+  heap: Layers,
+};
 
 export function AppSidebar({
   activeTab,
   setActiveTab,
 }: {
-  activeTab: string;
-  setActiveTab: (tab: any) => void;
+  activeTab: VisualizerType;
+  setActiveTab: (tab: VisualizerType) => void;
 }) {
   const {
     showPointers,
@@ -37,7 +51,12 @@ export function AppSidebar({
   } = useSettings();
 
   return (
-    <Sidebar side="left" variant="sidebar" className="bg-[#111217] border-r border-[#24252d] font-['Poppins',sans-serif]">
+    <Sidebar
+      side="left"
+      variant="sidebar"
+      className="bg-[#111217] border-r border-[#24252d] font-['Poppins',sans-serif]"
+    >
+      {/* Sidebar Top Header */}
       <SidebarHeader className="border-b border-[#24252d] h-[60px] px-3.5 flex flex-row items-center justify-between bg-[#111217]">
         <Link
           to="/"
@@ -57,13 +76,15 @@ export function AppSidebar({
           </span>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="scrollbar-none">
+        {/* Settings Group */}
         <SidebarGroup>
-          <SidebarGroupLabel>Visualizations</SidebarGroupLabel>
+          <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem className="p-4 flex items-center justify-between">
-                <span className="text-sm font-medium">Show Pointers</span>
+              <SidebarMenuItem className="p-3 flex items-center justify-between text-xs text-[#ededf0]">
+                <span>Show Pointers</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -71,11 +92,11 @@ export function AppSidebar({
                     checked={showPointers}
                     onChange={(e) => setShowPointers(e.target.checked)}
                   />
-                  <div className="w-11 h-6 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#c9c3b6]"></div>
+                  <div className="w-10 h-5 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#c9c3b6]"></div>
                 </label>
               </SidebarMenuItem>
-              <SidebarMenuItem className="p-4 flex items-center justify-between border-t border-sidebar-border">
-                <span className="text-sm font-medium">Randomize Colors</span>
+              <SidebarMenuItem className="p-3 flex items-center justify-between border-t border-[#24252d] text-xs text-[#ededf0]">
+                <span>Randomize Colors</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -87,7 +108,11 @@ export function AppSidebar({
                     disabled={!showPointers}
                   />
                   <div
-                    className={`w-11 h-6 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all ${showPointers ? "peer-checked:bg-[#c9c3b6]" : "opacity-50 cursor-not-allowed"}`}
+                    className={`w-10 h-5 bg-[#212126] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all ${
+                      showPointers
+                        ? "peer-checked:bg-[#c9c3b6]"
+                        : "opacity-50 cursor-not-allowed"
+                    }`}
                   ></div>
                 </label>
               </SidebarMenuItem>
@@ -95,590 +120,50 @@ export function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Trees</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "preorder"}
-                  onClick={() => setActiveTab("preorder")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Preorder Traversal</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "inorder"}
-                  onClick={() => setActiveTab("inorder")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Inorder Traversal</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "postorder"}
-                  onClick={() => setActiveTab("postorder")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Postorder Traversal</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "invert"}
-                  onClick={() => setActiveTab("invert")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Invert Binary Tree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "maxdepth"}
-                  onClick={() => setActiveTab("maxdepth")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Max Depth</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "diameter"}
-                  onClick={() => setActiveTab("diameter")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Diameter</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "balanced"}
-                  onClick={() => setActiveTab("balanced")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Balanced Binary Tree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "sametree"}
-                  onClick={() => setActiveTab("sametree")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Same Tree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "subtree"}
-                  onClick={() => setActiveTab("subtree")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Subtree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "symmetric"}
-                  onClick={() => setActiveTab("symmetric")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Symmetric Tree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "pathsum"}
-                  onClick={() => setActiveTab("pathsum")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Path Sum</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "pathsum2"}
-                  onClick={() => setActiveTab("pathsum2")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Path Sum II</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "sumnumbers"}
-                  onClick={() => setActiveTab("sumnumbers")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Sum Root to Leaf</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "countnodes"}
-                  onClick={() => setActiveTab("countnodes")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Count Nodes</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "goodnodes"}
-                  onClick={() => setActiveTab("goodnodes")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Count Good Nodes</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "lca"}
-                  onClick={() => setActiveTab("lca")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Lowest Common Ancestor</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "isvalidbst"}
-                  onClick={() => setActiveTab("isvalidbst")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Validate BST</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "levelorder"}
-                  onClick={() => setActiveTab("levelorder")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Level Order Traversal</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "zigzaglevelorder"}
-                  onClick={() => setActiveTab("zigzaglevelorder")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Zigzag Level Order</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "kthsmallest"}
-                  onClick={() => setActiveTab("kthsmallest")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Kth Smallest in BST</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "rightsideview"}
-                  onClick={() => setActiveTab("rightsideview")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Right Side View</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "widthofbinarytree"}
-                  onClick={() => setActiveTab("widthofbinarytree")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Maximum Width of Tree</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "maxpathsum"}
-                  onClick={() => setActiveTab("maxpathsum")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Maximum Path Sum</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "treevisualizer"}
-                  onClick={() => setActiveTab("treevisualizer")}
-                >
-                  <Network className="w-4 h-4 mr-2" />
-                  <span>Tree Visualizer (Builder)</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {TOPIC_GROUPS.map((group) => {
+          const Icon = TOPIC_ICONS[group.id] || SquareTerminal;
+          const groupProblems = PROBLEMS.filter((p) => p.topicId === group.id);
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Stacks</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "validparentheses"}
-                  onClick={() => setActiveTab("validparentheses")}
-                >
-                  <SquareTerminal className="w-4 h-4 mr-2" />
-                  <span>Valid Parentheses</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "asteroidcollision"}
-                  onClick={() => setActiveTab("asteroidcollision")}
-                >
-                  <SquareTerminal className="w-4 h-4 mr-2" />
-                  <span>Asteroid Collision</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "dailytemperatures"}
-                  onClick={() => setActiveTab("dailytemperatures")}
-                >
-                  <SquareTerminal className="w-4 h-4 mr-2" />
-                  <span>Daily Temperatures</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "carfleet"}
-                  onClick={() => setActiveTab("carfleet")}
-                >
-                  <SquareTerminal className="w-4 h-4 mr-2" />
-                  <span>Car Fleet</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "nextgreaterelement"}
-                  onClick={() => setActiveTab("nextgreaterelement")}
-                >
-                  <SquareTerminal className="w-4 h-4 mr-2" />
-                  <span>Next Greater Element I</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          return (
+            <SidebarGroup key={group.id}>
+              <SidebarGroupLabel>{group.name}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.id === "trees" && (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        isActive={activeTab === "treevisualizer"}
+                        onClick={() => setActiveTab("treevisualizer")}
+                        className="cursor-pointer"
+                      >
+                        <TreePine className="w-4 h-4 mr-2 text-[#c9c3b6]" />
+                        <span className="font-semibold text-[#c9c3b6]">
+                          Tree Visualizer (Playground)
+                        </span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Sliding Window</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "longestcharreplacement"}
-                  onClick={() => setActiveTab("longestcharreplacement")}
-                >
-                  <BetweenHorizontalEnd className="w-4 h-4 mr-2" />
-                  <span>Longest Char Replacement</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Binary Search</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "searchinsert"}
-                  onClick={() => setActiveTab("searchinsert")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Search Insert Position</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "shipwithindays"}
-                  onClick={() => setActiveTab("shipwithindays")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Capacity To Ship Packages</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "search2dmatrix"}
-                  onClick={() => setActiveTab("search2dmatrix")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Search a 2D Matrix</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "findmin"}
-                  onClick={() => setActiveTab("findmin")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Find Min in Rotated Array</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "searchrotated"}
-                  onClick={() => setActiveTab("searchrotated")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Search in Rotated Array</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "kokoeatingbananas"}
-                  onClick={() => setActiveTab("kokoeatingbananas")}
-                >
-                  <Search className="w-4 h-4 mr-2" />
-                  <span>Koko Eating Bananas</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Heap / Priority Queue</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "minheap"}
-                  onClick={() => setActiveTab("minheap")}
-                >
-                  <Layers className="w-4 h-4 mr-2" />
-                  <span>Min Heap (Intro)</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Linked List</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "sortlist"}
-                  onClick={() => setActiveTab("sortlist")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Sort List</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "middlenode"}
-                  onClick={() => setActiveTab("middlenode")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Middle of Linked List</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "removenthfromend"}
-                  onClick={() => setActiveTab("removenthfromend")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Remove Nth Node</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "swappairs"}
-                  onClick={() => setActiveTab("swappairs")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Swap Pairs</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "hascycle"}
-                  onClick={() => setActiveTab("hascycle")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Linked List Cycle</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "reorderlist"}
-                  onClick={() => setActiveTab("reorderlist")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Reorder List</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "rotatelist"}
-                  onClick={() => setActiveTab("rotatelist")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Rotate List</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "partitionlist"}
-                  onClick={() => setActiveTab("partitionlist")}
-                >
-                  <LinkIcon className="w-4 h-4 mr-2" />
-                  <span>Partition List</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Arrays</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "sortedsquares"}
-                  onClick={() => setActiveTab("sortedsquares")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Sorted Squares</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "containsduplicate"}
-                  onClick={() => setActiveTab("containsduplicate")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Contains Duplicate</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "groupanagrams"}
-                  onClick={() => setActiveTab("groupanagrams")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Group Anagrams</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "isanagram"}
-                  onClick={() => setActiveTab("isanagram")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Valid Anagram</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "twosum"}
-                  onClick={() => setActiveTab("twosum")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Two Sum</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "threesum"}
-                  onClick={() => setActiveTab("threesum")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>3Sum</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "validsudoku"}
-                  onClick={() => setActiveTab("validsudoku")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Valid Sudoku</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "longestconsecutive"}
-                  onClick={() => setActiveTab("longestconsecutive")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Longest Consecutive</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Recursion & DP</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "climbstairstree"}
-                  onClick={() => setActiveTab("climbstairstree")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Climbing Stairs (Tree)</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "climbstairsdp"}
-                  onClick={() => setActiveTab("climbstairsdp")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Climbing Stairs (1D DP)</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeTab === "reversestring"}
-                  onClick={() => setActiveTab("reversestring")}
-                >
-                  <ListOrdered className="w-4 h-4 mr-2" />
-                  <span>Reverse String</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem className="p-4">
-                <Link
-                  to="/revision"
-                  className="text-sm font-medium text-blue-500 hover:underline"
-                >
-                  Go to Revision Tracker
-                </Link>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                  {groupProblems.map((prob) => (
+                    <SidebarMenuItem key={prob.id}>
+                      <SidebarMenuButton
+                        isActive={activeTab === prob.id}
+                        onClick={() => setActiveTab(prob.id)}
+                        className="cursor-pointer"
+                      >
+                        <Icon className="w-4 h-4 mr-2" />
+                        <span>{prob.title}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
       </SidebarContent>
     </Sidebar>
   );
 }
+
+export default AppSidebar;

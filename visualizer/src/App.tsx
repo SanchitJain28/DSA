@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import VisualizerPage from "./pages/VisualizerPage";
-import RevisionPage from "./pages/RevisionPage";
 
 function App() {
   return (
@@ -10,7 +9,6 @@ function App() {
       <Route path="/problems/:topicId/:problemId" element={<VisualizerPage />} />
       <Route path="/problems/:problemId" element={<VisualizerPage />} />
       <Route path="/visualizer" element={<VisualizerPage />} />
-      <Route path="/revision" element={<RevisionPage />} />
     </Routes>
   );
 }

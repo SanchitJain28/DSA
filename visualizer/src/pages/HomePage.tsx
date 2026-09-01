@@ -131,12 +131,6 @@ export default function HomePage() {
             >
               Visualizer Workbench
             </Link>
-            <Link
-              to="/revision"
-              className="px-4 py-[9px] rounded-[9px] text-[13.5px] font-medium text-[#8a8a93] hover:text-[#ededf0] transition-colors"
-            >
-              Spaced Repetition
-            </Link>
           </nav>
         </div>
       </header>
@@ -331,12 +325,6 @@ export default function HomePage() {
               className="text-[#8a8a93] hover:text-[#ededf0] transition-colors"
             >
               Workbench
-            </Link>
-            <Link
-              to="/revision"
-              className="text-[#8a8a93] hover:text-[#ededf0] transition-colors"
-            >
-              Revision
             </Link>
             <a
               href="https://github.com"
